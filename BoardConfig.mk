@@ -136,7 +136,6 @@ MAX_EGL_CACHE_SIZE := 2048*1024
 TARGET_OTA_ASSERT_DEVICE := ks01ltexx,GT-I9506,ks01lte,ks01lteskt,ks01ltektt
 
 # PowerHAL
-TARGET_USES_CM_POWERHAL := true
 TARGET_POWERHAL_VARIANT := qcom
 TARGET_POWERHAL_SET_INTERACTIVE_EXT := device/samsung/ks01lte/power/power_ext.c
 
