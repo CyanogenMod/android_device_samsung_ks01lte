@@ -28,6 +28,7 @@ vendor/lib/libacdbloader.so
 vendor/lib/libacdbloader.so:lib/libacdbloader.so
 vendor/lib/libaudcal.so
 vendor/lib/libcsd-client.so
+vendor/lib/libacdbmapper.so
 vendor/lib/libacdbrtac.so
 vendor/lib/libadiertac.so
 etc/Bluetooth_cal.acdb
@@ -107,6 +108,10 @@ bin/time_daemon
 
 # Sensors
 bin/sensorhubservice
+lib/libsensorhubcontext.so
+lib/libsensorhub.so
+lib/libsensorhubservice.so
+lib/libgnustl_shared.so
 lib/hw/sensorhubs.msm8974.so
 
 # Media

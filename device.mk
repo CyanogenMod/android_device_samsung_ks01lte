@@ -32,20 +32,23 @@ TARGET_SCREEN_WIDTH := 1080
 
 # Audio configuration
 PRODUCT_COPY_FILES += \
-    device/samsung/ks01lte/audio/audio_effects.conf:system/etc/audio_effects.conf \
     device/samsung/ks01lte/audio/audio_policy.conf:system/etc/audio_policy.conf \
-    device/samsung/ks01lte/audio/mixer_paths.xml:system/etc/mixer_paths.xml \
-    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm \
-    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_2x \
-    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_2x_auxpcm \
-    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_Sitar \
-    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_Sitar_auxpcm \
-    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_Taiko \
-    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_Taiko_CDP \
-    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_auxpcm \
+    device/samsung/ks01lte/audio/audio_effects.conf:system/vendor/etc/audio_effects.conf \
     frameworks/native/data/etc/android.hardware.audio.low_latency.xml:system/etc/permissions/android.hardware.audio.low_latency.xml \
-    frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml \
-    device/samsung/ks01lte/media/media_profiles.xml:system/etc/media_profiles.xml 
+    device/samsung/ks01lte/media/media_profiles.xml:system/etc/media_profiles.xml \
+    device/samsung/ks01lte/media/media_codecs.xml:system/etc/media_codecs.xml \
+    device/samsung/ks01lte/audio/snd_soc_msm_Taiko:system/etc/snd_soc_msm/snd_soc_msm_Taiko \
+    device/samsung/ks01lte/audio/snd_soc_msm_Taiko_CDP:system/etc/snd_soc_msm/snd_soc_msm_Taiko_CDP \
+    device/samsung/ks01lte/audio/mixer_paths.xml:system/etc/mixer_paths.xml 
+#    device/samsung/ks01lte/audio/audio_effects.conf:system/etc/audio_effects.conf \
+#    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm \
+#    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_2x \
+#    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_2x_auxpcm \
+#    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_Sitar \
+#    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_Sitar_auxpcm \
+#    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_Taiko \
+#    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_Taiko_CDP \
+#    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_auxpcm \
 #    device/samsung/ks01lte/media/media_codecs.xml:system/etc/media_codecs.xml
 
 PRODUCT_COPY_FILES += \
@@ -59,7 +62,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Thermal config
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/thermal-engine-8974.conf:system/etc/thermal-engine-8974.conf
+    $(LOCAL_PATH)/thermal-engine-8974.conf:system/etc/thermal-engine-8974.conf \
+    $(LOCAL_PATH)/thermal-engine-8974.conf:system/etc/thermal-engine.conf
 
 # Media Profile
 PRODUCT_COPY_FILES += \
@@ -160,6 +164,10 @@ PRODUCT_PACKAGES += \
 # libxml2 is needed for camera
 PRODUCT_PACKAGES += libxml2
 
+# GSM
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.telephony.gsm.xml:system/etc/permissions/android.hardware.telephony.gsm.xml
+
 # IR packages
 PRODUCT_PACKAGES += \
     consumerir.msm8974
@@ -239,8 +247,8 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     keystore.msm8974
 
-# call common msm8960
-$(call inherit-product, device/samsung/msm8960-common/msm8960.mk)
+# call common msm8974
+$(call inherit-product, device/samsung/msm8974-common/msm8974.mk)
 
 # call dalvik heap config
 $(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-dalvik-heap.mk)

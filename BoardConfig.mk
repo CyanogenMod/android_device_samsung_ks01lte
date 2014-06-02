@@ -20,8 +20,8 @@
 # definition file).
 #
 
-# inherit from common msm8960
--include device/samsung/msm8960-common/BoardConfigCommon.mk
+# inherit from common msm8974
+-include device/samsung/msm8974-common/BoardConfigCommon.mk
 
 TARGET_SPECIFIC_HEADER_PATH := device/samsung/ks01lte/include
 
@@ -84,7 +84,9 @@ BOARD_BLUEDROID_VENDOR_CONF := device/samsung/ks01lte/bluetooth/vnd_ks01lte.txt
 
 # GPS
 TARGET_NO_RPC := true
-BOARD_HAVE_NEW_QC_GPS := 
+
+# Consumerir
+TARGET_PROVIDES_CONSUMERIR_HAL := true
 
 # NFC
 BOARD_NFC_HAL_SUFFIX := msm8974
@@ -92,29 +94,15 @@ BOARD_NFC_HAL_SUFFIX := msm8974
 # Samsung's nonstandard csd-client
 BOARD_HAVE_NEW_QCOM_CSDCLIENT := true
 
-# QCOM support
-BOARD_USES_QCOM_HARDWARE := true
-BOARD_USES_LEGACY_ALSA_AUDIO := 
-TARGET_QCOM_MEDIA_VARIANT := caf-new
-TARGET_QCOM_DISPLAY_VARIANT := caf-new
-TARGET_QCOM_AUDIO_VARIANT := caf
-TARGET_USES_QCOM_BSP := true
-COMMON_GLOBAL_CFLAGS += -DQCOM_HARDWARE -DQCOM_BSP
-
-#TARGET_ENABLE_QC_AV_ENHANCEMENTS := true
-
 # Audio
 BOARD_USES_CUSTOM_AUDIO_PLATFORM_PATH := device/samsung/ks01lte/audio/platform
 AUDIO_FEATURE_DISABLED_MULTI_VOICE_SESSIONS := true
 AUDIO_FEATURE_DISABLED_FM := true
 AUDIO_FEATURE_DISABLED_ANC_HEADSET := true
-#AUDIO_FEATURE_DISABLED_SSR := true
-#AUDIO_FEATURE_DISABLED_INCALL_MUSIC := true
-#AUDIO_FEATURE_DISABLED_SPKR_PROTECTION := true
-#AUDIO_FEATURE_DISABLED_DS1_DOLBY_DDP := true
+BOARD_HAVE_AUDIENCE_ES325_2MIC := true
 
 BOARD_WLAN_DEVICE := bcmdhd
-WIFI_DRIVER_FW_PATH_P2P     := 
+#WIFI_DRIVER_FW_PATH_P2P     := 
 WIFI_DRIVER_MODULE_ARG      := "firmware_path=/system/etc/wifi/bcmdhd_sta.bin nvram_path=/system/etc/wifi/nvram_net.txt"
 WIFI_DRIVER_MODULE_AP_ARG   := "firmware_path=/system/etc/wifi/bcmdhd_apsta.bin nvram_path=/system/etc/wifi/nvram_net.txt"
 WIFI_DRIVER_FW_PATH_PARAM   := "/sys/module/dhd/parameters/firmware_path"
@@ -122,10 +110,6 @@ WIFI_DRIVER_FW_PATH_STA     := "/system/etc/wifi/bcmdhd_sta.bin"
 WIFI_DRIVER_FW_PATH_AP      := "/system/etc/wifi/bcmdhd_apsta.bin"
 WIFI_DRIVER_MODULE_NAME := "dhd"
 WIFI_DRIVER_MODULE_PATH := "/system/lib/modules/dhd.ko"
-
-# Don't use qcom camera HAL
-TARGET_PROVIDES_CAMERA_HAL_MSM8974 := true
-TARGET_PROVIDES_CAMERA_HAL :=
 
 # Build lights 
 TARGET_PROVIDES_LIBLIGHT := true
@@ -149,9 +133,10 @@ MAX_EGL_CACHE_KEY_SIZE := 12*1024
 MAX_EGL_CACHE_SIZE := 2048*1024
 
 # Assert
-TARGET_OTA_ASSERT_DEVICE := ks01ltexx,GT-I9506,ks01lte
+TARGET_OTA_ASSERT_DEVICE := ks01ltexx,GT-I9506,ks01lte,ks01lteskt,ks01ltektt
 
 # PowerHAL
+TARGET_USES_CM_POWERHAL := true
 TARGET_POWERHAL_VARIANT := qcom
 TARGET_POWERHAL_SET_INTERACTIVE_EXT := device/samsung/ks01lte/power/power_ext.c
 
