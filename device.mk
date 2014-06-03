@@ -63,7 +63,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Thermal config
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/thermal-engine-8974.conf:system/etc/thermal-engine-8974.conf \
-    $(LOCAL_PATH)/thermal-engine-8974.conf:system/etc/thermal-engine.conf
+    $(LOCAL_PATH)/thermald-8974.conf:system/etc/thermald-8974.conf
 
 # Media Profile
 PRODUCT_COPY_FILES += \
@@ -103,7 +103,7 @@ PRODUCT_PACKAGES += \
 GPS_CONF := device/samsung/ks01lte/gps/etc/gps.conf
 
 PRODUCT_COPY_FILES += \
-    $(GPS_CONF):/system/etc/gps.conf 
+    $(GPS_CONF):/system/etc/gps.conf \
     device/samsung/ks01lte/gps/etc/sap.conf:/system/etc/sap.conf
 
 # Keylayouts

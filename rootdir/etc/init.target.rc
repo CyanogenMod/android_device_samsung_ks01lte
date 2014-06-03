@@ -167,6 +167,7 @@ on boot
     chown radio system /sys/power/cpufreq_min_limit
     chown radio system /sys/power/cpufreq_table
     chmod 664 /sys/power/cpufreq_max_limit
+    write 300000 /sys/power/cpufreq_min_limit
     chmod 664 /sys/power/cpufreq_min_limit
     chmod 664 /sys/power/cpufreq_table
 
@@ -540,13 +541,13 @@ service qseecomd /system/bin/qseecomd
    user root
    group system
 
-service mpdecision /system/bin/mpdecision --no_sleep --avg_comp
+service mpdecision /system/bin/mpdecision --avg_comp
    user root
    group root system
    disabled
 
 service thermal-engine /system/bin/thermal-engine
-   class core
+   class main
    user root
    group radio system
 
