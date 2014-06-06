@@ -71,10 +71,12 @@ void custom_init_data(){
     change_acdb_data(SND_DEVICE_OUT_VOICE_SPEAKER, 15);
     change_acdb_data(SND_DEVICE_IN_VOICE_DMIC, 4);
     change_acdb_data(SND_DEVICE_IN_HANDSET_DMIC, 4);
+    change_acdb_data(SND_DEVICE_IN_HANDSET_MIC, 11);
+    change_acdb_data(SND_DEVICE_IN_SPEAKER_MIC, 11);
     change_acdb_data(SND_DEVICE_IN_VOICE_SPEAKER_DMIC, 11);
     change_acdb_data(SND_DEVICE_IN_SPEAKER_DMIC, 11);
     change_acdb_data(SND_DEVICE_IN_VOICE_REC_MIC, 53);
-    change_acdb_data(SND_DEVICE_IN_CAMCORDER_MIC, 56);
+    change_acdb_data(SND_DEVICE_IN_CAMCORDER_MIC, 41);
     change_acdb_data(SND_DEVICE_OUT_USB_HEADSET, 98);
     change_acdb_data(SND_DEVICE_OUT_BT_SCO, 48);
     change_acdb_data(SND_DEVICE_OUT_BT_SCO_WB, 50);
@@ -89,7 +91,7 @@ void custom_init_data(){
     change_table_data(SND_DEVICE_OUT_VOICE_TTY_VCO_HEADPHONES, "TTY-headset");
     change_table_data(SND_DEVICE_OUT_VOICE_TTY_HCO_HANDSET, "TTY-handset");
     change_table_data(SND_DEVICE_IN_HANDSET_MIC, "rec-main-mic");
-    change_table_data(SND_DEVICE_IN_HANDSET_DMIC, "voice-call-main-mic");
+    change_table_data(SND_DEVICE_IN_HANDSET_DMIC, "rec-stereo-mic");
     change_table_data(SND_DEVICE_IN_HANDSET_DMIC_NS, "voice-call-NS-mic-handset");
     change_table_data(SND_DEVICE_IN_HANDSET_DMIC_AEC, "voice-call-main-mic");
     change_table_data(SND_DEVICE_IN_HANDSET_DMIC_AEC_NS, "voice-call-main-mic");

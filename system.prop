@@ -26,13 +26,6 @@ DEVICE_PROVISIONED=1
 
 ro.sf.lcd_density=480
 
-debug.composition.type=c2d
-persist.hwc.mdpcomp.enable=true
-debug.disable.bwc=1
-debug.mdpcomp.logs=0
-dev.pm.dyn_samplingrate=1
-debug.mdpcomp.idletime=100
-
 ro.qc.sdk.izat.premium_enabled=0
 ro.qc.sdk.izat.service_mask=0x0
 persist.gps.qc_nlp_in_use=0
@@ -58,13 +51,9 @@ persist.cne.feature=0
 ro.qc.sdk.audio.fluencetype=fluence
 persist.audio.fluence.voicecall=true
 persist.audio.fluence.voicerec=false
+persist.audio.fluence.audiorec=true
 persist.audio.fluence.speaker=true
 qcom.hw.aac.encoder=true
-af.resampler.quality=4
-
-ro.qc.sdk.sensors.gestures=true
-ro.qc.sdk.gestures.camera=false
-ro.qc.sdk.camera.facialproc=false
 
 # System property for number of mQANElements
 ro.ril.telephony.mqanelements=6

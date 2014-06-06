@@ -36,20 +36,12 @@ PRODUCT_COPY_FILES += \
     device/samsung/ks01lte/audio/audio_effects.conf:system/vendor/etc/audio_effects.conf \
     frameworks/native/data/etc/android.hardware.audio.low_latency.xml:system/etc/permissions/android.hardware.audio.low_latency.xml \
     device/samsung/ks01lte/media/media_profiles.xml:system/etc/media_profiles.xml \
-    device/samsung/ks01lte/media/media_codecs.xml:system/etc/media_codecs.xml \
     device/samsung/ks01lte/audio/snd_soc_msm_Taiko:system/etc/snd_soc_msm/snd_soc_msm_Taiko \
     device/samsung/ks01lte/audio/snd_soc_msm_Taiko_CDP:system/etc/snd_soc_msm/snd_soc_msm_Taiko_CDP \
-    device/samsung/ks01lte/audio/mixer_paths.xml:system/etc/mixer_paths.xml 
-#    device/samsung/ks01lte/audio/audio_effects.conf:system/etc/audio_effects.conf \
-#    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm \
-#    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_2x \
-#    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_2x_auxpcm \
-#    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_Sitar \
-#    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_Sitar_auxpcm \
-#    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_Taiko \
-#    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_Taiko_CDP \
-#    device/samsung/ks01lte/audio/snd_soc_msm:system/etc/snd_soc_msm/snd_soc_msm_auxpcm \
-#    device/samsung/ks01lte/media/media_codecs.xml:system/etc/media_codecs.xml
+    device/samsung/ks01lte/audio/mixer_paths.xml:system/etc/mixer_paths.xml \
+    device/samsung/ks01lte/audio/wcd9320_mbhc.bin:system/etc/wcd9320_mbhc.bin \
+    device/samsung/ks01lte/audio/wcd9320_anc.bin:system/etc/wcd9320_anc.bin \
+    device/samsung/ks01lte/audio/update_wcd_firmware.sh:system/etc/update_wcd_firmware.sh
 
 PRODUCT_COPY_FILES += \
     device/samsung/ks01lte/bluetooth/bcm4335_prepatch.hcd:system/vendor/firmware/bcm4335_prepatch.hcd
@@ -127,6 +119,7 @@ PRODUCT_PACKAGES += \
     init.qcom.usb.rc \
     init.ril.rc \
     init.target.rc \
+    init.qcom.post_boot.sh \
     ueventd.qcom.rc
 # HAL
 PRODUCT_PACKAGES += \
