@@ -76,7 +76,7 @@ void custom_init_data(){
     change_acdb_data(SND_DEVICE_IN_VOICE_SPEAKER_DMIC, 11);
     change_acdb_data(SND_DEVICE_IN_SPEAKER_DMIC, 11);
     change_acdb_data(SND_DEVICE_IN_VOICE_REC_MIC, 53);
-    change_acdb_data(SND_DEVICE_IN_CAMCORDER_MIC, 41);
+    change_acdb_data(SND_DEVICE_IN_CAMCORDER_MIC, 56);
     change_acdb_data(SND_DEVICE_OUT_USB_HEADSET, 98);
     change_acdb_data(SND_DEVICE_OUT_BT_SCO, 48);
     change_acdb_data(SND_DEVICE_OUT_BT_SCO_WB, 50);

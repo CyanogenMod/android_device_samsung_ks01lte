@@ -449,6 +449,7 @@
 	</path>
 
 	<path name="sub-main-mic">
+		<path name="audio-record" />
 		<ctl name="AIF1_CAP Mixer SLIM TX7" value="1" />
 		<ctl name="SLIM_0_TX Channels" value="Two" />
 		<ctl name="SLIM TX7 MUX" value="DEC6" />
@@ -560,7 +561,7 @@
 	</path>
 
 	<path name="rec-stereo-mic">
-		<ctl name="Main Mic Delay" value="4" /> 
+		<ctl name="Main Mic Delay" value="4" />
 		<path name="sub-main-mic" />
 		<ctl name="ADC1 Volume" value="18" />
 		<ctl name="DEC6 Volume" value="120" />
