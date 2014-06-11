@@ -561,12 +561,14 @@
 	</path>
 
 	<path name="rec-stereo-mic">
-		<ctl name="Main Mic Delay" value="4" />
 		<path name="sub-main-mic" />
-		<ctl name="ADC1 Volume" value="18" />
-		<ctl name="DEC6 Volume" value="120" />
-		<ctl name="ADC3 Volume" value="18" />
-		<ctl name="DEC4 Volume" value="120" />
+		<ctl name="ADC1 Volume" value="19" />
+		<ctl name="DEC6 Volume" value="124" />
+		<ctl name="ADC3 Volume" value="19" />
+		<ctl name="DEC4 Volume" value="124" />
+		<ctl name="TX3 HPF cut off" value="MIN_3DB_150Hz" />
+		<ctl name="TX4 HPF cut off" value="MIN_3DB_150Hz" />
+		<ctl name="TX5 HPF cut off" value="MIN_3DB_150Hz" />
 	</path>
 
 	<path name="rec-high-gain-main-mic">

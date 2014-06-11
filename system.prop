@@ -22,6 +22,7 @@ ro.telephony.ril.v3=newDialCode
 persist.radio.add_power_save=1
 persist.data.netmgrd.qos.enable=false
 ro.use_data_netmgrd=false
+persist.radio.atfwd.start=false
 DEVICE_PROVISIONED=1
 
 ro.sf.lcd_density=480
@@ -49,11 +50,22 @@ persist.cne.feature=0
 
 # Audio configuration
 ro.qc.sdk.audio.fluencetype=fluence
+persist.audio.dualmic.config=endfire
 persist.audio.fluence.voicecall=true
 persist.audio.fluence.voicerec=false
 persist.audio.fluence.audiorec=true
 persist.audio.fluence.speaker=true
 qcom.hw.aac.encoder=true
 
+audio.offload.buffer.size.kb=32
+av.offload.enable=true
+audio.offload.gapless.enabled=true
+audio.offload.disable=false
+audio.offload.pcm.enable=true
+af.resampler.quality=4
+
 # System property for number of mQANElements
 ro.ril.telephony.mqanelements=6
+
+ro.qc.sensors.step_counter=true
+ro.qc.sensors.step_detector=true

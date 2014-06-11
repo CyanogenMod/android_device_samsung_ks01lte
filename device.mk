@@ -30,6 +30,11 @@ PRODUCT_AAPT_PREF_CONFIG := xxhdpi
 TARGET_SCREEN_HEIGHT := 1920
 TARGET_SCREEN_WIDTH := 1080
 
+# Pedometer
+PRODUCT_COPY_FILES += \
+	frameworks/native/data/etc/android.hardware.sensor.stepcounter.xml:system/etc/permissions/android.hardware.sensor.stepcounter.xml \
+	frameworks/native/data/etc/android.hardware.sensor.stepdetector.xml:system/etc/permissions/android.hardware.sensor.stepdetector.xml
+
 # Audio configuration
 PRODUCT_COPY_FILES += \
     device/samsung/ks01lte/audio/audio_policy.conf:system/etc/audio_policy.conf \
@@ -45,12 +50,6 @@ PRODUCT_COPY_FILES += \
 
 PRODUCT_COPY_FILES += \
     device/samsung/ks01lte/bluetooth/bcm4335_prepatch.hcd:system/vendor/firmware/bcm4335_prepatch.hcd
-
-PRODUCT_PROPERTY_OVERRIDES += \
-    af.resampler.quality=4 \
-    audio.offload.buffer.size.kb=32 \
-    audio.offload.gapless.enabled=false \
-    av.offload.enable=true
 
 # Thermal config
 PRODUCT_COPY_FILES += \
