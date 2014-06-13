@@ -57,13 +57,6 @@ persist.audio.fluence.audiorec=true
 persist.audio.fluence.speaker=true
 qcom.hw.aac.encoder=true
 
-audio.offload.buffer.size.kb=32
-av.offload.enable=true
-audio.offload.gapless.enabled=true
-audio.offload.disable=false
-audio.offload.pcm.enable=true
-af.resampler.quality=4
-
 # System property for number of mQANElements
 ro.ril.telephony.mqanelements=6
 

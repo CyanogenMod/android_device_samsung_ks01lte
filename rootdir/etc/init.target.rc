@@ -541,9 +541,9 @@ service qseecomd /system/bin/qseecomd
    user root
    group system
 
-service mpdecision /system/bin/mpdecision --no_sleep --avg_comp
+service mpdecision /system/bin/mpdecision --avg_comp
+   class main
    user root
-   group root system
    disabled
 
 service thermal-engine /system/bin/thermal-engine

@@ -217,13 +217,14 @@ PRODUCT_PROPERTY_OVERRIDES += \
     persist.timed.enable=true \
     keyguard.no_require_sim=true
 
-# Radio properties
-#PRODUCT_PROPERTY_OVERRIDES += \
-#    rild.libpath=/system/lib/libsec-ril.so \
-#    ro.ril.hsxpa=1 \
-#    ro.ril.gprsclass=10 \
-#    ro.use_data_netmgrd=true \
-#    persist.data.netmgrd.qos.enable=true 
+# Audio properties
+PRODUCT_PROPERTY_OVERRIDES += \
+   audio.offload.buffer.size.kb=32 \
+   av.offload.enable=true \
+   audio.offload.gapless.enabled=true \
+   audio.offload.disable=false \
+   audio.offload.pcm.enable=true \
+   af.resampler.quality=4
 
 # msm_rng entropy feeder
 PRODUCT_PACKAGES += \
