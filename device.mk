@@ -129,6 +129,13 @@ PRODUCT_PACKAGES += \
     power.msm8974 \
     camera.msm8974
 
+# RIL
+PRODUCT_PACKAGES += \
+    rild \
+    libsecril-client \
+    macloader \
+    SamsungServiceMode
+
 # Audio
 PRODUCT_PACKAGES += \
     audiod \
@@ -220,11 +227,25 @@ PRODUCT_PROPERTY_OVERRIDES += \
 # Audio properties
 PRODUCT_PROPERTY_OVERRIDES += \
    audio.offload.buffer.size.kb=32 \
-   av.offload.enable=true \
+   av.offload.enable=false \
    audio.offload.gapless.enabled=true \
    audio.offload.disable=false \
    audio.offload.pcm.enable=true \
    af.resampler.quality=4
+
+# RIL properties
+PRODUCT_PROPERTY_OVERRIDER += \
+   rild.libargs=-d /dev/smd0 \
+   rild.libpath=/system/lib/libsec-ril.so \
+   ro.ril.gprsclass=10 \
+   ro.ril.hsxpa=1 \
+   ro.ril.svdo=false \
+   ro.ril.svlte1x=false \
+   ro.telephony.call_ring.multiple=false \
+   ro.telephony.default_network=9 \
+   persist.radio.jbims=1 \
+   ro.telephony.ril.v3=newDialCode,newDriverCallU \
+   ro.telephony.ril_class=SamsungQCLteRIL
 
 # msm_rng entropy feeder
 PRODUCT_PACKAGES += \
