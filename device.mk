@@ -234,7 +234,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
    af.resampler.quality=4
 
 # RIL properties
-PRODUCT_PROPERTY_OVERRIDER += \
+PRODUCT_PROPERTY_OVERRIDES += \
    rild.libargs=-d /dev/smd0 \
    rild.libpath=/system/lib/libsec-ril.so \
    ro.ril.gprsclass=10 \

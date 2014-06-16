@@ -2537,7 +2537,7 @@ static int responseSimStatus(Parcel &p, void *response, size_t responselen) {
 
         sendSimStatusAppInfo(p, p_cur->num_applications, p_cur->applications);
     } else {
-        RLOGE("responseSimStatus: A RilCardStatus_v6 or _v5 expected\n. But recived %d size response", responselen);
+        RLOGE("responseSimStatus: A RilCardStatus_v6 or _v5 expected\n");
         return RIL_ERRNO_INVALID_RESPONSE;
     }
 
