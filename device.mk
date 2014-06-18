@@ -33,7 +33,8 @@ TARGET_SCREEN_WIDTH := 1080
 # Pedometer
 PRODUCT_COPY_FILES += \
 	frameworks/native/data/etc/android.hardware.sensor.stepcounter.xml:system/etc/permissions/android.hardware.sensor.stepcounter.xml \
-	frameworks/native/data/etc/android.hardware.sensor.stepdetector.xml:system/etc/permissions/android.hardware.sensor.stepdetector.xml
+	frameworks/native/data/etc/android.hardware.sensor.stepdetector.xml:system/etc/permissions/android.hardware.sensor.stepdetector.xml \
+	device/samsung/ks01lte/sensor_def_qcomdev.conf:system/etc/sensor_def_qcomdev.conf
 
 # Audio configuration
 PRODUCT_COPY_FILES += \
@@ -46,7 +47,9 @@ PRODUCT_COPY_FILES += \
     device/samsung/ks01lte/audio/mixer_paths.xml:system/etc/mixer_paths.xml \
     device/samsung/ks01lte/audio/wcd9320_mbhc.bin:system/etc/wcd9320_mbhc.bin \
     device/samsung/ks01lte/audio/wcd9320_anc.bin:system/etc/wcd9320_anc.bin \
-    device/samsung/ks01lte/audio/update_wcd_firmware.sh:system/etc/update_wcd_firmware.sh
+    device/samsung/ks01lte/audio/update_wcd_firmware.sh:system/etc/update_wcd_firmware.sh \
+    device/samsung/ks01lte/audio/wfdconfig.xml:system/etc/wfdconfig.xml \
+    device/samsung/ks01lte/audio/wfdconfigsink.xml:system/etc/wfdconfigsink.xml
 
 PRODUCT_COPY_FILES += \
     device/samsung/ks01lte/bluetooth/bcm4335_prepatch.hcd:system/vendor/firmware/bcm4335_prepatch.hcd
@@ -91,11 +94,12 @@ PRODUCT_PACKAGES += \
     libloc_core \
     libloc_eng
 
-GPS_CONF := device/samsung/ks01lte/gps/etc/gps.conf
+GPS_CONF := device/samsung/ks01lte/gps/gps.conf
 
 PRODUCT_COPY_FILES += \
     $(GPS_CONF):/system/etc/gps.conf \
-    device/samsung/ks01lte/gps/etc/sap.conf:/system/etc/sap.conf
+    device/samsung/ks01lte/gps/sap.conf:/system/etc/sap.conf \
+    device/samsung/ks01lte/gps/flp.conf:/system/etc/flp.conf
 
 # Keylayouts
 PRODUCT_COPY_FILES += \
@@ -235,7 +239,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # RIL properties
 PRODUCT_PROPERTY_OVERRIDES += \
-   rild.libargs=-d /dev/smd0 \
    rild.libpath=/system/lib/libsec-ril.so \
    ro.ril.gprsclass=10 \
    ro.ril.hsxpa=1 \
