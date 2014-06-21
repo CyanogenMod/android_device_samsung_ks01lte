@@ -298,6 +298,7 @@ on boot
     chown system system /sys/kernel/ipv4/tcp_rmem_def
     chown system system /sys/kernel/ipv4/tcp_rmem_max
     chown root radio /proc/cmdline
+    chmod 644 /proc/cmdline
 
 # Permissions for Audio
    chown system system /sys/devices/fe12f000.slim/es705-codec-gen0/keyword_grammar_path

@@ -98,8 +98,8 @@ GPS_CONF := device/samsung/ks01lte/gps/gps.conf
 
 PRODUCT_COPY_FILES += \
     $(GPS_CONF):/system/etc/gps.conf \
-    device/samsung/ks01lte/gps/sap.conf:/system/etc/sap.conf \
-    device/samsung/ks01lte/gps/flp.conf:/system/etc/flp.conf
+    device/samsung/ks01lte/gps/sap.conf:system/etc/sap.conf \
+    device/samsung/ks01lte/gps/flp.conf:system/etc/flp.conf
 
 # Keylayouts
 PRODUCT_COPY_FILES += \

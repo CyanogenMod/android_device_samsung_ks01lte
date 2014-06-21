@@ -120,15 +120,17 @@ static char * camera_fixup_getparams(int id, const char * settings)
 #endif
 
     const char* hfrValues = params.get(android::CameraParameters::KEY_SUPPORTED_VIDEO_HIGH_FRAME_RATE_MODES);
-    if (hfrValues && *hfrValues && ! strstr(hfrValues, "off")) {
-        char tmp[strlen(hfrValues) + 4 + 1];
-        sprintf(tmp, "off,%s", hfrValues);
+    if (hfrValues && *hfrValues && ! strstr(hfrValues, android::CameraParameters::VIDEO_HFR_OFF)) {
+        char tmp[strlen(hfrValues) + strlen(android::CameraParameters::VIDEO_HFR_OFF) + 1];
+        sprintf(tmp, "%s,%s", android::CameraParameters::VIDEO_HFR_OFF, hfrValues);
         params.set(android::CameraParameters::KEY_SUPPORTED_VIDEO_HIGH_FRAME_RATE_MODES, tmp);
     }
     params.set(android::CameraParameters::KEY_SUPPORTED_HFR_SIZES, "2072x1166,2072x1166,1280x720,1280x720");
 
     const char* recordingHint = params.get(android::CameraParameters::KEY_RECORDING_HINT);
     const bool isVideo = recordingHint && !strcmp(recordingHint, "true");
+
+    params.set("preview-fps-range","30000,30000");
 
     if (isVideo) {
     	params.set("dis","disable");
@@ -183,9 +185,23 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
 #endif
 
     if (isVideo) {
+    	params.set(android::CameraParameters::KEY_FOCUS_MODE,"continuous-video");
         params.set("dis","disable");
+	const char* videoHfr = params.get(android::CameraParameters::KEY_VIDEO_HIGH_FRAME_RATE);
+	if (videoHfr) {
+	    if (strcmp(videoHfr,"120") == 0) {
+	    	params.set("fast-fps-mode","2");
+		params.set("preview-fps-range","120000,120000");
+	    } else if (strcmp(videoHfr,"90") == 0) {
+	    	params.set("fast-fps-mode","0");
+	    } else if (strcmp(videoHfr,"60") == 0) {
+	    	params.set("fast-fps-mode","0");
+	    } else if (strcmp(videoHfr,"off") == 0) {
+	    	params.set("fast-fps-mode","0");
+	    }
+	}
     }
-
+    
     android::String8 strParams = params.flatten();
 
     if (fixed_set_params[id])

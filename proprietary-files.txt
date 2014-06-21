@@ -19,13 +19,12 @@ vendor/firmware/bcm4335_murata.hcd
 # GPS
 lib/libloc_api_v02.so
 vendor/lib/libgeofence.so
+vendor/lib/liblocationservice.so
 vendor/lib/libizat_core.so
 vendor/lib/liblbs_core.so
-vendor/lib/liblocationservice.so
 
 # Audio
 vendor/lib/libacdbloader.so
-vendor/lib/libacdbloader.so:lib/libacdbloader.so
 vendor/lib/libaudcal.so
 vendor/lib/libcsd-client.so
 vendor/lib/libacdbmapper.so
@@ -64,26 +63,21 @@ etc/firmware/a330_pm4.fw
 # Graphics
 vendor/lib/libmm-color-convertor.so
 
-lib/libsec-ril.so
-
 #  Radio
 bin/ds_fmc_appd
 bin/efsks
 bin/ks
-bin/at_distributor
-bin/ATFWD-daemon
 bin/qcks
 bin/qmiproxy
 bin/qmuxd
 bin/rmt_storage
-
+lib/libsec-ril.so
 lib/libatparser.so
 lib/libcordon.so
 vendor/lib/libdiag.so
-vendor/lib/libdsutils.so
+lib/libdsutils.so
 lib/libfactoryutil.so
 vendor/lib/libidl.so
-vendor/lib/libnetmgr.so
 lib/libomission_avoidance.so
 vendor/lib/libqmi.so
 vendor/lib/libqmiservices.so
@@ -93,18 +87,13 @@ vendor/lib/libqmi_csi.so
 vendor/lib/libqmi_encdec.so
 vendor/lib/libqcci_legacy.so
 vendor/lib/libqmi_client_qmux.so
-vendor/lib/libril-qcril-hook-oem.so
+lib/libril-qcril-hook-oem.so
 
 # Time services
 bin/time_daemon
 -vendor/lib/libtime_genoff.so
 
 # Sensors
-bin/sensorhubservice
-lib/libsensorhubcontext.so
-lib/libsensorhub.so
-lib/libsensorhubservice.so
-lib/libgnustl_shared.so
 lib/hw/sensorhubs.msm8974.so
 lib/libsensirion_j1.so
 lib/libsam.so
@@ -123,16 +112,24 @@ vendor/lib/libOmxAmrwbplusDec.so
 vendor/lib/libOmxEvrcDec.so
 vendor/lib/libOmxQcelp13Dec.so
 vendor/lib/libOmxWmaDec.so
+vendor/lib/libOmxMux.so
 
 # Camera
 bin/mm-qcamera-daemon
 cameradata/datapattern_420sp.yuv
 cameradata/datapattern_front_420sp.yuv
-etc/C13QL_s5k3l2xx_module_info.xml
 etc/C13QS_imx135_module_info.xml
-etc/D13QL_s5k3l2xx_module_info.xml
 etc/D13QS_imx135_module_info.xml
 lib/hw/camera.msm8974.so:lib/hw/camera.vendor.msm8974.so
+lib/libarcsoft_nighthawk.so
+lib/libarcsoft_flawlessface.so
+lib/libarcsoft_night_shot.so
+lib/libarcsoft_panorama_burstcapture.so
+lib/libarcsoft_picaction.so
+lib/libarcsoft_picaction_manual.so
+lib/libarcsoft_sensorndk.so
+lib/libarcsoft_skin_soften.so
+lib/libarcsoft_vdoinvideo.so
 lib/libTsAe.so
 lib/libTsAf.so
 lib/libTs_J_Accm.so
@@ -141,29 +138,6 @@ lib/libmmcamera_interface.so
 lib/libqomx_core.so
 lib/libqomx_jpegenc.so
 lib/libliveframework.so
-lib/libarcsoft_nighthawk.so
-lib/C13QL_libTsAe.so
-lib/C13QL_libTsAf.so
-lib/C13QL_libTs_J_Accm.so
-lib/C13QL_libTs_J_Awb.so
-lib/C13QL_libchromatix_s5k3l2xx_common.so
-lib/C13QL_libchromatix_s5k3l2xx_common_1080p_b.so
-lib/C13QL_libchromatix_s5k3l2xx_common_1080p_s.so
-lib/C13QL_libchromatix_s5k3l2xx_common_res0.so
-lib/C13QL_libchromatix_s5k3l2xx_common_res1.so
-lib/C13QL_libchromatix_s5k3l2xx_common_res2.so
-lib/C13QL_libchromatix_s5k3l2xx_common_res3.so
-lib/C13QL_libchromatix_s5k3l2xx_default_video.so
-lib/C13QL_libchromatix_s5k3l2xx_golfshot.so
-lib/C13QL_libchromatix_s5k3l2xx_hfr_1080p_b.so
-lib/C13QL_libchromatix_s5k3l2xx_hfr_1080p_s.so
-lib/C13QL_libchromatix_s5k3l2xx_hfr_120.so
-lib/C13QL_libchromatix_s5k3l2xx_liveshot.so
-lib/C13QL_libchromatix_s5k3l2xx_pip.so
-lib/C13QL_libchromatix_s5k3l2xx_preview.so
-lib/C13QL_libchromatix_s5k3l2xx_snapshot.so
-lib/C13QL_libchromatix_s5k3l2xx_uhd_video.so
-lib/C13QL_libchromatix_s5k3l2xx_zslshot.so
 lib/C13QS_libTsAe.so
 lib/C13QS_libTsAf.so
 lib/C13QS_libTs_J_Accm.so
@@ -186,10 +160,6 @@ lib/C13QS_libchromatix_imx135_preview.so
 lib/C13QS_libchromatix_imx135_snapshot.so
 lib/C13QS_libchromatix_imx135_uhd_video.so
 lib/C13QS_libchromatix_imx135_zslshot.so
-lib/D13QL_libTsAe.so
-lib/D13QL_libTsAf.so
-lib/D13QL_libTs_J_Accm.so
-lib/D13QL_libTs_J_Awb.so
 lib/D13QS_libTsAe.so
 lib/D13QS_libTsAf.so
 lib/D13QS_libTs_J_Accm.so
@@ -212,24 +182,6 @@ lib/D13QS_libchromatix_imx135_preview.so
 lib/D13QS_libchromatix_imx135_snapshot.so
 lib/D13QS_libchromatix_imx135_uhd_video.so
 lib/D13QS_libchromatix_imx135_zslshot.so
-lib/libchromatix_imx134_common.so
-lib/libchromatix_imx134_common_720p_b.so
-lib/libchromatix_imx134_common_720p_s.so
-lib/libchromatix_imx134_common_res0.so
-lib/libchromatix_imx134_common_res1.so
-lib/libchromatix_imx134_common_res2.so
-lib/libchromatix_imx134_common_res3.so
-lib/libchromatix_imx134_default_video.so
-lib/libchromatix_imx134_golfshot.so
-lib/libchromatix_imx134_hfr_120.so
-lib/libchromatix_imx134_hfr_60.so
-lib/libchromatix_imx134_hfr_720p_b.so
-lib/libchromatix_imx134_hfr_720p_s.so
-lib/libchromatix_imx134_liveshot.so
-lib/libchromatix_imx134_pip.so
-lib/libchromatix_imx134_preview.so
-lib/libchromatix_imx134_snapshot.so
-lib/libchromatix_imx134_zslshot.so
 lib/libchromatix_imx135_common.so
 lib/libchromatix_imx135_common_1080p_b.so
 lib/libchromatix_imx135_common_1080p_s.so
@@ -248,24 +200,6 @@ lib/libchromatix_imx135_preview.so
 lib/libchromatix_imx135_snapshot.so
 lib/libchromatix_imx135_uhd_video.so
 lib/libchromatix_imx135_zslshot.so
-lib/libchromatix_s5k3l2xx_common.so
-lib/libchromatix_s5k3l2xx_common_1080p_b.so
-lib/libchromatix_s5k3l2xx_common_1080p_s.so
-lib/libchromatix_s5k3l2xx_common_res0.so
-lib/libchromatix_s5k3l2xx_common_res1.so
-lib/libchromatix_s5k3l2xx_common_res2.so
-lib/libchromatix_s5k3l2xx_common_res3.so
-lib/libchromatix_s5k3l2xx_default_video.so
-lib/libchromatix_s5k3l2xx_golfshot.so
-lib/libchromatix_s5k3l2xx_hfr_1080p_b.so
-lib/libchromatix_s5k3l2xx_hfr_1080p_s.so
-lib/libchromatix_s5k3l2xx_hfr_120.so
-lib/libchromatix_s5k3l2xx_liveshot.so
-lib/libchromatix_s5k3l2xx_pip.so
-lib/libchromatix_s5k3l2xx_preview.so
-lib/libchromatix_s5k3l2xx_snapshot.so
-lib/libchromatix_s5k3l2xx_uhd_video.so
-lib/libchromatix_s5k3l2xx_zslshot.so
 lib/libchromatix_s5k6b2yx_common.so
 lib/libchromatix_s5k6b2yx_default_video.so
 lib/libchromatix_s5k6b2yx_pip.so
@@ -300,28 +234,14 @@ vendor/lib/libmmcamera_imglib.so
 vendor/lib/libmmcamera2_wnr_module.so
 vendor/lib/libmmcamera2_vpe_module.so
 vendor/lib/libadsprpc.so
-vendor/lib/C13QL_libchromatix_s5k3l2xx_vt.so
-vendor/lib/C13QL_libchromatix_s5k3l2xx_vt_hd.so
 vendor/lib/C13QS_libchromatix_imx135_vt.so
 vendor/lib/C13QS_libchromatix_imx135_vt_hd.so
-vendor/lib/D13QL_libchromatix_s5k3l2xx_vt.so
-vendor/lib/D13QL_libchromatix_s5k3l2xx_vt_hd.so
 vendor/lib/D13QS_libchromatix_imx135_vt.so
 vendor/lib/D13QS_libchromatix_imx135_vt_hd.so
 vendor/lib/libactuator_ak7345_camcorder.so
 vendor/lib/libactuator_ak7345_camera.so
-vendor/lib/libactuator_dw9714_camcorder.so
-vendor/lib/libactuator_dw9714_camera.so
-vendor/lib/libactuator_dw9716_camcorder.so
-vendor/lib/libactuator_dw9716_camera.so
-vendor/lib/libactuator_wv560_camcorder.so
-vendor/lib/libactuator_wv560_camera.so
-vendor/lib/libchromatix_imx134_vt.so
-vendor/lib/libchromatix_imx134_vt_hd.so
 vendor/lib/libchromatix_imx135_vt.so
 vendor/lib/libchromatix_imx135_vt_hd.so
-vendor/lib/libchromatix_s5k3l2xx_vt.so
-vendor/lib/libchromatix_s5k3l2xx_vt_hd.so
 vendor/lib/liboemcamera.so
 
 # Wi-Fi
@@ -342,8 +262,10 @@ bin/qseecomd
 lib/libdrmdecrypt.so
 lib/libhdcp2.so
 lib/libstagefright_hdcp.so
-vendor/lib/libWVStreamControlAPI_L1.so
+lib/libWVStreamControlAPI_L1.so
+lib/libWVphoneAPI.so
 lib/libwvm.so
+lib/libwvdrm_L1.so
 lib/drm/libdrmwvmplugin.so
 vendor/lib/libdrmfs.so
 vendor/lib/libdrmtime.so
@@ -368,6 +290,5 @@ vendor/firmware/bcm2079xB4_pre_firmware.ncd
 
 # postproc
 bin/mm-pp-daemon
-vendor/lib/libdisp-aba.so
 vendor/lib/libmm-abl.so
 vendor/lib/libmm-abl-oem.so
