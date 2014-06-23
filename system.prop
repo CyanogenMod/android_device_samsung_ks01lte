@@ -1,30 +1,18 @@
 persist.radio.add_power_save=1
 persist.data.netmgrd.qos.enable=false
 ro.use_data_netmgrd=false
-DEVICE_PROVISIONED=1
-
-ro.sf.lcd_density=480
 
 ro.qc.sdk.izat.premium_enabled=0
 ro.qc.sdk.izat.service_mask=0x0
 persist.gps.qc_nlp_in_use=0
 ro.gps.agps_provider=1
 ro.qualcomm.bt.hci_transport=uart
-ro.qualcomm.cabl=0
+ro.qualcomm.cabl=1
 ro.cm.hardware.cabc=1
 ro.hdcp2.rx=tz
 ro.secwvk=144
 persist.timed.enable=true
-
-mm.enable.qcom_parser=37491
-ro.hdmi.enable=true
-tunnel.decode=true
-lpa.decode=false
-lpa.use-stagefright=true
-persist.speaker.prot.enable=false
-qcom.hw.aac.encoder=true
-persist.cne.feature=0
-
+debug.sensors=1
 
 # Audio configuration
 ro.qc.sdk.audio.fluencetype=fluence

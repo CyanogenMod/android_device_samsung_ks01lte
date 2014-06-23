@@ -131,7 +131,7 @@ PRODUCT_PACKAGES += \
     hwcomposer.msm8974 \
     memtrack.msm8974 \
     power.msm8974 \
-    camera.msm8974
+    camera.msm8974 
 
 # RIL
 PRODUCT_PACKAGES += \

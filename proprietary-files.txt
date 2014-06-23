@@ -75,7 +75,7 @@ lib/libsec-ril.so
 lib/libatparser.so
 lib/libcordon.so
 vendor/lib/libdiag.so
-lib/libdsutils.so
+vendor/lib/libdsutils.so
 lib/libfactoryutil.so
 vendor/lib/libidl.so
 lib/libomission_avoidance.so
@@ -87,7 +87,7 @@ vendor/lib/libqmi_csi.so
 vendor/lib/libqmi_encdec.so
 vendor/lib/libqcci_legacy.so
 vendor/lib/libqmi_client_qmux.so
-lib/libril-qcril-hook-oem.so
+vendor/lib/libril-qcril-hook-oem.so
 
 # Time services
 bin/time_daemon
@@ -262,10 +262,10 @@ bin/qseecomd
 lib/libdrmdecrypt.so
 lib/libhdcp2.so
 lib/libstagefright_hdcp.so
-lib/libWVStreamControlAPI_L1.so
+vendor/lib/libWVStreamControlAPI_L1.so
 lib/libWVphoneAPI.so
 lib/libwvm.so
-lib/libwvdrm_L1.so
+vendor/lib/libwvdrm_L1.so
 lib/drm/libdrmwvmplugin.so
 vendor/lib/libdrmfs.so
 vendor/lib/libdrmtime.so
@@ -290,5 +290,6 @@ vendor/firmware/bcm2079xB4_pre_firmware.ncd
 
 # postproc
 bin/mm-pp-daemon
+vendor/lib/libdisp-aba.so
 vendor/lib/libmm-abl.so
 vendor/lib/libmm-abl-oem.so

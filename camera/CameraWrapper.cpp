@@ -133,7 +133,7 @@ static char * camera_fixup_getparams(int id, const char * settings)
     params.set("preview-fps-range","30000,30000");
 
     if (isVideo) {
-    	params.set("dis","disable");
+        params.set("dis","disable");
     }
 
     android::String8 strParams = params.flatten();
@@ -185,21 +185,33 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
 #endif
 
     if (isVideo) {
-    	params.set(android::CameraParameters::KEY_FOCUS_MODE,"continuous-video");
-        params.set("dis","disable");
-	const char* videoHfr = params.get(android::CameraParameters::KEY_VIDEO_HIGH_FRAME_RATE);
-	if (videoHfr) {
+    	params.set("dis","disable");
+/*	const char* videoHfr = params.get(android::CameraParameters::KEY_VIDEO_HIGH_FRAME_RATE);
+	if (videoHfr && !preview) {
 	    if (strcmp(videoHfr,"120") == 0) {
 	    	params.set("fast-fps-mode","2");
 		params.set("preview-fps-range","120000,120000");
+		params.set("video-size","1280x720");
+		params.set("preview-size","1280x720");
+		params.set("preferred-preview-size-for-video","1280x720");
+		params.set("picture-size","1280x720");
+		params.set("jpeg-thumbnail-width","512");
+		params.set("jpeg-thumbnail-height","288");
+		params.set("focus-mode","continuous-video");
+		params.set("max-num-detected-faces-hw","1");
+		params.set("max-num-detected-faces-sw","1");
+		params.set("face-detection","0");
 	    } else if (strcmp(videoHfr,"90") == 0) {
-	    	params.set("fast-fps-mode","0");
+	    	params.set("fast-fps-mode","2");
+		params.set("preview-fps-range","90000,90000");
 	    } else if (strcmp(videoHfr,"60") == 0) {
-	    	params.set("fast-fps-mode","0");
+	    	params.set("fast-fps-mode","1");
+		params.set("preview-fps-range","60000,60000");
 	    } else if (strcmp(videoHfr,"off") == 0) {
-	    	params.set("fast-fps-mode","0");
+	    	params.set("fast-fps-mode","-1");
+		params.set("preview-fps-range","30000,30000");
 	    }
-	}
+	}*/
     }
     
     android::String8 strParams = params.flatten();
@@ -275,6 +287,25 @@ int camera_msg_type_enabled(struct camera_device * device, int32_t msg_type)
         return 0;
 
     return VENDOR_CALL(device, msg_type_enabled, msg_type);
+}
+
+int camera_set_parameters(struct camera_device * device, const char *params)
+{
+    ALOGV("%s", __FUNCTION__);
+    ALOGV("%s->%08X->%08X", __FUNCTION__, (uintptr_t)device, (uintptr_t)(((wrapper_camera_device_t*)device)->vendor));
+
+    if(!device)
+        return -EINVAL;
+
+    char *tmp = NULL;
+    tmp = camera_fixup_setparams(device, params);
+
+#ifdef LOG_PARAMETERS
+    __android_log_write(ANDROID_LOG_VERBOSE, LOG_TAG, tmp);
+#endif
+
+    int ret = VENDOR_CALL(device, set_parameters, tmp);
+    return ret;
 }
 
 int camera_start_preview(struct camera_device * device)
@@ -420,25 +451,6 @@ int camera_cancel_picture(struct camera_device * device)
         return -EINVAL;
 
     return VENDOR_CALL(device, cancel_picture);
-}
-
-int camera_set_parameters(struct camera_device * device, const char *params)
-{
-    ALOGV("%s", __FUNCTION__);
-    ALOGV("%s->%08X->%08X", __FUNCTION__, (uintptr_t)device, (uintptr_t)(((wrapper_camera_device_t*)device)->vendor));
-
-    if(!device)
-        return -EINVAL;
-
-    char *tmp = NULL;
-    tmp = camera_fixup_setparams(device, params);
-
-#ifdef LOG_PARAMETERS
-    __android_log_write(ANDROID_LOG_VERBOSE, LOG_TAG, tmp);
-#endif
-
-    int ret = VENDOR_CALL(device, set_parameters, tmp);
-    return ret;
 }
 
 char* camera_get_parameters(struct camera_device * device)
