@@ -245,7 +245,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
    ro.ril.svdo=false \
    ro.ril.svlte1x=false \
    ro.telephony.call_ring.multiple=false \
-   ro.telephony.default_network=9 \
    persist.radio.jbims=1 \
    ro.telephony.ril.v3=newDialCode,newDriverCallU \
    ro.telephony.ril_class=SamsungQCLteRIL

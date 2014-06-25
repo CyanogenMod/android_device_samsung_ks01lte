@@ -125,6 +125,17 @@
     {RIL_REQUEST_VOICE_RADIO_TECH, dispatchVoiceRadioTech, responseInts},
     {RIL_REQUEST_GET_CELL_INFO_LIST, dispatchVoid, responseCellInfoList},
     {RIL_REQUEST_SET_UNSOL_CELL_INFO_LIST_RATE, dispatchInts, responseVoid}, // 110
+    {RIL_REQUEST_SET_INITIAL_ATTACH_APN, dispatchSetInitialAttachApn, responseVoid}, //111
+    {RIL_REQUEST_IMS_REGISTRATION_STATE, dispatchVoid, responseInts}, //112
+    {RIL_REQUEST_IMS_SEND_SMS, dispatchImsSms, responseSMS}, //113
+    {RIL_REQUEST_GET_DATA_CALL_PROFILE, dispatchInts, responseGetDataCallProfile}, //114
+    {RIL_REQUEST_SET_UICC_SUBSCRIPTION, dispatchUiccSubscripton, responseVoid}, //115
+    {RIL_REQUEST_SET_DATA_SUBSCRIPTION, dispatchVoid, responseVoid}, //116
+    {RIL_REQUEST_SIM_TRANSMIT_BASIC, dispatchSIM_IO, responseSIM_IO}, //117
+    {RIL_REQUEST_SIM_OPEN_CHANNEL, dispatchString, responseInts}, //118
+    {RIL_REQUEST_SIM_CLOSE_CHANNEL, dispatchInts, responseVoid}, //119
+    {RIL_REQUEST_SIM_TRANSMIT_CHANNEL, dispatchSIM_IO, responseSIM_IO}, //120
+    {RIL_REQUEST_SIM_GET_ATR, dispatchInts, responseString}, //121
     {0, NULL, NULL}, // 10001
     {RIL_REQUEST_GET_CELL_BROADCAST_CONFIG, dispatchVoid, responseVoid},
     {0, NULL, NULL}, // 10003
@@ -150,10 +161,10 @@
     {RIL_REQUEST_GET_BARCODE_NUMBER, dispatchVoid, responseVoid},
     {RIL_REQUEST_UICC_GBA_AUTHENTICATE_BOOTSTRAP, dispatchVoid, responseVoid},
     {RIL_REQUEST_UICC_GBA_AUTHENTICATE_NAF, dispatchVoid, responseVoid},
-    {RIL_REQUEST_SIM_TRANSMIT_BASIC, dispatchVoid, responseVoid},
-    {RIL_REQUEST_SIM_OPEN_CHANNEL, dispatchVoid, responseVoid},
-    {RIL_REQUEST_SIM_CLOSE_CHANNEL, dispatchVoid, responseVoid},
-    {RIL_REQUEST_SIM_TRANSMIT_CHANNEL, dispatchVoid, responseVoid},
+    {0, NULL, NULL}, //10026
+    {0, NULL, NULL}, //10027
+    {0, NULL, NULL}, //10028
+    {0, NULL, NULL}, //10029
     {RIL_REQUEST_SIM_AUTH, dispatchVoid, responseVoid},
     {RIL_REQUEST_PS_ATTACH, dispatchVoid, responseVoid},
     {RIL_REQUEST_PS_DETACH, dispatchVoid, responseVoid},

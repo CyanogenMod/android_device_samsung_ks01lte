@@ -83,7 +83,10 @@ typedef enum {
     RIL_E_SS_MODIFIED_TO_DIAL = 23,             /* SS request modified to DIAL */
     RIL_E_SS_MODIFIED_TO_USSD = 24,             /* SS request modified to USSD */
     RIL_E_SS_MODIFIED_TO_SS = 25,               /* SS request modified to different SS request */
-    RIL_E_SUBSCRIPTION_NOT_SUPPORTED = 26       /* Subscription not supported by RIL */
+    RIL_E_SUBSCRIPTION_NOT_SUPPORTED = 26,      /* Subscription not supported by RIL */
+    RIL_E_MISSING_RESOURCE = 27, /* No logical channel available */
+    RIL_E_NO_SUCH_ELEMENT = 28, /* Application not found on sim */
+    RIL_E_INVALID_PARAMETER = 29 /* To Do: add description*/
 } RIL_Errno;
 
 typedef enum {
@@ -221,6 +224,7 @@ typedef struct {
     char            isVoice;    /* nonzero if this is is a voice call */
     char            isVoicePrivacy;     /* nonzero if CDMA voice privacy mode is active */
     char *          number;     /* Remote party number */
+//    int		    foo1;	/* Samsung */
     int             numberPresentation; /* 0=Allowed, 1=Restricted, 2=Not Specified/Unknown 3=Payphone */
     char *          name;       /* Remote party name */
     int             namePresentation; /* 0=Allowed, 1=Restricted, 2=Not Specified/Unknown 3=Payphone */
@@ -358,6 +362,7 @@ typedef struct {
     char *data;     /* May be NULL*/
     char *pin2;     /* May be NULL*/
     char *aidPtr;   /* AID value, See ETSI 102.221 8.1 and 101.220 4, NULL if no value. */
+    int cla;	    /* Class of the APDU command */
 } RIL_SIM_IO_v6;
 
 typedef struct {
@@ -3806,6 +3811,96 @@ typedef struct {
  */
 #define RIL_REQUEST_SET_DATA_SUBSCRIPTION  116
 
+/**
+ * RIL_REQUEST_SIM_TRANSMIT_BASIC
+ *
+ * Request APDU exchange on the basic channel.
+ *
+ * "data" is a const RIL_SIM_IO *
+ *
+ * "response" is a const RIL_SIM_IO_Response *
+ *
+ * Valid errors:
+ *
+ * SUCCESS
+ * GENERIC_FAILURE
+ * INVALID_PARAMETER
+ */
+#define RIL_REQUEST_SIM_TRANSMIT_BASIC 117
+
+/**
+ * RIL_REQUEST_SIM_OPEN_CHANNEL
+ *
+ * Open a new logical channel.
+ *
+ * "data" is a const char * containing the AID of the applet
+ *
+ * "response" is a int * containing the channel id
+ *
+ * Valid errors:
+ *
+ * SUCCESS
+ * GENERIC_FAILURE
+ * MISSING_RESOURCE
+ * NO_SUCH_ELEMENT
+ */
+#define RIL_REQUEST_SIM_OPEN_CHANNEL 118
+
+/**
+ * RIL_REQUEST_SIM_CLOSE_CHANNEL
+ *
+ * Close a previoulsy opened logical channel.
+ *
+ * "data" is a const int * containing the channel id
+ *
+ * "response" is NULL
+ *
+ * Valid errors:
+ *
+ * SUCCESS
+ * GENERIC_FAILURE
+ * INVALID_PARAMETER
+ */
+#define RIL_REQUEST_SIM_CLOSE_CHANNEL 119
+
+/**
+ * RIL_REQUEST_SIM_TRANSMIT_CHANNEL
+ *
+ * Exchange APDUs with a UICC over a previously opened logical channel.
+ *
+ * "data" is a const RIL_SIM_IO_v6 *
+ *
+ * "response" is a const RIL_SIM_IO_Response *
+ *
+ * Valid errors:
+ *
+ * SUCCESS
+ * GENERIC_FAILURE
+ * INVALID_PARAMETER
+ */
+#define RIL_REQUEST_SIM_TRANSMIT_CHANNEL 120
+
+/**
+ * RIL_REQUEST_SIM_GET_ATR
+ *
+ * Get the ATR from SIM Card
+ *
+ * Only valid when radio state is "RADIO_STATE_ON"
+ *
+ * "data" is const int *
+ * ((const int *)data)[0] contains the slot index on the SIM from which ATR is requested.
+ *
+ * "response" is a const char * containing the ATR, See ETSI 102.221 8.1 and ISO/IEC 7816 3
+ *
+ * Valid errors:
+ *
+ * SUCCESS
+ * RADIO_NOT_AVAILABLE (radio resetting)
+ * GENERIC_FAILURE
+ */
+
+#define RIL_REQUEST_SIM_GET_ATR 121
+
 /* SAMSUNG REQUESTS */
 #define RIL_REQUEST_GET_CELL_BROADCAST_CONFIG 10002
 
@@ -3830,10 +3925,10 @@ typedef struct {
 #define RIL_REQUEST_GET_BARCODE_NUMBER 10023
 #define RIL_REQUEST_UICC_GBA_AUTHENTICATE_BOOTSTRAP 10024
 #define RIL_REQUEST_UICC_GBA_AUTHENTICATE_NAF 10025
-#define RIL_REQUEST_SIM_TRANSMIT_BASIC 10026
+/*#define RIL_REQUEST_SIM_TRANSMIT_BASIC 10026 // For now not used. Will be looking into it when samsung releases 4.4
 #define RIL_REQUEST_SIM_OPEN_CHANNEL 10027
 #define RIL_REQUEST_SIM_CLOSE_CHANNEL 10028
-#define RIL_REQUEST_SIM_TRANSMIT_CHANNEL 10029
+#define RIL_REQUEST_SIM_TRANSMIT_CHANNEL 10029*/
 #define RIL_REQUEST_SIM_AUTH 10030
 #define RIL_REQUEST_PS_ATTACH 10031
 #define RIL_REQUEST_PS_DETACH 10032
@@ -4370,7 +4465,7 @@ typedef struct {
  * "data" is const RIL_StkCcUnsolSsResponse *
  *
  */
-#define RIL_UNSOL_ON_SS 1039
+#define RIL_UNSOL_ON_SS 1038
 
 
 /**
@@ -4381,7 +4476,7 @@ typedef struct {
  * "data" is const char * containing ALPHA string from UICC in UTF-8 format.
  *
  */
-#define RIL_UNSOL_STK_CC_ALPHA_NOTIFY 1040
+#define RIL_UNSOL_STK_CC_ALPHA_NOTIFY 1039
 
 /**
  * RIL_UNSOL_UICC_SUBSCRIPTION_STATUS_CHANGED
@@ -4397,7 +4492,7 @@ typedef struct {
  * ((const int *)data)[0] == 1 for Subscription Activated
  *
  */
-#define RIL_UNSOL_UICC_SUBSCRIPTION_STATUS_CHANGED 1041
+#define RIL_UNSOL_UICC_SUBSCRIPTION_STATUS_CHANGED 1040
 
 /* SAMSUNG RESPONSE */
 #define SAMSUNG_UNSOL_RESPONSE_BASE 11000
@@ -4595,7 +4690,7 @@ void RIL_onRequestComplete(RIL_Token t, RIL_Errno e,
  * @param datalen the length of data in byte
  */
 
-void RIL_onUnsolicitedResponse(int unsolResponse, const void *data,
+void RIL_onUnsolicitedResponse(int unsolResponse, void *data,
                                 size_t datalen);
 
 

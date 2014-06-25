@@ -130,7 +130,7 @@ static char * camera_fixup_getparams(int id, const char * settings)
     const char* recordingHint = params.get(android::CameraParameters::KEY_RECORDING_HINT);
     const bool isVideo = recordingHint && !strcmp(recordingHint, "true");
 
-    params.set("preview-fps-range","30000,30000");
+    params.set("preview-fps-range-values","(15000,15000),(15000,30000),(30000,30000),(60000,60000),(90000,9000),(120000,120000)");
 
     if (isVideo) {
         params.set("dis","disable");
@@ -186,22 +186,12 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
 
     if (isVideo) {
     	params.set("dis","disable");
-/*	const char* videoHfr = params.get(android::CameraParameters::KEY_VIDEO_HIGH_FRAME_RATE);
-	if (videoHfr && !preview) {
+	const char* videoHfr = params.get(android::CameraParameters::KEY_VIDEO_HIGH_FRAME_RATE);
+	if (videoHfr) {
 	    if (strcmp(videoHfr,"120") == 0) {
 	    	params.set("fast-fps-mode","2");
 		params.set("preview-fps-range","120000,120000");
-		params.set("video-size","1280x720");
-		params.set("preview-size","1280x720");
-		params.set("preferred-preview-size-for-video","1280x720");
-		params.set("picture-size","1280x720");
-		params.set("jpeg-thumbnail-width","512");
-		params.set("jpeg-thumbnail-height","288");
-		params.set("focus-mode","continuous-video");
-		params.set("max-num-detected-faces-hw","1");
-		params.set("max-num-detected-faces-sw","1");
-		params.set("face-detection","0");
-	    } else if (strcmp(videoHfr,"90") == 0) {
+	    }/* else if (strcmp(videoHfr,"90") == 0) {
 	    	params.set("fast-fps-mode","2");
 		params.set("preview-fps-range","90000,90000");
 	    } else if (strcmp(videoHfr,"60") == 0) {
@@ -210,8 +200,8 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
 	    } else if (strcmp(videoHfr,"off") == 0) {
 	    	params.set("fast-fps-mode","-1");
 		params.set("preview-fps-range","30000,30000");
-	    }
-	}*/
+	    }*/
+	}
     }
     
     android::String8 strParams = params.flatten();
