@@ -134,6 +134,7 @@ BOARD_PROVIDES_LIBRIL := true
 NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
 OVERRIDE_RS_DRIVER:= libRSDriver_adreno.so
 TARGET_FORCE_HWC_FOR_VIRTUAL_DISPLAYS := true
+COMMON_GLOBAL_CFLAGS += -DNO_COMPAT_GRALLOC_PERFORM
 
 # Shader cache config options
 # Maximum size of the  GLES Shaders that can be cached for reuse.
@@ -154,5 +155,5 @@ TARGET_POWERHAL_SET_INTERACTIVE_EXT := device/samsung/ks01lte/power/power_ext.c
 
 TARGET_RELEASETOOLS_EXTENSIONS := device/samsung/ks01lte
 
-# RIL Debug
+# RIL Class (for correct tech assignment)
 BOARD_RIL_CLASS := ../../../device/samsung/ks01lte/ril
