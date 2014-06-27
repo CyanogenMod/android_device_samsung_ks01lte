@@ -26,17 +26,7 @@
 TARGET_SPECIFIC_HEADER_PATH := device/samsung/ks01lte/include
 
 
-# overrides  msm8960
-TARGET_BOARD_PLATFORM := msm8974
-TARGET_BOARD_PLATFORM_GPU := qcom-adreno330
 TARGET_BOOTLOADER_BOARD_NAME := MSM8974
-ARCH_ARM_HAVE_TLS_REGISTER := true
-TARGET_USE_KRAIT_BIONIC_OPTIMIZATION := true
-TARGET_USE_KRAIT_PLD_SET := true
-TARGET_KRAIT_BIONIC_PLDOFFS := 10
-TARGET_KRAIT_BIONIC_PLDTHRESH := 10
-TARGET_KRAIT_BIONIC_BBTHRESH := 64
-TARGET_KRAIT_BIONIC_PLDSIZE := 64
 
 # Kernel Configs
 TARGET_KERNEL_SOURCE := kernel/samsung/ks01lte
@@ -45,7 +35,7 @@ TARGET_KERNEL_SELINUX_CONFIG := selinux_defconfig
 TARGET_KERNEL_VARIANT_CONFIG := msm8974_sec_ks01_eur_defconfig
 
 # Kernel
-BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3F ehci-hcd.park=3
+BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3F
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_MKBOOTIMG_ARGS := --kernel_offset 0x00008000 --ramdisk_offset 0x02000000 --tags_offset 0x01e00000 --second_offset 0x00f00000
@@ -73,6 +63,12 @@ BOARD_FLASH_BLOCK_SIZE := 131072
 
 BOARD_RECOVERY_SWIPE := true
 
+# Consumerir
+TARGET_PROVIDES_CONSUMERIR_HAL := true
+
+# GPS
+TARGET_NO_RPC := true
+
 # bluetooth
 BOARD_HAVE_BLUETOOTH := true
 BOARD_HAVE_BLUETOOTH_BCM := true
@@ -81,12 +77,6 @@ BLUETOOTH_HCI_USE_USB := false
 BOARD_BLUETOOTH_USES_HCIATTACH_PROPERTY := false
 BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/samsung/ks01lte/bluetooth
 BOARD_BLUEDROID_VENDOR_CONF := device/samsung/ks01lte/bluetooth/vnd_ks01lte.txt
-
-# GPS
-TARGET_NO_RPC := true
-
-# Consumerir
-TARGET_PROVIDES_CONSUMERIR_HAL := true
 
 # NFC
 BOARD_NFC_HAL_SUFFIX := msm8974
@@ -151,6 +141,7 @@ TARGET_OTA_ASSERT_DEVICE := ks01ltexx,GT-I9506,ks01lte,ks01lteskt,ks01ltektt
 
 # PowerHAL
 TARGET_POWERHAL_VARIANT := qcom
+TARGET_USES_CPU_BOOST_HINT := true
 TARGET_POWERHAL_SET_INTERACTIVE_EXT := device/samsung/ks01lte/power/power_ext.c
 
 TARGET_RELEASETOOLS_EXTENSIONS := device/samsung/ks01lte
