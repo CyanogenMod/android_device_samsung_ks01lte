@@ -148,3 +148,4 @@ TARGET_RELEASETOOLS_EXTENSIONS := device/samsung/ks01lte
 
 # RIL Class (for correct tech assignment)
 BOARD_RIL_CLASS := ../../../device/samsung/ks01lte/ril
+

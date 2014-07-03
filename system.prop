@@ -2,6 +2,11 @@ persist.radio.add_power_save=1
 persist.data.netmgrd.qos.enable=false
 ro.use_data_netmgrd=false
 
+# QCOM
+com.qc.hardware=true
+persist.thermal.monitor=true
+ro.qc.sdk.sensors.gestures=true
+
 ro.qc.sdk.izat.premium_enabled=0
 ro.qc.sdk.izat.service_mask=0x0
 persist.gps.qc_nlp_in_use=0
@@ -31,3 +36,6 @@ ro.qc.sensors.step_counter=true
 ro.qc.sensors.step_detector=true
 
 cm.updater.uri=http://getcm.solk.org.ua/api
+
+# Recovery
+ro.cwm.forbid_format=/modem,/apnhlos

@@ -17,41 +17,74 @@
 #include <errno.h>
 #include <string.h>
 #include <fcntl.h>
+#include <pthread.h>
 
-#define LOG_TAG "PowerHAL_H_Ext"
+#define LOG_TAG "PowerHAL_KS01_Ext"
 #include <utils/Log.h>
 
 #define TOUCHKEY_POWER "/sys/class/input/input2/enabled"
-//#define SPEN_POWER "/sys/class/input/input3/enabled"
 #define TSP_POWER "/sys/class/input/input3/enabled"
 #define GPIO_KEYS_POWER "/sys/class/input/input17/enabled"
 
-static void sysfs_write(char *path, char *s) {
+void *input_onoff(void *arg) {
     char buf[80];
     int len;
+    char *onoff=(char*) arg;
+    char *path = TOUCHKEY_POWER;
+
     int fd = open(path, O_WRONLY);
 
     if (fd < 0) {
         strerror_r(errno, buf, sizeof(buf));
         ALOGE("Error opening %s: %s\n", path, buf);
-        return;
-    }
+    } else 
+        len = write(fd, onoff, 1);
 
-    len = write(fd, s, strlen(s));
     if (len < 0) {
         strerror_r(errno, buf, sizeof(buf));
         ALOGE("Error writing to %s: %s\n", path, buf);
     }
 
     close(fd);
+
+    path = TSP_POWER;
+    fd = open(path, O_WRONLY);
+
+    if (fd < 0) {
+        strerror_r(errno, buf, sizeof(buf));
+        ALOGE("Error opening %s: %s\n", path, buf);
+    } else
+        len = write(fd, onoff, 1);
+
+    if (len < 0) {
+        strerror_r(errno, buf, sizeof(buf));
+        ALOGE("Error writing to %s: %s\n", path, buf);
+    }
+
+    close(fd);
+
+    path = GPIO_KEYS_POWER;
+    fd = open(path, O_WRONLY);
+
+    if (fd < 0) {
+        strerror_r(errno, buf, sizeof(buf));
+        ALOGE("Error opening %s: %s\n", path, buf);
+    } else
+        len = write(fd, onoff, 1);
+
+    if (len < 0) {
+        strerror_r(errno, buf, sizeof(buf));
+        ALOGE("Error writing to %s: %s\n", path, buf);
+    }
+
+    close(fd);
+    return NULL;
 }
 
 void cm_power_set_interactive_ext(int on) {
     ALOGD("%s: %s input devices", __func__, on ? "enabling" : "disabling");
-    sysfs_write(TSP_POWER, on ? "1" : "0");
-    sysfs_write(TOUCHKEY_POWER, on ? "1" : "0");
-    //sysfs_write(SPEN_POWER, on ? "1" : "0");
-    sysfs_write(GPIO_KEYS_POWER, on ? "1" : "0");
+    pthread_t pth;
+    pthread_create(&pth,NULL,input_onoff, (void*) on ? "1" : "0");
 }
 
 

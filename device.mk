@@ -51,8 +51,8 @@ PRODUCT_COPY_FILES += \
     device/samsung/ks01lte/audio/wfdconfig.xml:system/etc/wfdconfig.xml \
     device/samsung/ks01lte/audio/wfdconfigsink.xml:system/etc/wfdconfigsink.xml
 
-PRODUCT_COPY_FILES += \
-    device/samsung/ks01lte/bluetooth/bcm4335_prepatch.hcd:system/vendor/firmware/bcm4335_prepatch.hcd
+#PRODUCT_COPY_FILES += \
+#    device/samsung/ks01lte/bluetooth/bcm4335_prepatch.hcd:system/vendor/firmware/bcm4335_prepatch.hcd
 
 # Thermal config
 PRODUCT_COPY_FILES += \
@@ -235,7 +235,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
    audio.offload.gapless.enabled=true \
    audio.offload.disable=false \
    audio.offload.pcm.enable=true \
-   af.resampler.quality=4
+   af.resampler.quality=4 \
+   tunnel.audio.encode=true
 
 # RIL properties
 PRODUCT_PROPERTY_OVERRIDES += \
