@@ -11,7 +11,7 @@ vendor/lib/libthermalclient.so
 
 # Bluetooth firmware
 vendor/firmware/bcm4335.hcd
-vendor/firmware/BT_FW_VER_BCM4335B0_002.001.006.0343.0358_ORC_KS01.hcd
+vendor/firmware/BT_FW_VER_BCM4335B0_002.001.006.0301.0306_ORC_KS01.hcd
 vendor/firmware/bcm4335_A0.hcd
 vendor/firmware/bcm4335_semco.hcd
 vendor/firmware/bcm4335_murata.hcd
