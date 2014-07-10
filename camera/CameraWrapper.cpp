@@ -130,10 +130,6 @@ static char * camera_fixup_getparams(int id, const char * settings)
     const char* recordingHint = params.get(android::CameraParameters::KEY_RECORDING_HINT);
     const bool isVideo = recordingHint && !strcmp(recordingHint, "true");
 
-    params.set("preview-frame-rate-mode", "frame-rate-fixed");
-
-    params.set("preview-fps-range-values","(15000,15000),(15000,30000),(30000,30000),(60000,60000),(90000,9000),(120000,120000)");
-
     if (isVideo) {
         params.set("dis","disable");
     }
@@ -186,15 +182,13 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
 #endif
 #endif
 
-    params.set("preview-frame-rate-mode", "frame-rate-fixed");
-
     if (isVideo) {
     	params.set("dis","disable");
 	const char* videoHfr = params.get(android::CameraParameters::KEY_VIDEO_HIGH_FRAME_RATE);
 	if (videoHfr) {
 	    if (strcmp(videoHfr,"120") == 0) {
 	    	params.set("fast-fps-mode","2");
-		params.set("preview-fps-range","120000,120000");
+//		params.set("preview-fps-range","120000,120000");
 	    }/* else if (strcmp(videoHfr,"90") == 0) {
 	    	params.set("fast-fps-mode","2");
 		params.set("preview-fps-range","90000,90000");

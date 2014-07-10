@@ -449,7 +449,6 @@
 	</path>
 
 	<path name="sub-main-mic">
-		<path name="audio-record" />
 		<ctl name="AIF1_CAP Mixer SLIM TX7" value="1" />
 		<ctl name="SLIM_0_TX Channels" value="Two" />
 		<ctl name="SLIM TX7 MUX" value="DEC6" />
