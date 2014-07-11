@@ -45,14 +45,10 @@ PRODUCT_COPY_FILES += \
     device/samsung/ks01lte/audio/snd_soc_msm_Taiko:system/etc/snd_soc_msm/snd_soc_msm_Taiko \
     device/samsung/ks01lte/audio/snd_soc_msm_Taiko_CDP:system/etc/snd_soc_msm/snd_soc_msm_Taiko_CDP \
     device/samsung/ks01lte/audio/mixer_paths.xml:system/etc/mixer_paths.xml \
-    device/samsung/ks01lte/audio/wcd9320_mbhc.bin:system/etc/wcd9320_mbhc.bin \
-    device/samsung/ks01lte/audio/wcd9320_anc.bin:system/etc/wcd9320_anc.bin \
-    device/samsung/ks01lte/audio/update_wcd_firmware.sh:system/etc/update_wcd_firmware.sh \
+    device/samsung/ks01lte/audio/wcd9320_mbhc.bin:system/etc/firmware/wcd9320/wcd9320_mbhc.bin \
+    device/samsung/ks01lte/audio/wcd9320_anc.bin:system/etc/firmware/wcd9320/wcd9320_anc.bin \
     device/samsung/ks01lte/audio/wfdconfig.xml:system/etc/wfdconfig.xml \
     device/samsung/ks01lte/audio/wfdconfigsink.xml:system/etc/wfdconfigsink.xml
-
-#PRODUCT_COPY_FILES += \
-#    device/samsung/ks01lte/bluetooth/bcm4335_prepatch.hcd:system/vendor/firmware/bcm4335_prepatch.hcd
 
 # Thermal config
 PRODUCT_COPY_FILES += \
@@ -104,12 +100,9 @@ PRODUCT_COPY_FILES += \
 # Keylayouts
 PRODUCT_COPY_FILES += \
     device/samsung/ks01lte/keylayout/atmel_mxt_ts.kl:system/usr/keylayout/atmel_mxt_ts.kl \
-    device/samsung/ks01lte/keylayout/Button_Jack.kl:system/usr/keylayout/Button_Jack.kl \
     device/samsung/ks01lte/keylayout/gpio-keys.kl:system/usr/keylayout/gpio-keys.kl \
-    device/samsung/ks01lte/keylayout/philips_remote_ir.kl:system/usr/keylayout/philips_remote_ir.kl \
-    device/samsung/ks01lte/keylayout/samsung_remote_ir.kl:system/usr/keylayout/samsung_remote_ir.kl \
     device/samsung/ks01lte/keylayout/sec_touchkey.kl:system/usr/keylayout/sec_touchkey.kl \
-    device/samsung/ks01lte/keylayout/ue_rf4ce_remote.kl:system/usr/keylayout/ue_rf4ce_remote.kl
+    device/samsung/ks01lte/keylayout/sec_dmb_key.kl:system/usr/keylayout/sec_dmb_key.kl
 
 # Ramdisk
 PRODUCT_PACKAGES += \
