@@ -55,6 +55,10 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/thermal-engine-8974.conf:system/etc/thermal-engine-8974.conf \
     $(LOCAL_PATH)/thermald-8974.conf:system/etc/thermald-8974.conf
 
+# Bluetooth
+PRODUCT_COPY_FILES += \
+    device/samsung/ks01lte/bluetooth/bcm4335_prepatch.hcd:system/vendor/firmware/bcm4335_prepatch.hcd
+
 # Media Profile
 PRODUCT_COPY_FILES += \
     device/samsung/ks01lte/media/media_profiles.xml:system/etc/media_profiles.xml
@@ -79,7 +83,7 @@ PRODUCT_PACKAGES += \
 
 PRODUCT_BOOT_JARS += qcmediaplayer
 
-# support for epen
+# support for touchscreen
 PRODUCT_COPY_FILES += \
     device/samsung/ks01lte/sec_touchscreen.idc:system/usr/idc/sec_touchscreen.idc
 
