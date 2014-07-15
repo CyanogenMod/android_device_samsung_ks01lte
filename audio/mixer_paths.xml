@@ -156,6 +156,9 @@
 	<ctl name="VEQ Enable" value="1" />
 
 	<ctl name="TTY Mode" value="OFF" />
+
+	<ctl name="SLIM_0_RX Format" value="S16_LE" />
+	<ctl name="SLIM_0_RX SampleRate" value="KHZ_48" />
 	<!-- end of initial mixer settings -->
 
     <!-- usb headset -->
@@ -487,6 +490,7 @@
 		<path name="spk" />
 		<ctl name="RX7 Digital Volume" value="84" />
 		<ctl name="SPK DRV Volume" value="7" />
+		<ctl name="SLIM_0_RX Format" value="S24_LE" />
 	</path>
 
 	<path name="headset">
@@ -495,6 +499,7 @@
 		<ctl name="HPHR Volume" value="14" />
 		<ctl name="RX1 Digital Volume" value="84" />
 		<ctl name="RX2 Digital Volume" value="84" />
+		<ctl name="SLIM_0_RX Format" value="S24_LE" />
 	</path>
 
 	<path name="dock">
@@ -514,6 +519,7 @@
 		<ctl name="RX2 Digital Volume" value="75" />
 		<ctl name="RX7 Digital Volume" value="84" />
 		<ctl name="SPK DRV Volume" value="7" />
+		<ctl name="SLIM_0_RX Format" value="S24_LE" />
 	</path>
 
 	<path name="speaker-and-hdmi">

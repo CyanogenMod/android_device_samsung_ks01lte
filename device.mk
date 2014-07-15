@@ -148,6 +148,7 @@ PRODUCT_PACKAGES += \
     libaudio-resampler \
     libqcomvisualizer \
     libqcomvoiceprocessing \
+    libqcompostprocbundle \
     tinymix
 
 # Torch
