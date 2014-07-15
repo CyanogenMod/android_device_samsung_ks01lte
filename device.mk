@@ -233,7 +233,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
    audio.offload.disable=false \
    audio.offload.pcm.enable=true \
    af.resampler.quality=4 \
-   tunnel.audio.encode=true
+   tunnel.audio.encode=true \
+   mm.enable.smoothstreaming=true \
+   mm.enable.qcom_parser=3183219 
 
 # RIL properties
 PRODUCT_PROPERTY_OVERRIDES += \
