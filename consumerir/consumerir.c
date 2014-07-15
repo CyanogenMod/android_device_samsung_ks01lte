@@ -57,8 +57,11 @@ static int consumerir_transmit(struct consumerir_device *dev,
     strlen = sprintf(buffer, "%u,", carrier_freq);
 
     /* write out the timing pattern */
-    for (i = 0; i < pattern_len; i++)
-	strlen += sprintf(buffer + strlen, "%u,", pattern[i]);
+    for (i = 0; i < pattern_len; i++) {
+    	if (pattern[i] > 255 && i<pattern_len - 1) strlen += sprintf(buffer + strlen, "%u,", pattern[i]/26);
+	else if (pattern[i] > 5000) strlen += sprintf(buffer + strlen, "%u,", pattern[i]/26);
+	else strlen += sprintf(buffer + strlen, "%u,", pattern[i]);
+    }
 
     buffer[strlen - 1] = '\0';
 
