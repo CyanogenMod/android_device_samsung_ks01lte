@@ -157,8 +157,6 @@
 
 	<ctl name="TTY Mode" value="OFF" />
 
-	<ctl name="SLIM_0_RX Format" value="S16_LE" />
-	<ctl name="SLIM_0_RX SampleRate" value="KHZ_48" />
 	<!-- end of initial mixer settings -->
 
     <!-- usb headset -->
@@ -490,7 +488,6 @@
 		<path name="spk" />
 		<ctl name="RX7 Digital Volume" value="84" />
 		<ctl name="SPK DRV Volume" value="7" />
-		<ctl name="SLIM_0_RX Format" value="S24_LE" />
 	</path>
 
 	<path name="headset">
@@ -499,7 +496,6 @@
 		<ctl name="HPHR Volume" value="14" />
 		<ctl name="RX1 Digital Volume" value="84" />
 		<ctl name="RX2 Digital Volume" value="84" />
-		<ctl name="SLIM_0_RX Format" value="S24_LE" />
 	</path>
 
 	<path name="dock">
@@ -519,7 +515,6 @@
 		<ctl name="RX2 Digital Volume" value="75" />
 		<ctl name="RX7 Digital Volume" value="84" />
 		<ctl name="SPK DRV Volume" value="7" />
-		<ctl name="SLIM_0_RX Format" value="S24_LE" />
 	</path>
 
 	<path name="speaker-and-hdmi">
@@ -598,10 +593,10 @@
 		<path name="sub-3rd-mic" />
 		<ctl name="SLIM TX7 MUX" value="DEC4" />
 		<ctl name="SLIM TX8 MUX" value="DEC3" />
-		<ctl name="ADC1 Volume" value="12" />
-		<ctl name="DEC6 Volume" value="84" />
-		<ctl name="ADC3 Volume" value="12" />
-		<ctl name="DEC4 Volume" value="84" />
+		<ctl name="ADC1 Volume" value="15" />
+		<ctl name="DEC6 Volume" value="95" />
+		<ctl name="ADC3 Volume" value="15" />
+		<ctl name="DEC4 Volume" value="95" />
 	</path>
 
 	<path name="rec-NS-mic-interview">
