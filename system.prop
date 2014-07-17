@@ -28,6 +28,7 @@ persist.audio.fluence.speaker=true
 use.dedicated.device.for.voip=true
 qcom.hw.aac.encoder=true
 media.aaccodectype=1
+media.aac_51_output_enabled=true
 
 # System property for number of mQANElements
 ro.ril.telephony.mqanelements=6
