@@ -157,6 +157,8 @@
 
 	<ctl name="TTY Mode" value="OFF" />
 
+	<ctl name="Main Mic Delay" value="0" />
+
 	<!-- end of initial mixer settings -->
 
     <!-- usb headset -->
@@ -543,6 +545,7 @@
 	<!-- ================================================================ -->
 	<!-- Recording Scenario  -->
 	<path name="rec-main-mic">
+		<ctl name="Main Mic Delay" value="4" />
 		<path name="main-mic" />
 		<ctl name="ADC1 Volume" value="14" />
 		<ctl name="DEC6 Volume" value="86" />
@@ -561,6 +564,7 @@
 	</path>
 
 	<path name="rec-stereo-mic">
+		<ctl name="Main Mic Delay" value="4" />
 		<path name="sub-main-mic" />
 		<ctl name="ADC1 Volume" value="15" />
 		<ctl name="DEC6 Volume" value="95" />
