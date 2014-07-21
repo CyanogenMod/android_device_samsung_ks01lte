@@ -2,17 +2,31 @@ persist.radio.add_power_save=1
 persist.data.netmgrd.qos.enable=false
 ro.use_data_netmgrd=false
 
+ro.hdmi.enable=true
+
+# MM
+media.stagefright.enable-player=true
+media.stagefright.enable-http=true
+media.stagefright.enable-aac=true
+media.stagefright.enable-qcp=true
+media.stagefright.enable-fma2dp=true
+media.stagefright.enable-scan=true
+mmp.enable.3g2=true
+
 # QCOM
 com.qc.hardware=true
 persist.thermal.monitor=true
+ro.qc.sdk.audio.ssr=false
 ro.qc.sdk.sensors.gestures=true
+ro.qc.sdk.gestures.camera=false
+ro.qc.sdk.camera.facialproc=false
 
 ro.qc.sdk.izat.premium_enabled=0
 ro.qc.sdk.izat.service_mask=0x0
 persist.gps.qc_nlp_in_use=0
 ro.gps.agps_provider=1
 ro.qualcomm.bt.hci_transport=uart
-ro.qualcomm.cabl=1
+ro.qualcomm.cabl=0
 ro.cm.hardware.cabc=1
 ro.hdcp2.rx=tz
 ro.secwvk=144

@@ -235,7 +235,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
    af.resampler.quality=4 \
    tunnel.audio.encode=true \
    mm.enable.smoothstreaming=true \
-   mm.enable.qcom_parser=3183219 
+   mm.enable.qcom_parser=37491
 
 # RIL properties
 PRODUCT_PROPERTY_OVERRIDES += \
