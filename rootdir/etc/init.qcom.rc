@@ -68,6 +68,9 @@ on early-boot
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
 
+    ## Workaround brightness bug
+    write /sys/devices/virtual/lcd/panel/panel/auto_brightness 1
+
     ## [START] system_sw.sa: comment out early_boot.sh and take necessary settings out
     #exec /system/bin/sh /init.qcom.early_boot.sh ${ro.board.platform}
     chmod 0664 /sys/devices/virtual/graphics/fb1/hpd
@@ -858,8 +861,6 @@ service profiler_daemon /system/bin/profiler_daemon
 service container /system/bin/sdcard /data/container /mnt/shell/container 1000 1000
     class late_start
     oneshot
-
-    start container
 
 # virtual sdcard daemon running as media_rw (1023)
 service sdcard /system/bin/sdcard -u 1023 -g 1023 -l /data/media /mnt/shell/emulated
