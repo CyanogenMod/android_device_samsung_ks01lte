@@ -68,9 +68,6 @@ on early-boot
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
 
-    ## Workaround brightness bug
-    write /sys/devices/virtual/lcd/panel/panel/auto_brightness 1
-
     ## [START] system_sw.sa: comment out early_boot.sh and take necessary settings out
     #exec /system/bin/sh /init.qcom.early_boot.sh ${ro.board.platform}
     chmod 0664 /sys/devices/virtual/graphics/fb1/hpd
@@ -382,6 +379,9 @@ on property:service.bootanim.exit=1
 
     # Switch to ROW after boot for better UX
     write /sys/block/mmcblk0/queue/scheduler row
+
+    # Workaround brightness bug
+    write /sys/devices/virtual/lcd/panel/panel/auto_brightness 1
 
 # Export GPIO56 for fusion targets to enable/disable hub
 service usbhub_init /system/bin/usbhub_init
