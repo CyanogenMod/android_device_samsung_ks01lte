@@ -149,3 +149,5 @@ TARGET_RELEASETOOLS_EXTENSIONS := device/samsung/ks01lte
 # RIL Class (for correct tech assignment)
 BOARD_RIL_CLASS := ../../../device/samsung/ks01lte/ril
 
+# Charger
+COMMON_GLOBAL_CFLAGS += -DBOARD_CHARGING_CMDLINE_NAME='"androidboot.bootchg"' -DBOARD_CHARGING_CMDLINE_VALUE='"true"'
