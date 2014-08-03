@@ -111,7 +111,6 @@ PRODUCT_COPY_FILES += \
 # Ramdisk
 PRODUCT_PACKAGES += \
     fstab.qcom \
-    initlogo.rle \
     init.bt.rc \
     init.carrier.rc \
     init.crda.sh \
@@ -230,7 +229,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
    audio.offload.buffer.size.kb=32 \
    av.offload.enable=false \
-   audio.offload.gapless.enabled=false \
+   audio.offload.gapless.enabled=true \
    audio.offload.disable=false \
    af.resampler.quality=4 \
    tunnel.audio.encode=true \
