@@ -96,17 +96,7 @@ static int check_vendor_module()
     return rv;
 }
 
-const static char * iso_values[] = {"auto,"
-#ifdef ISO_MODE_50
-"ISO50,"
-#endif
-#ifdef ISO_MODE_HJR
-"ISO_HJR,"
-#endif
-"ISO100,ISO200,ISO400,ISO800"
-#ifdef ISO_MODE_1600
-",ISO1600"
-#endif
+const static char * iso_values[] = {"auto,ISO_HJR,ISO100,ISO200,ISO400,ISO800,ISO1600"
 ,"auto"};
 
 static char * camera_fixup_getparams(int id, const char * settings)
@@ -115,9 +105,7 @@ static char * camera_fixup_getparams(int id, const char * settings)
     params.unflatten(android::String8(settings));
 
     // fix params here
-#ifdef QCOM_HARDWARE
     params.set(android::CameraParameters::KEY_SUPPORTED_ISO_MODES, iso_values[id]);
-#endif
 
     const char* hfrValues = params.get(android::CameraParameters::KEY_SUPPORTED_VIDEO_HIGH_FRAME_RATE_MODES);
     if (hfrValues && *hfrValues && ! strstr(hfrValues, android::CameraParameters::VIDEO_HFR_OFF)) {
@@ -126,13 +114,6 @@ static char * camera_fixup_getparams(int id, const char * settings)
         params.set(android::CameraParameters::KEY_SUPPORTED_VIDEO_HIGH_FRAME_RATE_MODES, tmp);
     }
     params.set(android::CameraParameters::KEY_SUPPORTED_HFR_SIZES, "2072x1166,2072x1166,1280x720,1280x720");
-
-    const char* recordingHint = params.get(android::CameraParameters::KEY_RECORDING_HINT);
-    const bool isVideo = recordingHint && !strcmp(recordingHint, "true");
-
-    if (isVideo) {
-        params.set("dis","disable");
-    }
 
     android::String8 strParams = params.flatten();
     char *ret = strdup(strParams.string());
@@ -152,7 +133,6 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
 
     // fix params here
     // No need to fix-up ISO_HJR, it is the same for userspace and the camera lib
-#ifdef QCOM_HARDWARE
     if(params.get("iso")) {
         const char* isoMode = params.get(android::CameraParameters::KEY_ISO_MODE);
 	if (isoMode) {
@@ -166,21 +146,10 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
                 params.set(android::CameraParameters::KEY_ISO_MODE, "800");
             else if(strcmp(isoMode, "ISO1600") == 0)
                 params.set(android::CameraParameters::KEY_ISO_MODE, "1600");
-            else if(strcmp(isoMode, "ISO50") == 0)
-                params.set(android::CameraParameters::KEY_ISO_MODE, "50");
 	}
     }
-#endif
 
-#ifdef ENABLE_ZSL
     params.set(android::CameraParameters::KEY_ZSL, isVideo ? "off" : "on");
-    params.set(android::CameraParameters::KEY_CAMERA_MODE, isVideo ? "0" : "1");
-#ifdef MAGIC_ZSL_1508
-        if (!isVideo) {
-            camera_send_command(device, 1508, 0, 0);
-        }
-#endif
-#endif
 
     if (isVideo) {
     	params.set("dis","disable");
@@ -188,7 +157,7 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
 	if (videoHfr) {
 	    if (strcmp(videoHfr,"120") == 0) {
 	    	params.set("fast-fps-mode","2");
-//		params.set("preview-fps-range","120000,120000");
+		params.set("preview-fps-range","120000,120000");
 	    }/* else if (strcmp(videoHfr,"90") == 0) {
 	    	params.set("fast-fps-mode","2");
 		params.set("preview-fps-range","90000,90000");

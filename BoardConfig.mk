@@ -34,7 +34,7 @@ BOARD_KERNEL_SEPARATED_DT := true
 BOARD_CUSTOM_BOOTIMG_MK := device/samsung/ks01lte/mkbootimg.mk
 
 # Consumerir
-TARGET_PROVIDES_CONSUMERIR_KS01_HAL := true
+TARGET_PROVIDES_CONSUMERIR_HAL := true
 
 # Samsung's nonstandard csd-client
 BOARD_HAVE_NEW_QCOM_CSDCLIENT := true
@@ -118,3 +118,6 @@ COMMON_GLOBAL_CFLAGS += -DNO_COMPAT_GRALLOC_PERFORM
 # RIL Class (for correct tech assignment)
 BOARD_RIL_CLASS := ../../../device/samsung/ks01lte/ril
 
+# Camera
+TARGET_PROVIDES_CAMERA_HAL := false
+TARGET_PROVIDES_KS01_CAMERA_HAL := true
