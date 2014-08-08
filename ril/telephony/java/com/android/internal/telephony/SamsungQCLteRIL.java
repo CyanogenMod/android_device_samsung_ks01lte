@@ -297,11 +297,6 @@ public class SamsungQCLteRIL extends RIL implements CommandsInterface {
             dc.als = p.readInt();
             voiceSettings = p.readInt();
             dc.isVoice = (0 == voiceSettings) ? false : true;
-	    p.readInt(); // New RIL sends some video call staff. Skiping it.
-	    p.readInt();
-	    p.readInt();
-	    p.readInt();
-	    p.readInt();
             dc.isVoicePrivacy = (0 != p.readInt());
             dc.number = p.readString();
             int np = p.readInt();
