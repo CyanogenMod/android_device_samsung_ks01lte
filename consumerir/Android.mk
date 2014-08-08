@@ -15,13 +15,13 @@
 # HAL module implementation stored in
 # hw/<POWERS_HARDWARE_MODULE_ID>.<ro.hardware>.so
 
-ifeq ($(TARGET_PROVIDES_CONSUMERIR_KS01_HAL),true)
+ifeq ($(TARGET_PROVIDES_CONSUMERIR_HAL),true)
 
 LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := consumerir.ks01lte
+LOCAL_MODULE := consumerir.msm8974
 LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)/hw
 LOCAL_SRC_FILES := consumerir.c
 LOCAL_SHARED_LIBRARIES := liblog libcutils
