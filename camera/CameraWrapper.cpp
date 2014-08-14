@@ -99,6 +99,8 @@ static int check_vendor_module()
 const static char * iso_values[] = {"auto,ISO_HJR,ISO100,ISO200,ISO400,ISO800,ISO1600"
 ,"auto"};
 
+static bool hfr_on = true;
+
 static char * camera_fixup_getparams(int id, const char * settings)
 {
     android::CameraParameters params;
@@ -113,7 +115,7 @@ static char * camera_fixup_getparams(int id, const char * settings)
         sprintf(tmp, "%s,%s", android::CameraParameters::VIDEO_HFR_OFF, hfrValues);
         params.set(android::CameraParameters::KEY_SUPPORTED_VIDEO_HIGH_FRAME_RATE_MODES, tmp);
     }
-    params.set(android::CameraParameters::KEY_SUPPORTED_HFR_SIZES, "2072x1166,2072x1166,1280x720,1280x720");
+    params.set(android::CameraParameters::KEY_SUPPORTED_HFR_SIZES, "1920x1080,1920x1080,1280x720,1280x720");
 
     android::String8 strParams = params.flatten();
     char *ret = strdup(strParams.string());
@@ -156,19 +158,33 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
 	const char* videoHfr = params.get(android::CameraParameters::KEY_VIDEO_HIGH_FRAME_RATE);
 	if (videoHfr) {
 	    if (strcmp(videoHfr,"120") == 0) {
-	    	params.set("fast-fps-mode","2");
-		params.set("preview-fps-range","120000,120000");
-	    }/* else if (strcmp(videoHfr,"90") == 0) {
+/*	        android::CameraParameters preparams;
+		preparams.unflatten(android::String8(settings));
+	    	preparams.set("fast-fps-mode","2");
+		preparams.set("preview-fps-range","120000,120000");
+		preparams.set("preview-size","1280x720");
+		preparams.set("live-snapshot-size","1280x720");
+		preparams.set("focus-mode","continuous-video");
+		preparams.set("face-recognition","off");
+		preparams.set("face-detection","off");
+		VENDOR_CALL(device, set_parameters, preparams.flatten().string());
+		params.set("preview-fps-range","30000,30000");
+		params.set("fast-fps-mode","2");
+		params.set("preview-size","1280x720");
+		params.set("live-snapshot-size","800x450");*/
+		hfr_on = true;
+/*	    } else if (strcmp(videoHfr,"90") == 0) {
 	    	params.set("fast-fps-mode","2");
 		params.set("preview-fps-range","90000,90000");
 	    } else if (strcmp(videoHfr,"60") == 0) {
 	    	params.set("fast-fps-mode","1");
-		params.set("preview-fps-range","60000,60000");
+		params.set("preview-fps-range","60000,60000");*/
 	    } else if (strcmp(videoHfr,"off") == 0) {
-	    	params.set("fast-fps-mode","-1");
-		params.set("preview-fps-range","30000,30000");
-	    }*/
-	}
+	    /*	params.set("fast-fps-mode","-1");
+		params.set("preview-fps-range","30000,30000");*/
+		hfr_on = false;
+	    }
+	} 
     }
     
     android::String8 strParams = params.flatten();
@@ -180,6 +196,40 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
 
     ALOGD("%s: set parameters fixed up", __FUNCTION__);
     return ret;
+}
+
+void setHfrParameters(struct camera_device * device) {
+    
+	int id = CAMERA_ID(device);
+
+	android::CameraParameters params;
+	params.unflatten(android::String8(fixed_set_params[id]));
+	
+	ALOGD("Called %s", __FUNCTION__);
+
+        if (hfr_on) {
+		ALOGD("Setting 120 HFR parameters.");
+                params.set("fast-fps-mode","2");
+                params.set("preview-fps-range","120000,120000");
+                params.set("preview-size","1280x720");
+		params.set("picture-size","1280x720");
+                params.set("live-snapshot-size","1280x720");
+                params.set("focus-mode","continuous-video");
+                params.set("face-recognition","off");
+                params.set("face-detection","off");
+                VENDOR_CALL(device, set_parameters, params.flatten().string());
+                params.set("preview-fps-range","30000,30000");
+                params.set("live-snapshot-size","800x450");
+		VENDOR_CALL(device, set_parameters, params.flatten().string());
+	}
+}
+
+void unsetHfrParameters(struct camera_device * device) {
+	int id = CAMERA_ID(device);
+	android::CameraParameters params;
+	params.unflatten(android::String8(fixed_set_params[id]));
+	params.set("fast-fps-mode","-1");
+	VENDOR_CALL(device, set_parameters, params.flatten().string());
 }
 
 /*******************************************************************
@@ -317,6 +367,8 @@ int camera_start_recording(struct camera_device * device)
     if(!device)
         return EINVAL;
 
+    setHfrParameters(device);
+
     return VENDOR_CALL(device, start_recording);
 }
 
@@ -328,8 +380,9 @@ void camera_stop_recording(struct camera_device * device)
     if(!device)
         return;
 
-
     VENDOR_CALL(device, stop_recording);
+
+    unsetHfrParameters(device);
 }
 
 int camera_recording_enabled(struct camera_device * device)
