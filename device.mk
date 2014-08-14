@@ -145,7 +145,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Audio
 PRODUCT_PROPERTY_OVERRIDES += \
-   av.offload.enable=false
+   av.offload.enable=false \
+   audio.offload.gapless.enabled=true
 
 # Common msm8974
 $(call inherit-product, device/samsung/msm8974-common/msm8974.mk)
