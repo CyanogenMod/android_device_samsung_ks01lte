@@ -821,7 +821,7 @@
 		<ctl name="TX4 HPF cut off" value="MIN_3DB_150Hz" />
 		<ctl name="TX5 HPF cut off" value="MIN_3DB_150Hz" />
 		<ctl name="ES325-AP Tx Channels" value="One" />
-		<ctl name="Internal Route Config" value="4" />
+		<ctl name="Internal Route Config" value="2" />
 		<ctl name="ES325 TX1 Enable" value="1" /> 
 	</path>
 
