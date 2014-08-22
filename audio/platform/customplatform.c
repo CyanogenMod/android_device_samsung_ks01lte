@@ -62,6 +62,7 @@ snd_device_t custom_platform_get_input_snd_device(void *platform, audio_devices_
             }
         }
     }
+
     return snd_device;
 }
 void custom_init_data(){
@@ -81,6 +82,7 @@ void custom_init_data(){
     change_acdb_data(SND_DEVICE_IN_VOICE_REC_DMIC_STEREO, 53);
     change_acdb_data(SND_DEVICE_IN_SPEAKER_STEREO_DMIC, 53);
     change_acdb_data(SND_DEVICE_IN_CAMCORDER_MIC, 56);
+    change_acdb_data(SND_DEVICE_IN_VOICE_REC_DMIC_FLUENCE, 53);
     change_acdb_data(SND_DEVICE_OUT_USB_HEADSET, 98);
     change_acdb_data(SND_DEVICE_OUT_BT_SCO, 7);
     change_acdb_data(SND_DEVICE_OUT_BT_SCO_WB, 50);
@@ -118,6 +120,7 @@ void custom_init_data(){
     change_table_data(SND_DEVICE_IN_VOICE_REC_HEADSET_MIC, "vr-headset-mic");
     change_table_data(SND_DEVICE_IN_VOICE_REC_MIC_NS, "svoice-NS-mic");
     change_table_data(SND_DEVICE_IN_VOICE_REC_DMIC_STEREO, "vr-sub-mic");
+    change_table_data(SND_DEVICE_IN_VOICE_REC_DMIC_FLUENCE, "rec-stereo-mic");
     change_table_data(SND_DEVICE_IN_HANDSET_STEREO_DMIC, "rec-stereo-mic");
     change_table_data(SND_DEVICE_IN_SPEAKER_STEREO_DMIC, "rec-stereo-mic");
 }
