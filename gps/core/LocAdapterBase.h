@@ -1,4 +1,4 @@
-/* Copyright (c) 2011-2013, The Linux Foundation. All rights reserved.
+/* Copyright (c) 2011-2014, The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -43,7 +43,7 @@ protected:
     const MsgTask* mMsgTask;
 
     inline LocAdapterBase(const MsgTask* msgTask) :
-        mEvtMask(0), mContext(NULL), mLocApi(NULL), mMsgTask(msgTask) {}
+    mEvtMask(0), mContext(NULL), mLocApi(NULL), mMsgTask(msgTask) {}
 public:
     inline virtual ~LocAdapterBase() { mLocApi->removeAdapter(this); }
     LocAdapterBase(const LOC_API_ADAPTER_EVENT_MASK_T mask,
@@ -97,6 +97,7 @@ public:
     virtual bool requestNiNotify(GpsNiNotification &notify,
                                  const void* data);
     inline virtual bool isInSession() { return false; }
+    ContextBase* getContext() const { return mContext; }
 };
 
 } // namespace loc_core

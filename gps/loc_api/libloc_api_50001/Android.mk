@@ -41,7 +41,7 @@ LOCAL_CFLAGS += \
 LOCAL_C_INCLUDES:= \
     $(TARGET_OUT_HEADERS)/gps.utils \
     $(TARGET_OUT_HEADERS)/libloc_core \
-    device/samsung/hlte/gps/loc_api/libloc_api_50001
+    device/samsung/ks01lte/gps/loc_api/libloc_api_50001
 
 LOCAL_COPY_HEADERS_TO:= libloc_eng/
 LOCAL_COPY_HEADERS:= \
@@ -74,8 +74,7 @@ LOCAL_SHARED_LIBRARIES := \
     libloc_eng \
     libloc_core \
     libgps.utils \
-    libdl \
-    libandroid_runtime
+    libdl
 
 LOCAL_SRC_FILES += \
     loc.cpp \

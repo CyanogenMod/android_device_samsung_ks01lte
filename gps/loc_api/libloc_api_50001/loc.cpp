@@ -276,8 +276,8 @@ static int loc_init(GpsCallbacks* callbacks)
 
     retVal = loc_eng_init(loc_afw_data, &clientCallbacks, event, NULL);
     loc_afw_data.adapter->requestUlp(gps_conf.CAPABILITIES);
-    loc_afw_data.adapter->mAgpsEnabled = !loc_afw_data.adapter->hasAgpsExt();
-    loc_afw_data.adapter->mCPIEnabled = !loc_afw_data.adapter->hasCPIExt();
+    loc_afw_data.adapter->mSupportsAgpsRequests = !loc_afw_data.adapter->hasAgpsExtendedCapabilities();
+    loc_afw_data.adapter->mSupportsPositionInjection = !loc_afw_data.adapter->hasCPIExtendedCapabilities();
 
     EXIT_LOG(%d, retVal);
     return retVal;
