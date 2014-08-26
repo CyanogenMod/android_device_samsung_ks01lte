@@ -29,9 +29,6 @@ ro.ril.telephony.mqanelements=6
 telephony.lteOnGsmDevice=1
 ro.telephony.ril.v3=newDialCode,newDriverCallU
 
-# Sensors
-debug.sensors=1
-
 # Pedometer
 ro.qc.sensors.step_counter=true
 ro.qc.sensors.step_detector=true
