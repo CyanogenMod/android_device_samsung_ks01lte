@@ -47,24 +47,29 @@ static int camera_get_camera_info(int camera_id, struct camera_info *info);
 static int camera_send_command(struct camera_device * device, int32_t cmd,
                 int32_t arg1, int32_t arg2);
 
+static android::CameraParameters hfrparams;
+
 static struct hw_module_methods_t camera_module_methods = {
-        open: camera_device_open
+        .open = camera_device_open
 };
 
 camera_module_t HAL_MODULE_INFO_SYM = {
-    common: {
-         tag: HARDWARE_MODULE_TAG,
-         version_major: 1,
-         version_minor: 0,
-         id: CAMERA_HARDWARE_MODULE_ID,
-         name: "Samsung KS01 Camera Wrapper",
-         author: "The CyanogenMod Project",
-         methods: &camera_module_methods,
-         dso: NULL, /* remove compilation warnings */
-         reserved: {0}, /* remove compilation warnings */
+    .common = {
+         .tag = HARDWARE_MODULE_TAG,
+         .version_major = CAMERA_MODULE_API_VERSION_1_0,
+         .version_minor = HARDWARE_HAL_API_VERSION,
+         .id = CAMERA_HARDWARE_MODULE_ID,
+         .name = "Samsung KS01 Camera Wrapper",
+         .author = "The CyanogenMod Project",
+         .methods = &camera_module_methods,
+         .dso = NULL, /* remove compilation warnings */
+         .reserved = {0}, /* remove compilation warnings */
     },
-    get_number_of_cameras: camera_get_number_of_cameras,
-    get_camera_info: camera_get_camera_info,
+    .get_number_of_cameras = camera_get_number_of_cameras,
+    .get_camera_info = camera_get_camera_info,
+    .set_callbacks = NULL, /* remove compilation warnings */
+    .get_vendor_tag_ops = NULL, /* remove compilation warnings */
+    .reserved = {0}, /* remove compilation warnings */
 };
 
 typedef struct wrapper_camera_device {
@@ -99,12 +104,15 @@ static int check_vendor_module()
 const static char * iso_values[] = {"auto,ISO_HJR,ISO100,ISO200,ISO400,ISO800,ISO1600"
 ,"auto"};
 
-static bool hfr_on = true;
-
 static char * camera_fixup_getparams(int id, const char * settings)
 {
     android::CameraParameters params;
     params.unflatten(android::String8(settings));
+
+#ifdef LOG_PARAMETERS
+    ALOGV("%s: original parameters:", __FUNCTION__);
+    params.dump();
+#endif
 
     // fix params here
     params.set(android::CameraParameters::KEY_SUPPORTED_ISO_MODES, iso_values[id]);
@@ -112,7 +120,7 @@ static char * camera_fixup_getparams(int id, const char * settings)
     const char* hfrValues = params.get(android::CameraParameters::KEY_SUPPORTED_VIDEO_HIGH_FRAME_RATE_MODES);
     if (hfrValues && *hfrValues && ! strstr(hfrValues, android::CameraParameters::VIDEO_HFR_OFF)) {
         char tmp[strlen(hfrValues) + strlen(android::CameraParameters::VIDEO_HFR_OFF) + 1];
-        sprintf(tmp, "%s,%s", android::CameraParameters::VIDEO_HFR_OFF, hfrValues);
+        sprintf(tmp, "%s,%s", hfrValues, android::CameraParameters::VIDEO_HFR_OFF);
         params.set(android::CameraParameters::KEY_SUPPORTED_VIDEO_HIGH_FRAME_RATE_MODES, tmp);
     }
     params.set(android::CameraParameters::KEY_SUPPORTED_HFR_SIZES, "1920x1080,1920x1080,1280x720,1280x720");
@@ -120,7 +128,11 @@ static char * camera_fixup_getparams(int id, const char * settings)
     android::String8 strParams = params.flatten();
     char *ret = strdup(strParams.string());
 
-    ALOGD("%s: get parameters fixed up", __FUNCTION__);
+#ifdef LOG_PARAMETERS
+    ALOGV("%s: fixed parameters:", __FUNCTION__);
+    params.dump();
+#endif
+
     return ret;
 }
 
@@ -129,6 +141,11 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
     int id = CAMERA_ID(device);
     android::CameraParameters params;
     params.unflatten(android::String8(settings));
+
+#ifdef LOG_PARAMETERS
+    ALOGV("%s: original parameters:", __FUNCTION__);
+    params.dump();
+#endif
 
     const char* recordingHint = params.get(android::CameraParameters::KEY_RECORDING_HINT);
     const bool isVideo = recordingHint && !strcmp(recordingHint, "true");
@@ -153,26 +170,20 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
 
     params.set(android::CameraParameters::KEY_ZSL, isVideo ? "off" : "on");
 
+    hfrparams = params;
+
     if (isVideo) {
     	params.set("dis","disable");
 	const char* videoHfr = params.get(android::CameraParameters::KEY_VIDEO_HIGH_FRAME_RATE);
 	if (videoHfr) {
 	    if (strcmp(videoHfr,"120") == 0) {
-/*	        android::CameraParameters preparams;
-		preparams.unflatten(android::String8(settings));
-	    	preparams.set("fast-fps-mode","2");
-		preparams.set("preview-fps-range","120000,120000");
-		preparams.set("preview-size","1280x720");
-		preparams.set("live-snapshot-size","1280x720");
-		preparams.set("focus-mode","continuous-video");
-		preparams.set("face-recognition","off");
-		preparams.set("face-detection","off");
-		VENDOR_CALL(device, set_parameters, preparams.flatten().string());
-		params.set("preview-fps-range","30000,30000");
-		params.set("fast-fps-mode","2");
-		params.set("preview-size","1280x720");
-		params.set("live-snapshot-size","800x450");*/
-		hfr_on = true;
+	    	hfrparams.set("fast-fps-mode","2");
+		hfrparams.set("preview-fps-range","120000,120000");
+		hfrparams.set("preview-size","1280x720");
+		hfrparams.set("live-snapshot-size","1280x720");
+		hfrparams.set("focus-mode","continuous-video");
+		hfrparams.set("face-recognition","off");
+		hfrparams.set("face-detection","off");
 /*	    } else if (strcmp(videoHfr,"90") == 0) {
 	    	params.set("fast-fps-mode","2");
 		params.set("preview-fps-range","90000,90000");
@@ -180,9 +191,9 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
 	    	params.set("fast-fps-mode","1");
 		params.set("preview-fps-range","60000,60000");*/
 	    } else if (strcmp(videoHfr,"off") == 0) {
+	    	hfrparams.unflatten(android::String8(settings));
 	    /*	params.set("fast-fps-mode","-1");
 		params.set("preview-fps-range","30000,30000");*/
-		hfr_on = false;
 	    }
 	} 
     }
@@ -194,33 +205,32 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
     fixed_set_params[id] = strdup(strParams.string());
     char *ret = fixed_set_params[id];
 
-    ALOGD("%s: set parameters fixed up", __FUNCTION__);
+#ifdef LOG_PARAMETERS
+    ALOGV("%s: fixed parameters:", __FUNCTION__);
+    params.dump();
+#endif
+
     return ret;
 }
 
 void setHfrParameters(struct camera_device * device) {
     
-	int id = CAMERA_ID(device);
-
-	android::CameraParameters params;
-	params.unflatten(android::String8(fixed_set_params[id]));
-	
 	ALOGD("Called %s", __FUNCTION__);
 
-        if (hfr_on) {
-		ALOGD("Setting 120 HFR parameters.");
-                params.set("fast-fps-mode","2");
-                params.set("preview-fps-range","120000,120000");
-                params.set("preview-size","1280x720");
-		params.set("picture-size","1280x720");
-                params.set("live-snapshot-size","1280x720");
-                params.set("focus-mode","continuous-video");
-                params.set("face-recognition","off");
-                params.set("face-detection","off");
-                VENDOR_CALL(device, set_parameters, params.flatten().string());
-                params.set("preview-fps-range","30000,30000");
-                params.set("live-snapshot-size","800x450");
-		VENDOR_CALL(device, set_parameters, params.flatten().string());
+	const char* videoHfr = hfrparams.get(android::CameraParameters::KEY_VIDEO_HIGH_FRAME_RATE);
+
+	ALOGD("HFR=%s",videoHfr);
+
+        if (videoHfr) {
+		if (strcmp(videoHfr,"120") == 0) {
+			ALOGD("Setting 120 HFR parameters.");
+	                VENDOR_CALL(device, set_parameters, hfrparams.flatten().string());
+		        hfrparams.set("preview-fps-range","30000,30000");
+			hfrparams.set("fast-fps-mode","0");
+			hfrparams.set("preview-size","1280x720");
+	                hfrparams.set("live-snapshot-size","800x450");
+			VENDOR_CALL(device, set_parameters, hfrparams.flatten().string());
+		}
 	}
 }
 
@@ -306,10 +316,6 @@ int camera_set_parameters(struct camera_device * device, const char *params)
 
     char *tmp = NULL;
     tmp = camera_fixup_setparams(device, params);
-
-#ifdef LOG_PARAMETERS
-    __android_log_write(ANDROID_LOG_VERBOSE, LOG_TAG, tmp);
-#endif
 
     int ret = VENDOR_CALL(device, set_parameters, tmp);
     return ret;
@@ -473,17 +479,9 @@ char* camera_get_parameters(struct camera_device * device)
 
     char* params = VENDOR_CALL(device, get_parameters);
 
-#ifdef LOG_PARAMETERS
-    __android_log_write(ANDROID_LOG_VERBOSE, LOG_TAG, params);
-#endif
-
     char * tmp = camera_fixup_getparams(CAMERA_ID(device), params);
     VENDOR_CALL(device, put_parameters, params);
     params = tmp;
-
-#ifdef LOG_PARAMETERS
-    __android_log_write(ANDROID_LOG_VERBOSE, LOG_TAG, params);
-#endif
 
     return params;
 }
