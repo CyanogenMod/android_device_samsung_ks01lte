@@ -256,7 +256,7 @@ on post-fs-data
     mkdir /data/wiper 0755 gps qcom_oncrpc
 
     #Create directories for gpsone_daemon services
-    mkdir /data/misc/gpsone_d 0770 system gps
+    mkdir /data/misc/location/gpsone_d 0770 system gps
 
     #Create directories for QuIPS
     mkdir /data/misc/quipc 0770 system gps
@@ -311,6 +311,9 @@ on post-fs-data
 on charger
     # Enable Power modes and set the CPU Freq Sampling rates
     write /sys/module/lpm_levels/enable_low_power/l2 4
+    write /sys/devices/system/cpu/cpu1/online 1
+    write /sys/devices/system/cpu/cpu2/online 1
+    write /sys/devices/system/cpu/cpu3/online 1
     write /sys/module/msm_pm/modes/cpu0/retention/idle_enabled 1
     write /sys/module/msm_pm/modes/cpu0/power_collapse/suspend_enabled 1
     write /sys/module/msm_pm/modes/cpu1/power_collapse/suspend_enabled 1
@@ -324,7 +327,10 @@ on charger
     write /sys/module/msm_pm/modes/cpu1/standalone_power_collapse/idle_enabled 1
     write /sys/module/msm_pm/modes/cpu2/standalone_power_collapse/idle_enabled 1
     write /sys/module/msm_pm/modes/cpu3/standalone_power_collapse/idle_enabled 1
-    write /sys/module/msm_pm/modes/cpu0/power_collapse/idle_enabled 1
+    write /sys/module/msm_pm/modes/cpu0/power_collapse/idle_enabled 0
+    write /sys/module/msm_pm/modes/cpu1/power_collapse/idle_enabled 0
+    write /sys/module/msm_pm/modes/cpu2/power_collapse/idle_enabled 0
+    write /sys/module/msm_pm/modes/cpu3/power_collapse/idle_enabled 0
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "powersave"
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "powersave"
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "powersave"
@@ -336,7 +342,7 @@ on charger
     write /sys/devices/system/cpu/cpu1/online 0
     write /sys/devices/system/cpu/cpu2/online 0
     write /sys/devices/system/cpu/cpu3/online 0
-    start mpdecision
+    stop mpdecision
 
 on property:service.bootanim.exit=1
     # Enable Power modes and set the CPU Freq Sampling rates

@@ -539,6 +539,11 @@ service qseecomd /system/bin/qseecomd
    user root
    group system
 
+service sensorhubservice /system/bin/sensorhubservice
+    class main
+    user system
+    group input
+
 service mpdecision /system/bin/mpdecision --avg_comp
    class main
    user root

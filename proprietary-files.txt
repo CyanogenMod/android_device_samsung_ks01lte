@@ -1,4 +1,5 @@
 # Bins
+bin/hvdcp
 bin/mpdecision
 bin/smdexe
 bin/cnd
@@ -15,6 +16,7 @@ vendor/firmware/bcm4335_semco.hcd
 vendor/firmware/bcm4335_murata.hcd
 
 # GPS
+etc/permissions/com.qualcomm.location.xml
 lib/libloc_api_v02.so
 vendor/lib/libgeofence.so
 vendor/lib/liblocationservice.so
@@ -35,6 +37,11 @@ etc/Global_cal.acdb
 etc/Hdmi_cal.acdb
 etc/Headset_cal.acdb
 etc/Speaker_cal.acdb
+
+# Sound effects
+vendor/lib/soundfx/libqcbassboost.so
+vendor/lib/soundfx/libqcreverb.so
+vendor/lib/soundfx/libqcvirt.so
 
 # Adreno GPU
 vendor/lib/egl/eglsubAndroid.so
@@ -99,6 +106,11 @@ lib/hw/sensorhubs.msm8974.so
 lib/libsensirion_j1.so
 lib/libsam.so
 lib/hw/sensors.msm8974.so
+bin/sensorhubservice
+lib/libgnustl_shared.so
+lib/libsensorhub.so
+lib/libsensorhubcontext.so
+lib/libsensorhubservice.so
 
 # Media
 lib/libOmxVdecHevc.so
