@@ -42,24 +42,19 @@ static int consumerir_transmit(struct consumerir_device *dev,
 {
     int strlen;
     int i;
-    char *buffer;
+    char buffer[2048];
 
-    buffer = (char *)malloc(sizeof(char)*8096);
-
-    if (buffer==NULL) {
-    	ALOGE("Not enough memory for buffer.");
-	return -ENOMEM;
-    }
-
-    memset(buffer, 0, sizeof(char)*8096);
+    memset(buffer, 0, 2048);
 
     /* write the header */
     strlen = sprintf(buffer, "%u,", carrier_freq);
 
+    float factor = 1000000 / carrier_freq;
+
     /* write out the timing pattern */
     for (i = 0; i < pattern_len; i++) {
-    	if (pattern[i] > 255 && i<pattern_len - 1) strlen += sprintf(buffer + strlen, "%u,", pattern[i]/26);
-	else if (pattern[i] > 5000) strlen += sprintf(buffer + strlen, "%u,", pattern[i]/26);
+    	if (pattern[i] > 255 && i<pattern_len - 1) strlen += sprintf(buffer + strlen, "%u,",(int) (pattern[i]/factor));
+	else if (pattern[i] > 5000) strlen += sprintf(buffer + strlen, "%u,", (int) (pattern[i]/factor));
 	else strlen += sprintf(buffer + strlen, "%u,", pattern[i]);
     }
 
