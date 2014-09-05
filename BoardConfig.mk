@@ -36,12 +36,9 @@ BOARD_CUSTOM_BOOTIMG_MK := device/samsung/ks01lte/mkbootimg.mk
 # Consumerir
 TARGET_PROVIDES_CONSUMERIR_HAL := true
 
-# Samsung's nonstandard csd-client
-BOARD_HAVE_NEW_QCOM_CSDCLIENT := true
-
 # Audio
+BOARD_HAVE_NEW_QCOM_CSDCLIENT := true
 BOARD_HAVE_SAMSUNG_AUDIO := true
-BOARD_USES_CUSTOM_AUDIO_PLATFORM_PATH := device/samsung/ks01lte/audio/platform
 BOARD_USES_FLUENCE_INCALL := true
 BOARD_USES_FLUENCE_FOR_VOIP := true
 BOARD_USES_SEPERATED_AUDIO_INPUT := true
@@ -110,7 +107,6 @@ BOARD_HARDWARE_CLASS += device/samsung/ks01lte/cmhw
 
 # Display
 NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
-COMMON_GLOBAL_CFLAGS += -DNO_COMPAT_GRALLOC_PERFORM
 
 # RIL Class (for correct tech assignment)
 BOARD_RIL_CLASS := ../../../device/samsung/ks01lte/ril
