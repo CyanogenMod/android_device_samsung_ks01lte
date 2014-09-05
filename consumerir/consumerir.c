@@ -63,8 +63,6 @@ static int consumerir_transmit(struct consumerir_device *dev,
     ALOGE("IRDA: Transmittion code=%s",buffer);
 
     write(fd, buffer, strlen - 1);
-    
-    free(buffer);
 
     return 0;
 }
