@@ -77,9 +77,6 @@ extern void loc_read_conf(const char* conf_file_name,
                           loc_param_s_type* config_table,
                           uint32_t table_length);
 extern int loc_read_conf_r(FILE *conf_fp, loc_param_s_type* config_table, uint32_t table_length);
-extern void loc_read_sec_gps_conf(const char* conf_file_name,
-                          loc_param_s_type* config_table,
-                          uint32_t table_length);
 #ifdef __cplusplus
 }
 #endif

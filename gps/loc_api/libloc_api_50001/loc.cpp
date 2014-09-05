@@ -461,33 +461,11 @@ SIDE EFFECTS
 ===========================================================================*/
 static int loc_inject_location(double latitude, double longitude, float accuracy)
 {
-    static bool initialized = false;
-    static bool enable_cpi = true;
-    accuracy = 1000;
     ENTRY_LOG();
 
-    if(!initialized)
-    {
-        char value[PROPERTY_VALUE_MAX];
-        memset(value, 0, sizeof(value));
-        (void)property_get("persist.gps.qc_nlp_in_use", value, "0");
-        if(0 == strcmp(value, "1"))
-        {
-            enable_cpi = false;
-            LOC_LOGI("GPS HAL coarse position injection disabled");
-        }
-        else
-        {
-            LOC_LOGI("GPS HAL coarse position injection enabled");
-        }
-        initialized = true;
-    }
-
     int ret_val = 0;
-    if(enable_cpi)
-    {
-      ret_val = loc_eng_inject_location(loc_afw_data, latitude, longitude, accuracy);
-    }
+    ret_val = loc_eng_inject_location(loc_afw_data, latitude, longitude, accuracy);
+
     EXIT_LOG(%d, ret_val);
     return ret_val;
 }
@@ -800,8 +778,12 @@ SIDE EFFECTS
 static int loc_xtra_inject_data(char* data, int length)
 {
     ENTRY_LOG();
-    int ret_val = loc_eng_xtra_inject_data(loc_afw_data, data, length);
-
+    int ret_val = -1;
+    if( (data != NULL) && ((unsigned int)length <= XTRA_DATA_MAX_SIZE))
+        ret_val = loc_eng_xtra_inject_data(loc_afw_data, data, length);
+    else
+        LOC_LOGE("%s, Could not inject XTRA data. Buffer address: %p, length: %d",
+                 __func__, data, length);
     EXIT_LOG(%d, ret_val);
     return ret_val;
 }
