@@ -44,11 +44,11 @@
 
          Must be overridden in platform specific overlays -->
     <integer-array name="config_autoBrightnessLevels">
-        <item>40</item>
-        <item>200</item>
-        <item>450</item>
-        <item>1400</item>
+        <item>20</item>
+        <item>300</item>
+        <item>750</item>
         <item>2000</item>
+        <item>4000</item>
     </integer-array>
 
     <!-- Array of output values for LCD backlight corresponding to the LUX values
@@ -56,12 +56,12 @@
          than the size of the config_autoBrightnessLevels array.
          This must be overridden in platform specific overlays -->
     <integer-array name="config_autoBrightnessLcdBacklightValues">
-        <item>15</item>
-        <item>30</item>
-        <item>55</item>
-        <item>90</item>
-        <item>255</item>
-        <item>255</item>
+        <item>20</item>
+        <item>45</item>
+        <item>75</item>
+        <item>100</item>
+        <item>140</item>
+	<item>180</item>
     </integer-array>
 
     <!-- Array of output values for button backlight corresponding to the LUX values
@@ -72,9 +72,9 @@
         <item>1</item>
         <item>1</item>
         <item>1</item>
-        <item>1</item>
-        <item>1</item>
-        <item>1</item>
+        <item>0</item>
+        <item>0</item>
+        <item>0</item>
     </integer-array>
 
 
@@ -275,10 +275,10 @@
          Right    Display Width - 100
     -->
     <integer-array name="config_smartCoverWindowCoords">
-        <item>30</item>
-        <item>44</item>
-        <item>450</item>
-        <item>1036</item>
+        <item>10</item>
+        <item>100</item>
+        <item>410</item>
+        <item>980</item>
     </integer-array>
 
 </resources>
