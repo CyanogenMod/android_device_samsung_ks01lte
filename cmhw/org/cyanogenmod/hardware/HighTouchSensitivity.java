@@ -94,10 +94,6 @@ public class HighTouchSensitivity {
         String result = FileUtils.readOneLine(COMMAND_RESULT_PATH);
         if (result.equals(command + STATUS_OK)) {
             status = true;
-            Log.v(TAG, "Successfully sent \"" + command + "\" to kernel");
-        } else {
-            Log.e(TAG, "Sent \"" + command + "\" to kernel, but got back \""
-                                 + result + "\"");
         }
         return status;
     }
@@ -110,7 +106,6 @@ public class HighTouchSensitivity {
      * failed; true in any other case.
      */
     public static boolean setEnabled(boolean status) {
-    	Log.e(TAG,"Setting glove mode="+status);
         if (status) {
             return setAndCheckResult(GLOVE_MODE_ENABLE);
         } else {
