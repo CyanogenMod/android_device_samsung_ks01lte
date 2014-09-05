@@ -642,7 +642,7 @@ public class SamsungQCLteRIL extends RIL implements CommandsInterface {
     private Object
     responseVoiceDataRegistrationState(Parcel p) {
         String response[] = (String[])responseStrings(p);
-	if ( response[0].contains("1") && response[4] == null  && response[5]!=null && response[5].contains("4") ) {
+	if ( response[4] == null  && response[5]!=null && response[5].contains("4") ) {
 		try {
 			int tech = Integer.parseInt(response[3]);
 			if (tech>=100) tech -= 100;
