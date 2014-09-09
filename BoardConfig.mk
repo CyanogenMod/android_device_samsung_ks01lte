@@ -114,3 +114,6 @@ BOARD_RIL_CLASS := ../../../device/samsung/ks01lte/ril
 # Camera
 TARGET_PROVIDES_CAMERA_HAL := false
 TARGET_PROVIDES_KS01_CAMERA_HAL := true
+
+# ANT+
+BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
