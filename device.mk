@@ -144,7 +144,7 @@ PRODUCT_COPY_FILES += \
 
 # Radio
 PRODUCT_PROPERTY_OVERRIDES += \
-   ro.telephony.ril_class=Ks01lteRIL
+   ro.telephony.ril_class=KslteRIL
 
 # Audio
 PRODUCT_PROPERTY_OVERRIDES += \
