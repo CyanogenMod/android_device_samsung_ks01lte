@@ -144,12 +144,12 @@ PRODUCT_COPY_FILES += \
 
 # Radio
 PRODUCT_PROPERTY_OVERRIDES += \
-   ro.telephony.ril_class=KslteRIL
+   ro.telephony.ril_class=Ks01lteRIL
 
 # Audio
 PRODUCT_PROPERTY_OVERRIDES += \
    av.offload.enable=false \
-   audio.offload.gapless.enabled=true
+   audio.offload.gapless.enabled=false
 
 # ANT+
 PRODUCT_PACKAGES += \
