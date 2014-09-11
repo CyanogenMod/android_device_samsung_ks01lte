@@ -88,7 +88,7 @@ void *input_onoff(void *arg) {
 	ALOGE("Error opening %s: %s\n", path, buf);
     } else {
 	if (strncmp(onoff,"1",1) == 0)
-    	    len = write(fd, "255", 3);
+    	    len = write(fd, "128", 3);
 	else
 	    len = write(fd, "0", 1);
     }
