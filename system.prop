@@ -25,9 +25,7 @@ persist.radio.lte_vrat_report=1
 persist.radio.mode_pref_nv10=1
 rild.libargs=-d /dev/smd0
 rild.libpath=/system/lib/libsec-ril.so
-ro.ril.telephony.mqanelements=6
 telephony.lteOnGsmDevice=1
-ro.telephony.ril.v3=newDialCode,newDriverCallU
 
 # Pedometer
 ro.qc.sensors.step_counter=true
