@@ -36,7 +36,7 @@ on boot
     chmod 0220 /proc/bluetooth/sleep/btwrite
     chown bluetooth net_bt_stack /proc/bluetooth/sleep/lpm
     chown bluetooth net_bt_stack /proc/bluetooth/sleep/btwrite
-    chmod 0666 /dev/btlock
+    chmod 0600 /dev/btlock
     chown bluetooth bluetooth /dev/btlock
 
 on fs
@@ -50,7 +50,6 @@ on fs
      mkdir /persdata/absolute 0750 system system
 
      wait /dev/block/platform/msm_sdcc.1/by-name/persdata
-     check_fs /dev/block/platform/msm_sdcc.1/by-name/persdata ext4
      mount ext4 /dev/block/platform/msm_sdcc.1/by-name/persdata /persdata/absolute nosuid nodev barrier=1
 
      chown system system /persdata
