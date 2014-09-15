@@ -528,12 +528,13 @@
 
 	<path name="speaker-and-headphones">
 		<path name="spk-ear" />
-		<ctl name="HPHL Volume" value="0" />
-		<ctl name="HPHR Volume" value="0" />
+		<ctl name="HPHL Volume" value="12" />
+		<ctl name="HPHR Volume" value="12" />
 		<ctl name="RX1 Digital Volume" value="84" />
 		<ctl name="RX2 Digital Volume" value="84" />
 		<ctl name="RX7 Digital Volume" value="79" />
 		<ctl name="SPK DRV Volume" value="8" />
+		<ctl name="COMP0 Switch" value="1" />
 	</path>
 
 	<path name="speaker-and-hdmi">
