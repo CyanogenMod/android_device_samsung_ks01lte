@@ -151,8 +151,8 @@ PRODUCT_PROPERTY_OVERRIDES += \
    af.resampler.quality=4 \
    audio.offload.buffer.size.kb=32 \
    audio.offload.gapless.enabled=true \
-   av.offload.enable=true \
-   av.streaming.offload.enable=true \
+   av.offload.enable=false \
+   av.streaming.offload.enable=false \
    audio.offload.pcm.enable=true \
    audio.offload.24bit.enable=1
 
