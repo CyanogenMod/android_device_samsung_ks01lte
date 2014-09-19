@@ -31,7 +31,5 @@ telephony.lteOnGsmDevice=1
 ro.qc.sensors.step_counter=true
 ro.qc.sensors.step_detector=true
 
-cm.updater.uri=http://getcm.solk.org.ua/api
-
 # Recovery
 ro.cwm.forbid_format=/modem,/apnhlos
