@@ -494,7 +494,7 @@
         minFrameHeight="144" maxFrameHeight="2160"
         minFrameRate="1" maxFrameRate="30" 
 	maxHFRFrameWidth="1920" maxHFRFrameHeight="1080" 
-	maxHFRMode="90" />
+	maxHFRMode="120" />
 
     <VideoEncoderCap name="h263" enabled="true"
         minBitRate="64000" maxBitRate="1000000"
