@@ -394,9 +394,6 @@ on property:service.bootanim.exit=1
     # Switch to ROW after boot for better UX
     write /sys/block/mmcblk0/queue/scheduler row
 
-    # Workaround brightness bug
-    write /sys/devices/virtual/lcd/panel/panel/auto_brightness 1
-
 # Export GPIO56 for fusion targets to enable/disable hub
 service usbhub_init /system/bin/usbhub_init
    class late_start
