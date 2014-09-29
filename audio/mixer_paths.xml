@@ -503,8 +503,8 @@
 	<path name="speaker">
 		<ctl name="SPK Status" value="1" />
 		<path name="spk" />
-		<ctl name="RX7 Digital Volume" value="90" />
-		<ctl name="SPK DRV Volume" value="8" />
+		<ctl name="RX7 Digital Volume" value="84" />
+		<ctl name="SPK DRV Volume" value="7" />
 		<ctl name="COMP0 Switch" value="1" />
 	</path>
 
