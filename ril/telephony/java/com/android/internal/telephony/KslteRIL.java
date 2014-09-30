@@ -163,7 +163,11 @@ public class KslteRIL extends RIL implements CommandsInterface {
             dc.isMT = (0 != p.readInt());
             dc.als = p.readInt();
             voiceSettings = p.readInt();
-            dc.isVoice = (0 == voiceSettings) ? false : true;
+            dc.isVoice = (0 != voiceSettings);
+            boolean isVideo = (0 != p.readInt());	// Samsung
+            int call_type = p.readInt();		// Samsung
+            int call_domain = p.readInt();		// Samsung
+            String csv = p.readString();		// Samsung
             dc.isVoicePrivacy = (0 != p.readInt());
             dc.number = p.readString();
             int np = p.readInt();

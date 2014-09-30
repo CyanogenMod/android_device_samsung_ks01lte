@@ -1880,6 +1880,10 @@ static int responseCallList(Parcel &p, void *response, size_t responselen) {
         p.writeInt32(p_cur->isMT);
         p.writeInt32(p_cur->als);
         p.writeInt32(p_cur->isVoice);
+        p.writeInt32(p_cur->isVideo);
+        p.writeInt32(p_cur->call_type);
+        p.writeInt32(p_cur->call_domain);
+        writeStringToParcel(p, p_cur->csv);
         p.writeInt32(p_cur->isVoicePrivacy);
         writeStringToParcel(p, p_cur->number);
         p.writeInt32(p_cur->numberPresentation);
