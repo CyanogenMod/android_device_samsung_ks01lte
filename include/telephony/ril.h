@@ -225,12 +225,12 @@ typedef struct {
     char            isVoicePrivacy;     /* nonzero if CDMA voice privacy mode is active */
     char *          number;     /* Remote party number */
     int             numberPresentation; /* 0=Allowed, 1=Restricted, 2=Not Specified/Unknown 3=Payphone */
-    int             isVideo;    /* Samsung */
+    char            isVideo;    /* Samsung */
+    char            call_type;  /* Samsung */
+    char            call_domain;/* Samsung */
     int             namePresentation; /* 0=Allowed, 1=Restricted, 2=Not Specified/Unknown 3=Payphone */
-    int             call_domain;/* Samsung */
     char *          csv;        /* Samsung */
     char *          name;       /* Remote party name */
-    int             call_type;  /* Samsung */
     RIL_UUS_Info *  uusInfo;    /* NULL or Pointer to User-User Signaling Information */
 } RIL_Call;
 
