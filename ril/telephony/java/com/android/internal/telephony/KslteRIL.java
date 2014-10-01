@@ -157,7 +157,7 @@ public class KslteRIL extends RIL implements CommandsInterface {
         for (int i = 0 ; i < num ; i++) {
             dc = new DriverCall();
             dc.state = DriverCall.stateFromCLCC(p.readInt());
-            dc.index = p.readInt() & 0xff;
+            dc.index = p.readInt();
             dc.TOA = p.readInt();
             dc.isMpty = (0 != p.readInt());
             dc.isMT = (0 != p.readInt());
