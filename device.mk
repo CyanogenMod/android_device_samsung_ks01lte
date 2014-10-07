@@ -162,5 +162,8 @@ PRODUCT_PACKAGES += \
    com.dsi.ant.antradio_library \
    libantradio
 
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/recovery/postrecoveryboot.sh:recovery/root/sbin/postrecoveryboot.sh
+
 # Common msm8974
 $(call inherit-product, device/samsung/msm8974-common/msm8974.mk)
