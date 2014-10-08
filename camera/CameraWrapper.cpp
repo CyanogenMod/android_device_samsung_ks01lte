@@ -38,6 +38,7 @@ static android::Mutex gCameraWrapperLock;
 static camera_module_t *gVendorModule = 0;
 
 static char **fixed_set_params = NULL;
+static int hfr = 0;
 
 static int camera_device_open(const hw_module_t* module, const char* name,
                 hw_device_t** device);
@@ -102,6 +103,72 @@ static int check_vendor_module()
 const static char * iso_values[] = {"auto,ISO_HJR,ISO100,ISO200,ISO400,ISO800,ISO1600"
 ,"auto"};
 
+void setHfrParameters(struct camera_device * device) {
+
+    if (!hfr) return;
+
+    int id = CAMERA_ID(device);
+    android::CameraParameters params;
+    params.unflatten(android::String8(fixed_set_params[id]));
+
+    VENDOR_CALL(device, cancel_auto_focus);
+    VENDOR_CALL(device, stop_preview);
+
+    params.set(android::CameraParameters::KEY_RECORDING_HINT, "false");
+    free(fixed_set_params[id]);
+    fixed_set_params[id] = strdup(params.flatten().string());
+
+    VENDOR_CALL(device, set_parameters, fixed_set_params[id]);
+
+    switch (hfr) {
+        case 1:
+            params.set("fast-fps-mode", "1");
+            params.set(android::CameraParameters::KEY_PREVIEW_FPS_RANGE, "60000,60000");
+            params.set(android::CameraParameters::KEY_PREVIEW_SIZE, "1280x720");
+            params.set(android::CameraParameters::KEY_PICTURE_SIZE, "1280x720");
+            params.set("shot-mode", "19");
+            break;
+        case 2:
+        case 3:
+            params.set("fast-fps-mode", "2");
+            params.set(android::CameraParameters::KEY_PREVIEW_FPS_RANGE, "120000,120000");
+            params.set(android::CameraParameters::KEY_PREVIEW_SIZE, "1280x720");
+            params.set(android::CameraParameters::KEY_PICTURE_SIZE, "1280x720");
+            params.set("shot-mode", "19");
+            break;
+    }
+
+    camera_send_command(device, 1508, 0, 0);
+    params.set(android::CameraParameters::KEY_RECORDING_HINT, "true");
+    free(fixed_set_params[id]);
+    fixed_set_params[id] = strdup(params.flatten().string());
+
+    VENDOR_CALL(device, set_parameters, fixed_set_params[id]);
+
+    VENDOR_CALL(device, start_preview);
+}
+
+void unsetHfrParameters(struct camera_device * device) {
+
+    if (!hfr) return;
+
+    int id = CAMERA_ID(device);
+    android::CameraParameters params;
+    params.unflatten(android::String8(fixed_set_params[id]));
+    params.set("fast-fps-mode","0");
+    params.set(android::CameraParameters::KEY_PREVIEW_SIZE,"1920x1080");
+    params.set(android::CameraParameters::KEY_PREVIEW_FPS_RANGE,"10000,30000");
+    if (fixed_set_params[id])
+        free(fixed_set_params[id]);
+    fixed_set_params[id] = strdup(params.flatten().string());
+
+    VENDOR_CALL(device, stop_preview);
+
+    VENDOR_CALL(device, set_parameters, fixed_set_params[id]);
+
+    VENDOR_CALL(device, start_preview);
+}
+
 static char * camera_fixup_getparams(int id, const char * settings)
 {
     android::CameraParameters params;
@@ -121,7 +188,24 @@ static char * camera_fixup_getparams(int id, const char * settings)
         sprintf(tmp, "%s,%s", hfrValues, android::CameraParameters::VIDEO_HFR_OFF);
         params.set(android::CameraParameters::KEY_SUPPORTED_VIDEO_HIGH_FRAME_RATE_MODES, tmp);
     }
-    params.set(android::CameraParameters::KEY_SUPPORTED_HFR_SIZES, "1920x1080,1920x1080,1280x720,1280x720");
+    params.set(android::CameraParameters::KEY_SUPPORTED_HFR_SIZES, "1280x720,1280x720,1280x720,1280x720");
+
+    switch (hfr) {
+        case 0:
+            params.set(android::CameraParameters::KEY_VIDEO_HIGH_FRAME_RATE, "off");
+            break;
+        case 1:
+            params.set(android::CameraParameters::KEY_VIDEO_HIGH_FRAME_RATE, "60");
+            break;
+        case 2:
+            params.set(android::CameraParameters::KEY_VIDEO_HIGH_FRAME_RATE, "90");
+            break;
+        case 3:
+            params.set(android::CameraParameters::KEY_VIDEO_HIGH_FRAME_RATE, "120");
+            break;
+        default:
+            params.set(android::CameraParameters::KEY_VIDEO_HIGH_FRAME_RATE, "off");
+    }
 
     android::String8 strParams = params.flatten();
     char *ret = strdup(strParams.string());
@@ -147,14 +231,14 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
 
     const char* recordingHint = params.get(android::CameraParameters::KEY_RECORDING_HINT);
     const bool isVideo = recordingHint && !strcmp(recordingHint, "true");
-
+   
     // fix params here
     // No need to fix-up ISO_HJR, it is the same for userspace and the camera lib
     if(params.get("iso")) {
         const char* isoMode = params.get(android::CameraParameters::KEY_ISO_MODE);
-	if (isoMode) {
+        if (isoMode) {
             if(strcmp(isoMode, "ISO100") == 0)
-            	params.set(android::CameraParameters::KEY_ISO_MODE, "100");
+                params.set(android::CameraParameters::KEY_ISO_MODE, "100");
             else if(strcmp(isoMode, "ISO200") == 0)
                 params.set(android::CameraParameters::KEY_ISO_MODE, "200");
             else if(strcmp(isoMode, "ISO400") == 0)
@@ -163,13 +247,28 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
                 params.set(android::CameraParameters::KEY_ISO_MODE, "800");
             else if(strcmp(isoMode, "ISO1600") == 0)
                 params.set(android::CameraParameters::KEY_ISO_MODE, "1600");
-	}
+        }
     }
 
-    params.set(android::CameraParameters::KEY_ZSL, isVideo ? "off" : "on");
+    if (id != 1) {
+        params.set(android::CameraParameters::KEY_ZSL, isVideo ? "off" : "on");
+        camera_send_command(device, 1508, 0, 0);
+    }
 
     if (isVideo) {
-    	params.set("dis","disable");
+        params.set("dis","disable");
+        const char* videoHfr = params.get(android::CameraParameters::KEY_VIDEO_HIGH_FRAME_RATE);
+        if (videoHfr && strcmp(videoHfr, "off") != 0) {
+            if (strcmp(videoHfr,"120") == 0) {
+                hfr = 3;
+            } else if (strcmp(videoHfr,"90") == 0) {
+                hfr = 2;
+            } else if (strcmp(videoHfr,"60") == 0) {
+                hfr = 1;
+            }
+        } else { 
+            hfr = 0;
+        }
     }
     
     android::String8 strParams = params.flatten();
@@ -262,8 +361,7 @@ int camera_set_parameters(struct camera_device * device, const char *params)
     char *tmp = NULL;
     tmp = camera_fixup_setparams(device, params);
 
-    int ret = VENDOR_CALL(device, set_parameters, tmp);
-    return ret;
+    return VENDOR_CALL(device, set_parameters, tmp);
 }
 
 int camera_start_preview(struct camera_device * device)
@@ -318,6 +416,8 @@ int camera_start_recording(struct camera_device * device)
     if(!device)
         return EINVAL;
 
+    setHfrParameters(device);
+
     return VENDOR_CALL(device, start_recording);
 }
 
@@ -330,6 +430,8 @@ void camera_stop_recording(struct camera_device * device)
         return;
 
     VENDOR_CALL(device, stop_recording);
+
+    unsetHfrParameters(device);
 }
 
 int camera_recording_enabled(struct camera_device * device)
@@ -377,13 +479,8 @@ int camera_cancel_auto_focus(struct camera_device * device)
     if(!device)
         return -EINVAL;
 
-    /* APEXQ/EXPRESS: Calling cancel_auto_focus causes the camera to crash for unknown reasons.
-     * Disabling it has no adverse effect. For others, only call cancel_auto_focus when the
-     * preview is enabled. This is needed so some 3rd party camera apps don't lock up. */
-#ifndef DISABLE_AUTOFOCUS
     if (camera_preview_enabled(device))
         ret = VENDOR_CALL(device, cancel_auto_focus);
-#endif
 
     return ret;
 }
@@ -467,8 +564,6 @@ int camera_dump(struct camera_device * device, int fd)
     return VENDOR_CALL(device, dump, fd);
 }
 
-extern "C" void heaptracker_free_leaked_memory(void);
-
 int camera_device_close(hw_device_t* device)
 {
     int ret = 0;
@@ -495,9 +590,6 @@ int camera_device_close(hw_device_t* device)
         free(wrapper_dev->base.ops);
     free(wrapper_dev);
 done:
-#ifdef HEAPTRACKER
-    heaptracker_free_leaked_memory();
-#endif
     return ret;
 }
 
