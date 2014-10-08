@@ -1,7 +1,6 @@
 # Bins
 bin/hvdcp
 bin/mpdecision
-bin/smdexe
 bin/cnd
 bin/ssr_diag
 
@@ -9,6 +8,14 @@ bin/ssr_diag
 bin/thermald
 bin/thermal-engine
 vendor/lib/libthermalclient.so
+
+# CnE
+bin/cnd
+vendor/lib/libcneapiclient.so
+vendor/lib/libcneutils.so
+vendor/lib/libcneqmiutils.so
+vendor/lib/libxml.so
+lib/libcnefeatureconfig.so
 
 # Bluetooth firmware
 vendor/firmware/bcm4335.hcd
