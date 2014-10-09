@@ -3832,7 +3832,7 @@ typedef struct {
  * GENERIC_FAILURE
  * INVALID_PARAMETER
  */
-//#define RIL_REQUEST_SIM_TRANSMIT_BASIC 117 //Commented out for future use
+#define RIL_REQUEST_SIM_TRANSMIT_BASIC 117
 
 /**
  * RIL_REQUEST_SIM_OPEN_CHANNEL
@@ -3850,7 +3850,7 @@ typedef struct {
  * MISSING_RESOURCE
  * NO_SUCH_ELEMENT
  */
-//#define RIL_REQUEST_SIM_OPEN_CHANNEL 118
+#define RIL_REQUEST_SIM_OPEN_CHANNEL 118
 
 /**
  * RIL_REQUEST_SIM_CLOSE_CHANNEL
@@ -3867,14 +3867,14 @@ typedef struct {
  * GENERIC_FAILURE
  * INVALID_PARAMETER
  */
-//#define RIL_REQUEST_SIM_CLOSE_CHANNEL 119
+#define RIL_REQUEST_SIM_CLOSE_CHANNEL 119
 
 /**
  * RIL_REQUEST_SIM_TRANSMIT_CHANNEL
  *
  * Exchange APDUs with a UICC over a previously opened logical channel.
  *
- * "data" is a const RIL_SIM_IO_v6 *
+ * "data" is a const RIL_SIM_IO_v7_CAF *
  *
  * "response" is a const RIL_SIM_IO_Response *
  *
@@ -3884,7 +3884,7 @@ typedef struct {
  * GENERIC_FAILURE
  * INVALID_PARAMETER
  */
-//#define RIL_REQUEST_SIM_TRANSMIT_CHANNEL 120
+#define RIL_REQUEST_SIM_TRANSMIT_CHANNEL 120
 
 /**
  * RIL_REQUEST_SIM_GET_ATR
