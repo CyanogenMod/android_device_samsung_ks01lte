@@ -146,7 +146,8 @@ typedef struct UserCallbackInfo {
     struct UserCallbackInfo *p_next;
 } UserCallbackInfo;
 
-
+extern "C"
+char rild[MAX_SOCKET_NAME_LENGTH] = SOCKET_NAME_RIL;
 /*******************************************************************/
 
 RIL_RadioFunctions s_callbacks = {0, NULL, NULL, NULL, NULL, NULL};
@@ -296,6 +297,15 @@ int cdmaSubscriptionSource = -1;
    check to see if SIM/RUIM status changed and notify telephony
  */
 int simRuimStatus = -1;
+
+static char * RIL_getRilSocketName() {
+    return rild;
+}
+
+extern "C"
+void RIL_setRilSocketName(char * s) {
+    strncpy(rild, s, MAX_SOCKET_NAME_LENGTH);
+}
 
 static char *
 strdupReadString(Parcel &p) {
@@ -772,8 +782,8 @@ dispatchSIM_IO (Parcel &p, RequestInfo *pRI) {
     simIO.v6.cla = 0;
     if(pRI->pCI->requestNumber == RIL_REQUEST_SIM_TRANSMIT_BASIC ||
             pRI->pCI->requestNumber == RIL_REQUEST_SIM_TRANSMIT_CHANNEL ) {
-	status = p.readInt32(&t);
-	simIO.v6.cla = (int)t;
+        status = p.readInt32(&t);
+        simIO.v6.cla = (int)t;
     }
 
     startRequest;
@@ -3543,9 +3553,9 @@ RIL_register (const RIL_RadioFunctions *callbacks) {
     s_fdListen = ret;
 
 #else
-    s_fdListen = android_get_control_socket(SOCKET_NAME_RIL);
+    s_fdListen = android_get_control_socket(RIL_getRilSocketName());
     if (s_fdListen < 0) {
-        RLOGE("Failed to get socket '" SOCKET_NAME_RIL "'");
+        RLOGE("Failed to get socket %s",RIL_getRilSocketName());
         exit(-1);
     }
 
@@ -3568,9 +3578,19 @@ RIL_register (const RIL_RadioFunctions *callbacks) {
 #if 1
     // start debug interface socket
 
-    s_fdDebug = android_get_control_socket(SOCKET_NAME_RIL_DEBUG);
+    char *inst = NULL;
+    if (strlen(RIL_getRilSocketName()) >= strlen(SOCKET_NAME_RIL)) {
+        inst = RIL_getRilSocketName() + strlen(SOCKET_NAME_RIL);
+    }
+
+    char rildebug[MAX_DEBUG_SOCKET_NAME_LENGTH] = SOCKET_NAME_RIL_DEBUG;
+    if (inst != NULL) {
+        strncat(rildebug, inst, MAX_DEBUG_SOCKET_NAME_LENGTH);
+    }
+
+    s_fdDebug = android_get_control_socket(rildebug);
     if (s_fdDebug < 0) {
-        RLOGE("Failed to get socket '" SOCKET_NAME_RIL_DEBUG "' errno:%d", errno);
+        RLOGE("Failed to get socket : %s errno:%d", rildebug, errno);
         exit(-1);
     }
 
