@@ -342,6 +342,7 @@ typedef struct {
 } RIL_Dial;
 
 typedef struct {
+    int cla;        /* Class of the APDU command */
     int command;    /* one of the commands listed for TS 27.007 +CRSM*/
     int fileid;     /* EF id */
     char *path;     /* "pathid" from TS 27.007 +CRSM command.
@@ -356,6 +357,7 @@ typedef struct {
 } RIL_SIM_IO_v5;
 
 typedef struct {
+    int cla;        /* Class of the APDU command */
     int command;    /* one of the commands listed for TS 27.007 +CRSM*/
     int fileid;     /* EF id */
     char *path;     /* "pathid" from TS 27.007 +CRSM command.
@@ -368,7 +370,6 @@ typedef struct {
     char *data;     /* May be NULL*/
     char *pin2;     /* May be NULL*/
     char *aidPtr;   /* AID value, See ETSI 102.221 8.1 and 101.220 4, NULL if no value. */
-    int cla;	    /* Class of the APDU command */
 } RIL_SIM_IO_v6;
 
 typedef struct {
@@ -3832,7 +3833,7 @@ typedef struct {
  * GENERIC_FAILURE
  * INVALID_PARAMETER
  */
-//#define RIL_REQUEST_SIM_TRANSMIT_BASIC 117 //Commented out for future use
+#define RIL_REQUEST_SIM_TRANSMIT_BASIC 117
 
 /**
  * RIL_REQUEST_SIM_OPEN_CHANNEL
@@ -3850,7 +3851,7 @@ typedef struct {
  * MISSING_RESOURCE
  * NO_SUCH_ELEMENT
  */
-//#define RIL_REQUEST_SIM_OPEN_CHANNEL 118
+#define RIL_REQUEST_SIM_OPEN_CHANNEL 118
 
 /**
  * RIL_REQUEST_SIM_CLOSE_CHANNEL
@@ -3867,14 +3868,14 @@ typedef struct {
  * GENERIC_FAILURE
  * INVALID_PARAMETER
  */
-//#define RIL_REQUEST_SIM_CLOSE_CHANNEL 119
+#define RIL_REQUEST_SIM_CLOSE_CHANNEL 119
 
 /**
  * RIL_REQUEST_SIM_TRANSMIT_CHANNEL
  *
  * Exchange APDUs with a UICC over a previously opened logical channel.
  *
- * "data" is a const RIL_SIM_IO_v6 *
+ * "data" is a const RIL_SIM_IO_v7_CAF *
  *
  * "response" is a const RIL_SIM_IO_Response *
  *
@@ -3884,7 +3885,7 @@ typedef struct {
  * GENERIC_FAILURE
  * INVALID_PARAMETER
  */
-//#define RIL_REQUEST_SIM_TRANSMIT_CHANNEL 120
+#define RIL_REQUEST_SIM_TRANSMIT_CHANNEL 120
 
 /**
  * RIL_REQUEST_SIM_GET_ATR
