@@ -66,9 +66,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/gps/etc/sap.conf:/system/etc/sap.conf \
     $(LOCAL_PATH)/gps/etc/flp.conf:/system/etc/flp.conf
 
-PRODUCT_PACKAGES += \
-    libqcompostprocbundle
-
 # Input device
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/idc/sec_e-pen.idc:system/usr/idc/sec_e-pen.idc \
