@@ -259,6 +259,23 @@
     	<ctl name="SLIMBUS_0_RX Audio Mixer MultiMedia10" value="1" />
     </path>
 
+    <path name="ultra-low-latency-playback">
+        <ctl name="SLIMBUS_0_RX Audio Mixer MultiMedia3" value="1" />
+    </path>
+
+    <path name="ultra-low-latency-playback afe-proxy">
+        <ctl name="AFE_PCM_RX Audio Mixer MultiMedia3" value="1" />
+    </path>
+
+    <path name="ultra-low-latency-playback usb-headphones">
+        <path name="ultra-low-latency-playback afe-proxy" />
+    </path>
+
+    <path name="ultra-low-latency-playback speaker-and-usb-headphones">
+        <path name="ultra-low-latency-playback usb-headphones" />
+        <path name="ultra-low-latency-playback" />
+    </path>
+
 	<!-- tunnel -->
 	<path name="compress-offload-playback">
 		<ctl name="SLIMBUS_0_RX Audio Mixer MultiMedia4" value="1" />
