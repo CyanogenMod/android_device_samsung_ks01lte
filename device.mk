@@ -145,13 +145,17 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # Audio
 PRODUCT_PROPERTY_OVERRIDES += \
+   mm.enable.smoothstreaming=true \
+   mm.enable.qcom_parser=37491 \
    af.resampler.quality=4 \
    audio.offload.buffer.size.kb=32 \
    audio.offload.gapless.enabled=true \
    av.offload.enable=false \
    av.streaming.offload.enable=false \
    audio.offload.pcm.enable=true \
-   audio.offload.24bit.enable=1
+   audio.offload.24bit.enable=1 \
+   tunnel.audio.encode=true \
+   media.aaccodectype=1
 
 # ANT+
 PRODUCT_PACKAGES += \

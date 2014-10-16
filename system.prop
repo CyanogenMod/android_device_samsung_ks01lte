@@ -34,3 +34,6 @@ ro.qc.sensors.step_detector=true
 
 # Recovery
 ro.cwm.forbid_format=/modem,/apnhlos
+
+# WiFi
+wifi.supplicant_scan_interval=15
