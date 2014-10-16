@@ -9,11 +9,17 @@
 	<ctl name="SLIMBUS_0_RX Audio Mixer MultiMedia3" value="0" />
 	<ctl name="SLIMBUS_0_RX Audio Mixer MultiMedia4" value="0" />
 	<ctl name="SLIMBUS_0_RX Audio Mixer MultiMedia5" value="0" />
-	<ctl name="SLIMBUS_0_RX Audio Mixer MultiMedia10" value="0" />
 
 	<ctl name="SLIMBUS_0_RX Port Mixer SLIM_0_TX" value="0" />
 
+	<ctl name="AFE_PCM_RX Audio Mixer MultiMedia1" value="0" />
+	<ctl name="AFE_PCM_RX Audio Mixer MultiMedia3" value="0" />
+	<ctl name="AFE_PCM_RX Audio Mixer MultiMedia4" value="0" />
+	<ctl name="AFE_PCM_RX Audio Mixer MultiMedia5" value="0" />
+	<ctl name="AFE_PCM_RX Audio Mixer MultiMedia8" value="0" />
+
 	<ctl name="AUX_PCM_RX Audio Mixer MultiMedia1" value="0" />
+	<ctl name="AUX_PCM_RX Audio Mixer MultiMedia3" value="0" />
 	<ctl name="AUX_PCM_RX Audio Mixer MultiMedia4" value="0" />
 	<ctl name="AUX_PCM_RX Audio Mixer MultiMedia5" value="0" />
 
@@ -88,6 +94,7 @@
 	<!-- reset TX part -->
 	<ctl name="MultiMedia5 Mixer SLIM_0_TX" value="0" />
 	<ctl name="MultiMedia5 Mixer AFE_PCM_TX" value="0" />
+
 	<ctl name="MultiMedia1 Mixer MI2S_TX" value="0" />
 	<ctl name="MultiMedia1 Mixer SLIM_0_TX" value="0" />
 	<ctl name="MultiMedia1 Mixer SLIM_4_TX" value="0" />
@@ -160,6 +167,9 @@
 	<ctl name="Main Mic Delay" value="0" />
 
 	<ctl name="AUX PCM SampleRate" value="rate_8000" />
+
+	<ctl name="SLIM_0_RX Format" value="S16_LE" />
+	<ctl name="SLIM_0_RX SampleRate" value="KHZ_48" />
 
 	<!-- end of initial mixer settings -->
 
@@ -254,17 +264,16 @@
         <path name="low-latency-playback" />
     </path>
 
-    <!-- low latency(JAM) -->
-    <path name="jam-framework-playback">
-    	<ctl name="SLIMBUS_0_RX Audio Mixer MultiMedia10" value="1" />
-    </path>
-
     <path name="ultra-low-latency-playback">
         <ctl name="SLIMBUS_0_RX Audio Mixer MultiMedia3" value="1" />
     </path>
 
     <path name="ultra-low-latency-playback afe-proxy">
         <ctl name="AFE_PCM_RX Audio Mixer MultiMedia3" value="1" />
+    </path>
+
+    <path name="ultra-low-latency-playback bt-sco">
+        <ctl name="AUX_PCM_RX Audio Mixer MultiMedia3" value="1" />
     </path>
 
     <path name="ultra-low-latency-playback usb-headphones">
@@ -326,6 +335,23 @@
 		<ctl name="AUX PCM SampleRate" value="rate_16000" />
 		<path name="audio-record bt-sco" />
 	</path>
+
+    <path name="low-latency-record">
+        <ctl name="MultiMedia5 Mixer SLIM_0_TX" value="1" />
+    </path>
+
+    <path name="low-latency-record usb-headset-mic">
+        <ctl name="MultiMedia5 Mixer AFE_PCM_TX" value="1" />
+    </path>
+
+    <path name="low-latency-record bt-sco">
+        <ctl name="MultiMedia5 Mixer INTERNAL_BT_SCO_TX" value="1" />
+    </path>
+
+    <path name="low-latency-record bt-sco-wb">
+        <ctl name="Internal BTSCO SampleRate" value="16000" />
+        <path name="audio-record bt-sco" />
+    </path>
 
 	<!-- incall recording for KOR -->
 	<path name="incall-rec-uplink">
@@ -2104,10 +2130,10 @@
 
 	<path name="dmic-endfire">
 		<path name="sub-3rd-mic" />
-		<ctl name="ADC4 Volume" value="13" />
-		<ctl name="ADC3 Volume" value="13" />
+		<ctl name="ADC4 Volume" value="19" />
+		<ctl name="ADC3 Volume" value="19" />
 		<ctl name="DEC4 Volume" value="84" />
-		<ctl name="DEC3 Volume" value="79" />
+		<ctl name="DEC3 Volume" value="84" />
 	</path>
 
 	<path name="speaker-mic">
