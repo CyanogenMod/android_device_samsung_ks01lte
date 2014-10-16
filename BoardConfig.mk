@@ -23,9 +23,8 @@ TARGET_BOOTLOADER_BOARD_NAME := MSM8974
 
 # Kernel
 TARGET_KERNEL_SOURCE := kernel/samsung/ks01lte
-TARGET_KERNEL_CONFIG := msm8974_sec_defconfig
+TARGET_KERNEL_CONFIG := cyanogenmod_ks01lte_defconfig
 TARGET_KERNEL_SELINUX_CONFIG := selinux_defconfig
-TARGET_KERNEL_VARIANT_CONFIG := msm8974_sec_ks01_eur_defconfig
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x02000000 --tags_offset 0x01e00000 --second_offset 0x00f00000
 BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=31 msm_rtb.filter=0x3F
 BOARD_KERNEL_BASE := 0x00000000
