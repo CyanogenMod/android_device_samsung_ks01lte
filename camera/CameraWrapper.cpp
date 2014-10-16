@@ -186,6 +186,8 @@ static char * camera_fixup_getparams(int id, const char * settings)
             params.set(android::CameraParameters::KEY_VIDEO_HIGH_FRAME_RATE, "off");
     }
 
+    params.set(android::CameraParameters::KEY_VIDEO_SNAPSHOT_SUPPORTED, "true");
+
     android::String8 strParams = params.flatten();
     char *ret = strdup(strParams.string());
 
