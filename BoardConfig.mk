@@ -114,3 +114,6 @@ TARGET_PROVIDES_KS01_CAMERA_HAL := true
 
 # ANT+
 BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
+
+# Recovery
+TARGET_RECOVERY_DEVICE_DIRS := device/samsung/ks01lte
