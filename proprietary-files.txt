@@ -42,7 +42,6 @@ vendor/lib/rfsa/adsp/libdspCV_skel.so
 vendor/lib/libacdbloader.so
 vendor/lib/libaudcal.so
 vendor/lib/libcsd-client.so
-vendor/lib/libacdbmapper.so
 vendor/lib/libacdbrtac.so
 vendor/lib/libadiertac.so
 etc/Bluetooth_cal.acdb
@@ -135,6 +134,7 @@ vendor/lib/libOmxEvrcDec.so
 vendor/lib/libOmxQcelp13Dec.so
 vendor/lib/libOmxWmaDec.so
 vendor/lib/libOmxMux.so
+vendor/lib/libSHIMDivxDrm.so
 
 # Camera
 bin/mm-qcamera-daemon
