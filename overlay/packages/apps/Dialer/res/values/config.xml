@@ -16,4 +16,5 @@
 -->
 <resources>
     <integer name="call_recording_audio_source">4</integer>
+    <bool name="call_recording_enabled">true</bool>
 </resources>
