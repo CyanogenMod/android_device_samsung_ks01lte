@@ -68,6 +68,7 @@ camera_module_t HAL_MODULE_INFO_SYM = {
     .get_camera_info = camera_get_camera_info,
     .set_callbacks = NULL, /* remove compilation warnings */
     .get_vendor_tag_ops = NULL, /* remove compilation warnings */
+    .open_legacy = NULL, /* remove compilation warnings */
     .reserved = {0}, /* remove compilation warnings */
 };
 
@@ -185,8 +186,10 @@ static char * camera_fixup_getparams(int id, const char * settings)
         default:
             params.set(android::CameraParameters::KEY_VIDEO_HIGH_FRAME_RATE, "off");
     }
-
+    
     params.set(android::CameraParameters::KEY_VIDEO_SNAPSHOT_SUPPORTED, "true");
+
+    params.set("scene-mode-values","auto,asd,landscape,snow,beach,sunset,night,portrait,backlight,sports,steadyphoto,flowers,candlelight,fireworks,party,night-portrait,theatre,action,AR,hdr");
 
     android::String8 strParams = params.flatten();
     char *ret = strdup(strParams.string());
@@ -234,6 +237,54 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
     if (id != 1) {
         params.set(android::CameraParameters::KEY_ZSL, isVideo ? "off" : "on");
         camera_send_command(device, 1508, 0, 0);
+        camera_send_command(device, 1014, 0, 0); // Turn off HDR by default
+//	camera_send_command(device, 1264, 0, 0);
+//        params.set("picture-format","jpeg"); // Use jpeg by default
+/*        camera_send_command(device, 1334, 0, 0); //drama
+        camera_send_command(device, 1351, 0, 0); //autolls
+        camera_send_command(device, 1273, 0, 0); //unk
+        camera_send_command(device, 1631, 0, 0); //unk*/
+    }
+
+    params.set("preview-size", "1920x1080");   
+    const char* sceneMode = params.get("scene-mode");
+    if (sceneMode) {
+        if (!strcmp(sceneMode,"auto")) {
+            params.set("shot-mode","10");
+            params.set("scene-detect","on");
+//	    camera_send_command(device, 1264, 0, 0);
+//	    camera_send_command(device, 1014, 0, 0);
+//	    camera_send_command(device, 1351, 1, 0); //autolls
+	}
+        if (!strcmp(sceneMode,"night")) {
+            params.set("shot-mode","10");
+//	    camera_send_command(device, 1264, 1, 0); //low light
+	}
+        if (!strcmp(sceneMode,"sports"))
+            params.set("shot-mode","17");
+/*        if (!strcmp(sceneMode,"panorama"))
+ *                    params.set("shot-mode","7");*/
+        if (!strcmp(sceneMode,"asd"))
+            params.set("shot-mode","6");
+        if (!strcmp(sceneMode,"hdr")) {
+	    camera_send_command(device, 1014, 1, 0); //hdr
+	    params.set("scene-mode","auto");
+            params.set("shot-mode","9");
+            params.set("picture-format","yuv-raw8-yuyv");
+            params.set("ae-bracket-hdr","AE-Bracket");
+        }
+/*        if (!strcmp(sceneMode,"animation"))
+ *                    params.set("shot-mode","15");*/
+        if (!strcmp(sceneMode,"action"))
+            params.set("shot-mode","4");
+/*        if (!strcmp(sceneMode,"withsound"))
+ *                    params.set("shot-mode","11");*/
+        if (!strcmp(sceneMode,"asd2"))
+            params.set("shot-mode","5");
+        if (!strcmp(sceneMode,"asd3"))
+            params.set("shot-mode","3");
+        if (!strcmp(sceneMode,"portrait"))
+            params.set("shot-mode","2");
     }
 
     if (isVideo) {
@@ -251,6 +302,8 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
             hfr = 0;
         }
     }
+
+    params.set("scene-mode-values","auto,asd,landscape,snow,beach,sunset,night,portrait,backlight,sports,steadyphoto,flowers,candlelight,fireworks,party,night-portrait,theatre,action,AR");
     
     android::String8 strParams = params.flatten();
 

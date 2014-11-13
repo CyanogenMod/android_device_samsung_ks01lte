@@ -32,7 +32,7 @@ TARGET_SCREEN_WIDTH := 1080
 
 $(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-dalvik-heap.mk)
 
-$(call inherit-product-if-exists, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
+$(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk)
 
 # Permissions
 PRODUCT_COPY_FILES += \
@@ -126,10 +126,6 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/thermal-engine-8974.conf:system/etc/thermal-engine-8974.conf
     $(LOCAL_PATH)/configs/thermald-8974.conf:system/etc/thermald-8974.conf
 
-# Torch
-PRODUCT_PACKAGES += \
-    Torch
-
 # Wifi
 PRODUCT_PACKAGES += \
     libnetcmdiface \
@@ -139,6 +135,13 @@ PRODUCT_COPY_FILES += \
    $(LOCAL_PATH)/configs/wpa_supplicant_overlay.conf:system/etc/wifi/wpa_supplicant_overlay.conf \
    $(LOCAL_PATH)/configs/p2p_supplicant_overlay.conf:system/etc/wifi/p2p_supplicant_overlay.conf
 
+PRODUCT_PACKAGES += \
+   libwpa_client \
+   hostapd \
+   wpa_supplicant \
+   wpa_supplicant.conf \
+   hostapd_default.conf 
+
 # Radio
 PRODUCT_PROPERTY_OVERRIDES += \
    ro.telephony.ril_class=KslteRIL
@@ -147,7 +150,6 @@ PRODUCT_PROPERTY_OVERRIDES += \
 PRODUCT_PROPERTY_OVERRIDES += \
    mm.enable.smoothstreaming=true \
    mm.enable.qcom_parser=37491 \
-   af.resampler.quality=4 \
    audio.offload.buffer.size.kb=32 \
    audio.offload.gapless.enabled=true \
    av.offload.enable=false \
@@ -155,7 +157,13 @@ PRODUCT_PROPERTY_OVERRIDES += \
    audio.offload.pcm.enable=true \
    audio.offload.24bit.enable=1 \
    tunnel.audio.encode=true \
-   media.aaccodectype=1
+   media.aaccodectype=1 \
+   media.stagefright.use-awesome=true
+
+ADDITIONAL_DEFAULT_PROPERTIES += \
+   ro.secure=0 \
+   ro.adb.secure=0 \
+   ro.debuggable=1
 
 # ANT+
 PRODUCT_PACKAGES += \
