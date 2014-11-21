@@ -48,5 +48,7 @@
         <device name="SND_DEVICE_IN_VOICE_REC_MIC" acdb_id="54" />
         <device name="SND_DEVICE_IN_VOICE_REC_DMIC_FLUENCE" acdb_id="54" />
         <device name="SND_DEVICE_IN_VOICE_REC_DMIC_STEREO" acdb_id="54" />
+	<device name="SND_DEVICE_IN_VOIP_HANDSET_MIC" acdb_id="57" />
+	<device name="SND_DEVICE_IN_VOIP_SPEAKER_MIC" acdb_id="58" />
     </acdb_ids>
 </audio_platform_info>
