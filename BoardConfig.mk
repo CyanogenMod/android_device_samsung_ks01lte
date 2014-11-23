@@ -99,7 +99,6 @@ BOARD_HARDWARE_CLASS += device/samsung/ks01lte/cmhw
 
 # Display
 NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
-TARGET_HAVE_NEW_GRALLOC := true
 
 # RIL Class (for correct tech assignment)
 BOARD_RIL_CLASS := ../../../device/samsung/ks01lte/ril
