@@ -81,6 +81,9 @@ on init
     symlink /storage/usbdisk /usbdisk
     symlink /storage/usbdisk /mnt/usbdisk
 
+    # Enable mass storage mounting
+    write /sys/devices/msm_dwc3/f9200000.dwc3/gadget/lun0/cdrom 0
+
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
     setrlimit 8 67108864 67108864
