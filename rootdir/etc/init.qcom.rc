@@ -64,6 +64,9 @@ on init
     mkdir /storage/sdcard1 0000 system system
     mkdir /storage/usbdisk 0000 system system
 
+    # Enable mass storage mounting
+    write /sys/devices/msm_dwc3/f9200000.dwc3/gadget/lun0/cdrom 0
+
     export EXTERNAL_STORAGE /storage/emulated/legacy
     export SECONDARY_STORAGE /storage/sdcard1:/storage/usbdisk
     export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
