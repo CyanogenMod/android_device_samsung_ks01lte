@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include "camera/CameraParametersExtraDurationTimer.h"
 
 #define CAMERA_PARAMETERS_EXTRA_C \
 const char CameraParameters::KEY_ISO_MODE[] = "iso"; \
@@ -24,6 +25,7 @@ const char CameraParameters::KEY_SUPPORTED_VIDEO_HIGH_FRAME_RATE_MODES[] = "vide
 const char CameraParameters::VIDEO_HFR_OFF[] = "off"; \
 const char CameraParameters::KEY_SUPPORTED_HFR_SIZES[] = "hfr-size-values"; \
 const char CameraParameters::KEY_VIDEO_HIGH_FRAME_RATE[] = "video-hfr";
+CAMERA_PARAMETERS_EXTRA_C_DURATION_TIMER
 
 #define CAMERA_PARAMETERS_EXTRA_H \
     static const char KEY_ISO_MODE[]; \
