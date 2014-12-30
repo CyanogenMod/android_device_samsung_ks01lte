@@ -1,0 +1,2 @@
+allow bluetooth proc_bthc:dir search;
+allow bluetooth proc_bthc:file rw_file_perms;

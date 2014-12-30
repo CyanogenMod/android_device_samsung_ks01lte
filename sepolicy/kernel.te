@@ -1,0 +1,4 @@
+allow kernel gamma_dev:file relabelto;
+allow kernel keypad_dev:file relabelto;
+allow kernel panel_dev:file relabelto;
+allow kernel vibe_dev:file relabelto;

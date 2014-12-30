@@ -1,0 +1,1 @@
+allow gamma_dev sysfs:filesystem associate;

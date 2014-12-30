@@ -94,7 +94,6 @@ typedef int16_t AGpsExtType;
 /** SSID length */
 #define SSID_BUF_SIZE (32+1)
 
-typedef int16_t AGpsBearerType;
 #define AGPS_APN_BEARER_INVALID    -1
 #define AGPS_APN_BEARER_IPV4        0
 #define AGPS_APN_BEARER_IPV6        1

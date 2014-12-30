@@ -1,0 +1,1 @@
+allow tee qseecomd_prop:property_service set;

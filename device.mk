@@ -53,6 +53,11 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/audio_platform_info.xml:system/etc/audio_platform_info.xml \
     $(LOCAL_PATH)/audio/mixer_paths.xml:system/etc/mixer_paths.xml
 
+# Camera
+    PRODUCT_PACKAGES += \
+        camera.msm8974 \
+        libxml2
+
 # Bluetooth
 PRODUCT_COPY_FILES += \
     device/samsung/ks01lte/bluetooth/bcm4335_prepatch.hcd:system/vendor/firmware/bcm4335_prepatch.hcd
@@ -99,7 +104,7 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     libnfc-nci \
     libnfc_nci_jni \
-    nfc_nci.msm8974 \
+    nfc_nci.bcm2079x.msm8974 \
     NfcNci \
     Tag \
     com.android.nfc_extras
@@ -153,15 +158,16 @@ PRODUCT_PROPERTY_OVERRIDES += \
    av.offload.enable=false \
    av.streaming.offload.enable=false \
    audio.offload.pcm.enable=true \
-   audio.offload.24bit.enable=1 \
+   audio.offload.pcm.16bit.enable=true \
+   audio.offload.pcm.24bit.enable=true \
+   audio.offload.gapless.enabled=true \
    tunnel.audio.encode=true \
-   media.aaccodectype=1 \
-   media.stagefright.use-awesome=true
+   media.aac_51_output_enabled=true \
+   media.aaccodectype=1
 
-ADDITIONAL_DEFAULT_PROPERTIES += \
-   ro.secure=0 \
-   ro.adb.secure=0 \
-   ro.debuggable=1
+# QC
+PRODUCT_PROPERTY_OVERRIDES += \
+   ro.vendor.extension_library=libqc-opt.so
 
 # ANT+
 PRODUCT_PACKAGES += \

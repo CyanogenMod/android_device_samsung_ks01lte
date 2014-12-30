@@ -1,0 +1,4 @@
+allow ueventd gamma_dev:file getattr;
+allow ueventd keypad_dev:file getattr;
+allow ueventd panel_dev:file getattr;
+allow ueventd vibe_dev:file getattr;

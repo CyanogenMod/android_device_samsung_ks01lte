@@ -210,7 +210,7 @@ static loc_name_val_s_type loc_eng_agps_bears[] =
 };
 static int loc_eng_agps_bears_num = sizeof(loc_eng_agps_bears) / sizeof(loc_name_val_s_type);
 
-const char* loc_get_agps_bear_name(AGpsBearerType bearer)
+const char* loc_get_agps_bear_name(ApnIpType bearer)
 {
     return loc_get_name_from_val(loc_eng_agps_bears, loc_eng_agps_bears_num, (long) bearer);
 }

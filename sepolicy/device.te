@@ -1,0 +1,4 @@
+type gamma_dev, dev_type;
+type keypad_dev, dev_type;
+type panel_dev, dev_type;
+type vibe_dev, dev_type;

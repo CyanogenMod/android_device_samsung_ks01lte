@@ -139,7 +139,7 @@ void setHfrParameters(struct camera_device * device) {
             break;
     }
 
-    camera_send_command(device, 1508, 0, 0);
+//    camera_send_command(device, 1508, 0, 0);
     params.set(android::CameraParameters::KEY_RECORDING_HINT, "true");
     free(fixed_set_params[id]);
     fixed_set_params[id] = strdup(params.flatten().string());

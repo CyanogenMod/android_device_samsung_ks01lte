@@ -633,7 +633,7 @@ static int loc_agps_open(const char* apn)
 {
     ENTRY_LOG();
     AGpsType agpsType = AGPS_TYPE_SUPL;
-    AGpsBearerType bearerType = AGPS_APN_BEARER_IPV4;
+    ApnIpType bearerType = AGPS_APN_BEARER_IPV4;
     int ret_val = loc_eng_agps_open(loc_afw_data, agpsType, apn, bearerType);
 
     EXIT_LOG(%d, ret_val);

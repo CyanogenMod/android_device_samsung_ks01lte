@@ -53,6 +53,7 @@ BOARD_BLUEDROID_VENDOR_CONF := device/samsung/ks01lte/bluetooth/vnd_ks01lte.txt
 
 # GPS
 TARGET_NO_RPC := true
+TARGET_GPS_HAL_PATH := device/samsung/ks01lte/gps
 
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
@@ -114,11 +115,45 @@ NUM_FRAMEBUFFER_SURFACE_BUFFERS := 3
 BOARD_RIL_CLASS := ../../../device/samsung/ks01lte/ril
 
 # Camera
-TARGET_PROVIDES_CAMERA_HAL := false
-TARGET_PROVIDES_KS01_CAMERA_HAL := true
+TARGET_PROVIDES_CAMERA_HAL := true
 
 # ANT+
 BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
 
 # Recovery
 TARGET_RECOVERY_DEVICE_DIRS := device/samsung/ks01lte
+
+# SElinux
+include device/qcom/sepolicy/sepolicy.mk
+BOARD_SEPOLICY_DIRS += device/samsung/ks01lte/sepolicy
+
+BOARD_SEPOLICY_UNION += \
+    bluetooth.te \
+    device.te \
+    file_contexts \
+    file.te \
+    gamma_dev.te \
+    genfs_contexts \
+    healthd.te \
+    hostapd.te \
+    kernel.te \
+    keypad_dev.te \
+    keystore.te \
+    mdm_helper.te \
+    mediaserver.te \
+    mm-pp-daemon.te \
+    mm-qcamerad.te \
+    mpdecision.te \
+    panel_dev.te \
+    property_contexts \
+    property.te \
+    rild.te \
+    system_app.te \
+    system_server.te \
+    tee.te \
+    thermal-engine.te \
+    time_daemon.te \
+    ueventd.te \
+    vibe_dev.te \
+    vold.te \
+    wpa.te

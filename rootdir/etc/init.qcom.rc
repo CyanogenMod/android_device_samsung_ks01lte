@@ -64,9 +64,6 @@ on init
     mkdir /storage/sdcard1 0000 system system
     mkdir /storage/usbdisk 0000 system system
 
-    # Enable mass storage mounting
-    write /sys/devices/msm_dwc3/f9200000.dwc3/gadget/lun0/cdrom 0
-
     export EXTERNAL_STORAGE /storage/emulated/legacy
     export SECONDARY_STORAGE /storage/sdcard1:/storage/usbdisk
     export EMULATED_STORAGE_SOURCE /mnt/shell/emulated
@@ -120,6 +117,7 @@ on boot
     # permissions for bluetooth.
     setprop ro.bt.bdaddr_path "/efs/bluetooth/bt_addr"
     chown bluetooth net_bt_stack ro.bt.bdaddr_path
+    restorecon_recursive /efs/bluetooth
     chown bluetooth net_bt_stack /dev/ttyHS0
     chmod 0660 /dev/ttyHS0
     chmod 0660 /sys/class/rfkill/rfkill0/state
@@ -138,6 +136,23 @@ on boot
     chown bluetooth net_bt_stack /proc/bluetooth/sleep/btwrite
     chmod 0600 /dev/btlock
     chown bluetooth bluetooth /dev/btlock
+
+    # Sensors
+    chown system system /efs/prox_cal
+    chmod 0640 /efs/prox_cal
+    restorecon /efs/prox_cal
+
+    chown system system /efs/FactoryApp/baro_delta
+    chmod 0640 /efs/FactoryApp/baro_delta
+    restorecon /efs/FactoryApp/baro_delta
+
+    chown system system /efs/gyro_cal_data
+    chmod 0640 /efs/gyro_cal_data
+    restorecon /efs/gyro_cal_data
+
+    #Basic permissions
+    chown root system /dev/socket
+    chmod 775 /dev/socket
 
     #Create QMUX deamon socket area
     mkdir /dev/socket/qmux_radio 0770 radio radio
@@ -564,7 +579,7 @@ on fs
     mount_all fstab.qcom
 
     restorecon_recursive /persist
-    restorecon -R /efs
+    restorecon_recursive /efs
 
     setprop ro.crypto.fuse_sdcard true
     setprop ro.product.name ks01ltexx
@@ -687,6 +702,7 @@ on post-fs-data
     # for WIFI MAC address
     mkdir /efs/wifi 0775 radio system
     chown system system /efs/wifi/.mac.info
+    restorecon /efs/wifi/.mac.info
     chmod 0664 /efs/wifi/.mac.info
 
     # Create directory used by audio subsystem
@@ -910,7 +926,7 @@ service cnd /system/bin/cnd
     socket cnd stream 660 root inet
     disabled
 
-service irsc_util /system/bin/logwrapper /system/bin/irsc_util "/etc/sec_config"
+service irsc_util /system/bin/irsc_util "/etc/sec_config"
     class main
     user root
     oneshot
@@ -1022,18 +1038,6 @@ service qcamerasvr /system/bin/mm-qcamera-daemon
     user camera
     group camera system inet input graphics radio sdcard_rw sdcard_r media_rw shell log
 
-service qrngd /system/bin/qrngd -f
-   class main
-   user root
-   group root
-
-service qrngp /system/bin/qrngp
-    class main
-    user root
-    group root
-    oneshot
-    disabled
-
 on property:sys.boot_completed=1
     start qrngp
 
@@ -1108,11 +1112,11 @@ service amp_unload /system/bin/amploader -u
     disabled
     oneshot
 
-service wpa_supplicant /system/bin/wpa_supplicant \
+service wpa_supplicant /system/bin/wpa_supplicant -g@android:wpa_wlan0 \
     -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
     -I/system/etc/wifi/wpa_supplicant_overlay.conf \
     -O/data/misc/wifi/sockets \
-    -e/data/misc/wifi/entropy.bin -g@android:wpa_wlan0
+    -e/data/misc/wifi/entropy.bin
     #   we will start as root and wpa_supplicant will switch to user wifi
     #   after setting up the capabilities required for WEXT
     #   user wifi

@@ -1,4 +1,4 @@
-ifeq ($(TARGET_PROVIDES_KS01_CAMERA_HAL),true)
+ifeq ($(TARGET_PROVIDES_CAMERA_HAL),true)
 
 LOCAL_PATH := $(call my-dir)
 include $(CLEAR_VARS)

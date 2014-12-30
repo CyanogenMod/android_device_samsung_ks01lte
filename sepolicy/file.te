@@ -1,0 +1,2 @@
+type proc_bthc, fs_type, sysfs_type;
+type sysfs_camera, fs_type, sysfs_type;
