@@ -68,13 +68,13 @@ public class KslteRIL extends RIL implements CommandsInterface {
 
         IccCardStatus cardStatus = new IccCardStatus();
 
-	cardStatus.setCardState(p.readInt());
+        cardStatus.setCardState(p.readInt());
         cardStatus.setUniversalPinState(p.readInt());
         cardStatus.mGsmUmtsSubscriptionAppIndex = p.readInt();
         cardStatus.mCdmaSubscriptionAppIndex = p.readInt();
         cardStatus.mImsSubscriptionAppIndex = p.readInt();
-	
-	int numApplications = p.readInt();
+
+        int numApplications = p.readInt();
 
         // limit to maximum allowed applications
         if (numApplications > IccCardStatus.CARD_MAX_APPS) {
@@ -168,10 +168,10 @@ public class KslteRIL extends RIL implements CommandsInterface {
             dc.als = p.readInt();
             voiceSettings = p.readInt();
             dc.isVoice = (0 != voiceSettings);
-            boolean isVideo = (0 != p.readInt());	// Samsung
-            int call_type = p.readInt();		// Samsung
-            int call_domain = p.readInt();		// Samsung
-            String csv = p.readString();		// Samsung
+            boolean isVideo = (0 != p.readInt());
+            int call_type = p.readInt();
+            int call_domain = p.readInt();
+            String csv = p.readString();
             dc.isVoicePrivacy = (0 != p.readInt());
             dc.number = p.readString();
             int np = p.readInt();
@@ -196,7 +196,7 @@ public class KslteRIL extends RIL implements CommandsInterface {
                 riljLogv("Incoming UUS : NOT present!");
             }
 
-	    // Make sure there's a leading + on addresses with a TOA of 145
+            // Make sure there's a leading + on addresses with a TOA of 145
             dc.number = PhoneNumberUtils.stringFromStringAndTOA(dc.number, dc.TOA);
 
             response.add(dc);
@@ -398,30 +398,5 @@ public class KslteRIL extends RIL implements CommandsInterface {
         if (RILJ_LOGD) riljLog(rr.serialString() + "> " + requestToString(rr.mRequest));
 
         send(rr);
-    }
-
-    // Hack for Lollipop
-    // The system now queries for SIM status before radio on, resulting
-    // in getting an APPSTATE_DETECTED state. The RIL does not send an
-    // RIL_UNSOL_RESPONSE_SIM_STATUS_CHANGED message after the SIM is
-    // initialized, so delay the message until the radio is on.
-    @Override
-    public void
-    getIccCardStatus(Message result) {
-        if (mState != RadioState.RADIO_ON) {
-            mPendingGetSimStatus = result;
-        } else {
-            super.getIccCardStatus(result);
-        }
-    }
-
-    @Override
-    protected void switchToRadioState(RadioState newState) {
-        super.switchToRadioState(newState);
-
-        if (newState == RadioState.RADIO_ON && mPendingGetSimStatus != null) {
-            super.getIccCardStatus(mPendingGetSimStatus);
-            mPendingGetSimStatus = null;
-        }
     }
 }
