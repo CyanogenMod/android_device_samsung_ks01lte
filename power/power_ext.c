@@ -26,11 +26,15 @@
 #define TSP_POWER "/sys/class/input/input3/enabled"
 #define GPIO_KEYS_POWER "/sys/class/input/input17/enabled"
 
+static pthread_mutex_t input_lock = PTHREAD_MUTEX_INITIALIZER;
+
 void *input_onoff(void *arg) {
     char buf[80];
     int len;
     char *onoff=(char*) arg;
     char *path = TOUCHKEY_POWER;
+
+    pthread_mutex_lock(&input_lock);
 
     int fd = open(path, O_WRONLY);
 
@@ -78,6 +82,8 @@ void *input_onoff(void *arg) {
     }
 
     close(fd);
+
+    pthread_mutex_unlock(&input_lock);
 
     return NULL;
 }
