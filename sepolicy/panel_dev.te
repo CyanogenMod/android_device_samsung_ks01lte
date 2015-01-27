@@ -1,1 +1,0 @@
-allow panel_dev sysfs:filesystem associate;

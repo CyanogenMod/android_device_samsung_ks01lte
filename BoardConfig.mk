@@ -122,32 +122,28 @@ BOARD_SEPOLICY_DIRS += device/samsung/ks01lte/sepolicy
 
 BOARD_SEPOLICY_UNION += \
     bluetooth.te \
-    device.te \
     file_contexts \
     file.te \
-    gamma_dev.te \
     genfs_contexts \
     healthd.te \
     hostapd.te \
     init.te \
-    kernel.te \
-    keypad_dev.te \
     keystore.te \
     mdm_helper.te \
     mediaserver.te \
     mm-pp-daemon.te \
     mm-qcamerad.te \
     mpdecision.te \
-    panel_dev.te \
     property_contexts \
     property.te \
     rild.te \
+    rmt_storage.te \
+    service_contexts \
     system_app.te \
     system_server.te \
     tee.te \
     thermal-engine.te \
     time_daemon.te \
     ueventd.te \
-    vibe_dev.te \
     vold.te \
     wpa.te

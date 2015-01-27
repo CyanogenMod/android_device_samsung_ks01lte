@@ -1,3 +1,5 @@
+allow tee efs_file:dir r_dir_perms;
+allow tee efs_file:file r_file_perms;
 allow tee qseecomd_prop:property_service set;
 allow tee system_prop:property_service set;
 allow tee init:unix_stream_socket connectto;

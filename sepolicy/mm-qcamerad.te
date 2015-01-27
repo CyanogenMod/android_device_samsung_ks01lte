@@ -1,3 +1,4 @@
-allow mm-qcamerad sysfs_camera:file { read write };
+allow mm-qcamerad sysfs_camera:dir search;
+allow mm-qcamerad sysfs_camera:file rw_file_perms;
 allow mm-qcamerad system_data_file:sock_file { create unlink };
-type_transition mm-qcamerad system_data_file:sock_file camera_socket "cam_socket0";
+type_transition mm-qcamerad system_data_file:sock_file camera_socket "cam_socket3";
