@@ -24,7 +24,6 @@
 
 #define TOUCHKEY_POWER "/sys/class/input/input2/enabled"
 #define TSP_POWER "/sys/class/input/input3/enabled"
-#define GPIO_KEYS_POWER "/sys/class/input/input17/enabled"
 
 void *input_onoff(void *arg) {
     char buf[80];
@@ -48,22 +47,6 @@ void *input_onoff(void *arg) {
     close(fd);
 
     path = TSP_POWER;
-    fd = open(path, O_WRONLY);
-
-    if (fd < 0) {
-        strerror_r(errno, buf, sizeof(buf));
-        ALOGE("Error opening %s: %s\n", path, buf);
-    } else
-        len = write(fd, onoff, 1);
-
-    if (len < 0) {
-        strerror_r(errno, buf, sizeof(buf));
-        ALOGE("Error writing to %s: %s\n", path, buf);
-    }
-
-    close(fd);
-
-    path = GPIO_KEYS_POWER;
     fd = open(path, O_WRONLY);
 
     if (fd < 0) {
