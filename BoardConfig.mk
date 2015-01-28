@@ -138,7 +138,7 @@ BOARD_SEPOLICY_UNION += \
     property.te \
     rild.te \
     rmt_storage.te \
-    service_contexts \
+    sensorhubservice.te \
     system_app.te \
     system_server.te \
     tee.te \
