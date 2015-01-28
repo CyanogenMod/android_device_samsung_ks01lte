@@ -129,7 +129,6 @@ BOARD_SEPOLICY_UNION += \
     hostapd.te \
     init.te \
     keystore.te \
-    mdm_helper.te \
     mediaserver.te \
     mm-pp-daemon.te \
     mm-qcamerad.te \

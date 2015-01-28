@@ -1,1 +1,0 @@
-allow mdm_helper self:capability setuid;

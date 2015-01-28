@@ -1,5 +1,8 @@
 type sensorhubservice, domain;
-type snesorhubservice_exec, exec_type, file_type;
+type sensorhubservice_exec, exec_type, file_type;
+
 init_daemon_domain(sensorhubservice)
+
+binder_use(sensorhubservice)
 
 allow sensorhubservice self:process execmem;

@@ -1,3 +1,7 @@
 allow thermal-engine self:capability { net_admin chown };
 allow thermal-engine self:netlink_kobject_uevent_socket { read bind setopt create };
+allow thermal-engine self:socket write;
+allow thermal-engine socket_device:dir { write add_name };
+allow thermal-engine socket_device:sock_file { create setattr unlink };
 allow thermal-engine sysfs_devices_system_cpu:file write;
+allow thermal-engine sysfs:file write;
