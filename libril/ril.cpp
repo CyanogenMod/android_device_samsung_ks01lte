@@ -1765,8 +1765,8 @@ static int responseStrings(Parcel &p, void *response, size_t responselen) {
 
 static int responseStringsNetworks(Parcel &p, void *response, size_t responselen) {
     int numStrings;
-    int inQANElements = 5;
-    int outQANElements = 4;
+    int inQANElements = 6;
+    int outQANElements = 6;
 
     if (response == NULL && responselen != 0) {
         RLOGE("invalid response: NULL");
@@ -1782,7 +1782,6 @@ static int responseStringsNetworks(Parcel &p, void *response, size_t responselen
         p.writeInt32 (0);
     } else {
         char **p_cur = (char **) response;
-        int j = 0;
 
         numStrings = responselen / sizeof(char *);
         p.writeInt32 ((numStrings / inQANElements) * outQANElements);
@@ -1790,15 +1789,8 @@ static int responseStringsNetworks(Parcel &p, void *response, size_t responselen
         /* each string*/
         startResponse;
         for (int i = 0 ; i < numStrings ; i++) {
-            /* Samsung is sending 5 elements, upper layer expects 4.
-               Drop every 5th element here */
-            if (j == outQANElements) {
-                j = 0;
-            } else {
-                appendPrintBuf("%s%s,", printBuf, (char*)p_cur[i]);
-                writeStringToParcel (p, p_cur[i]);
-                j++;
-            }
+            appendPrintBuf("%s%s,", printBuf, (char*)p_cur[i]);
+            writeStringToParcel (p, p_cur[i]);
         }
         removeLastChar;
         closeResponse;
