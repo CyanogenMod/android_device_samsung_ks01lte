@@ -27,6 +27,7 @@
 /efs/gyro_cal_data								u:object_r:sensors_efs_file:s0
 /efs/calibration_data								u:object_r:sensors_efs_file:s0
 /efs/FactoryApp/baro_delta							u:object_r:sensors_efs_file:s0
+/dev/ssp_sensorhub								u:object_r:sensorhub_dev:s0
 
 # Display
 /sys/devices/virtual/lcd/panel/power_reduce					u:object_r:sysfs_display:s0
