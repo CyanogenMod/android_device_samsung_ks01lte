@@ -1,4 +1,5 @@
 # Copyright (C) 2011 The Android Open Source Project
+# Copyright (C) 2015 The CyanogenMod Project
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,9 +30,16 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 $(call inherit-product, device/samsung/ks01lte/device.mk)
 
 # Set those variables here to overwrite the inherited values.
-PRODUCT_NAME := full_ks01ltexx
-PRODUCT_DEVICE := ks01ltexx
+PRODUCT_NAME := ks01ltexx
+PRODUCT_DEVICE := ks01lte
 PRODUCT_BRAND := samsung
 PRODUCT_MANUFACTURER := samsung
 PRODUCT_MODEL := GT-I9506
+
+PRODUCT_GMS_CLIENTID_BASE := android-samsung
+
+PRODUCT_BUILD_PROP_OVERRIDES += TARGET_DEVICE=ks01lte \
+        PRODUCT_NAME=ks01ltexx \
+        BUILD_FINGERPRINT=samsung/ks01ltexx/ks01lte:4.4.2/KOT49H/I9506XXUCNJ1:user/release-keys \
+        PRIVATE_BUILD_DESC="samsung/ks01ltexx/ks01lte:4.4.2/KOT49H/I9506XXUCNJ1:user/release-keys"
 

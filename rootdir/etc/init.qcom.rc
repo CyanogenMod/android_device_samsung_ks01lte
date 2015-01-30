@@ -569,7 +569,6 @@ on fs
     restorecon_recursive /efs
 
     setprop ro.crypto.fuse_sdcard true
-    setprop ro.product.name ks01ltexx
 
 # msm specific files that need to be created on /data
 on post-fs-data
