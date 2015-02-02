@@ -357,3 +357,5 @@ v/ppp                  0660   radio      vpn
 /sys/devices/f9968000.i2c/i2c-12/12-0018/iio:device* dmp_firmware                       0660   system     radio
 /sys/devices/f9968000.i2c/i2c-12/12-0018/iio:device* pedometer_int_thresh               0660   system     radio
 /sys/devices/f9968000.i2c/i2c-12/12-0018/iio:device* pedometer_step_thresh              0660   system     radio
+
+/dev/rfkill               0660   wifi       wifi

@@ -13,6 +13,7 @@
 /data/.psm.info									u:object_r:wifi_data_file:s0
 /data/.wifiver.info								u:object_r:wifi_data_file:s0
 /efs/wifi/.mac.info								u:object_r:wifi_efs_file:s0
+/dev/rfkill									u:object_r:rfkill_dev:s0
 
 # NFC
 /dev/bcm2079x									u:object_r:nfc_device:s0
