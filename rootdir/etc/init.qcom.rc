@@ -126,6 +126,10 @@ on boot
     chown bluetooth bluetooth /proc/bluetooth/sleep/proto
     chmod 0660 /proc/bluetooth/sleep/proto
 
+    #Bluetooth UART dev
+    chown bluetooth bluetooth /sys/devices/f995e000.uart/clock
+    chmod 0660 /sys/devices/f995e000.uart/clock
+
     # bluetooth LPM
     chmod 0660 /proc/bluetooth/sleep/lpm
     chmod 0220 /proc/bluetooth/sleep/btwrite
