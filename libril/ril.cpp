@@ -114,8 +114,8 @@ namespace android {
     #define appendPrintBuf(x...)
 #endif
 
-#define MAX_RIL_SOL     RIL_REQUEST_SET_UNSOL_CELL_INFO_LIST_RATE
-#define MAX_RIL_UNSOL   RIL_UNSOL_CELL_INFO_LIST
+#define MAX_RIL_SOL     RIL_REQUEST_SIM_GET_ATR
+#define MAX_RIL_UNSOL   RIL_UNSOL_UICC_SUBSCRIPTION_STATUS_CHANGED
 
 enum WakeType {DONT_WAKE, WAKE_PARTIAL};
 
@@ -2380,7 +2380,7 @@ static int responseRilSignalStrength(Parcel &p,
     }
 
     if (responselen >= sizeof (RIL_SignalStrength_v5)) {
-        RIL_SignalStrength_v9_CAF *p_cur = ((RIL_SignalStrength_v9_CAF *) response);
+        RIL_SignalStrength_v10 *p_cur = ((RIL_SignalStrength_v10 *) response);
 
         /* gsmSignalStrength */
         RLOGD("gsmSignalStrength (raw)=%d", p_cur->GW_SignalStrength.signalStrength);
@@ -2458,25 +2458,18 @@ static int responseRilSignalStrength(Parcel &p,
             p.writeInt32(p_cur->LTE_SignalStrength.rsrq);
             p.writeInt32(p_cur->LTE_SignalStrength.rssnr);
             p.writeInt32(p_cur->LTE_SignalStrength.cqi);
-	    if (responselen >= sizeof (RIL_SignalStrength_v8)) {
-	        p.writeInt32(p_cur->LTE_SignalStrength.timingAdvance);
-		if (responselen >= sizeof (RIL_SignalStrength_v9_CAF)) {
-		    p.writeInt32(p_cur->TD_SCDMA_SignalStrength.rscp);
-		} else {
-		    p.writeInt32(INT_MAX);
-		}
-	    } else {
-	       p.writeInt32(INT_MAX);
-	       p.writeInt32(INT_MAX);
-	    }
+            if (responselen >= sizeof (RIL_SignalStrength_v10)) {
+                p.writeInt32(p_cur->TD_SCDMA_SignalStrength.rscp);
+            } else {
+                p.writeInt32(INT_MAX);
+            }
         } else {
             p.writeInt32(99);
             p.writeInt32(INT_MAX);
             p.writeInt32(INT_MAX);
             p.writeInt32(INT_MAX);
             p.writeInt32(INT_MAX);
-	    p.writeInt32(INT_MAX);
-	    p.writeInt32(INT_MAX);
+            p.writeInt32(INT_MAX);
         }
 
         startResponse;
@@ -4096,11 +4089,11 @@ requestToString(int request) {
         case RIL_REQUEST_SEND_SMS_EXPECT_MORE: return "SEND_SMS_EXPECT_MORE";
         case RIL_REQUEST_SETUP_DATA_CALL: return "SETUP_DATA_CALL";
         case RIL_REQUEST_SIM_IO: return "SIM_IO";
-	case RIL_REQUEST_SIM_TRANSMIT_BASIC: return "SIM_TRANSMIT_BASIC";
-	case RIL_REQUEST_SIM_OPEN_CHANNEL: return "SIM_OPEN_CHANNEL";
-	case RIL_REQUEST_SIM_CLOSE_CHANNEL: return "SIM_CLOSE_CHANNEL";
-	case RIL_REQUEST_SIM_TRANSMIT_CHANNEL: return "SIM_TRANSMIT_CHANNEL";
-	case RIL_REQUEST_SIM_GET_ATR: return "SIM_GET_ATR";
+        case RIL_REQUEST_SIM_TRANSMIT_BASIC: return "SIM_TRANSMIT_BASIC";
+        case RIL_REQUEST_SIM_OPEN_CHANNEL: return "SIM_OPEN_CHANNEL";
+        case RIL_REQUEST_SIM_CLOSE_CHANNEL: return "SIM_CLOSE_CHANNEL";
+        case RIL_REQUEST_SIM_TRANSMIT_CHANNEL: return "SIM_TRANSMIT_CHANNEL";
+        case RIL_REQUEST_SIM_GET_ATR: return "SIM_GET_ATR";
         case RIL_REQUEST_SEND_USSD: return "SEND_USSD";
         case RIL_REQUEST_CANCEL_USSD: return "CANCEL_USSD";
         case RIL_REQUEST_GET_CLIR: return "GET_CLIR";
@@ -4177,7 +4170,7 @@ requestToString(int request) {
         case RIL_REQUEST_ACKNOWLEDGE_INCOMING_GSM_SMS_WITH_PDU: return "RIL_REQUEST_ACKNOWLEDGE_INCOMING_GSM_SMS_WITH_PDU";
         case RIL_REQUEST_STK_SEND_ENVELOPE_WITH_STATUS: return "RIL_REQUEST_STK_SEND_ENVELOPE_WITH_STATUS";
         case RIL_REQUEST_VOICE_RADIO_TECH: return "VOICE_RADIO_TECH";
-	case RIL_REQUEST_WRITE_SMS_TO_SIM: return "WRITE_SMS_TO_SIM";
+        case RIL_REQUEST_WRITE_SMS_TO_SIM: return "WRITE_SMS_TO_SIM";
         case RIL_REQUEST_GET_CELL_INFO_LIST: return"GET_CELL_INFO_LIST";
         case RIL_REQUEST_SET_UNSOL_CELL_INFO_LIST_RATE: return"SET_UNSOL_CELL_INFO_LIST_RATE";
         case RIL_REQUEST_SET_INITIAL_ATTACH_APN: return "RIL_REQUEST_SET_INITIAL_ATTACH_APN";
@@ -4223,8 +4216,8 @@ requestToString(int request) {
         case RIL_UNSOL_RIL_CONNECTED: return "UNSOL_RIL_CONNECTED";
         case RIL_UNSOL_VOICE_RADIO_TECH_CHANGED: return "UNSOL_VOICE_RADIO_TECH_CHANGED";
         case RIL_UNSOL_CELL_INFO_LIST: return "UNSOL_CELL_INFO_LIST";
-	case RIL_UNSOL_RESPONSE_IMS_NETWORK_STATE_CHANGED: return "RESPONSE_IMS_NETWORK_STATE_CHANGED";
-	case RIL_UNSOL_UICC_SUBSCRIPTION_STATUS_CHANGED: return "UNSOL_UICC_SUBSCRIPTION_STATUS_CHANGED";
+        case RIL_UNSOL_RESPONSE_IMS_NETWORK_STATE_CHANGED: return "RESPONSE_IMS_NETWORK_STATE_CHANGED";
+        case RIL_UNSOL_UICC_SUBSCRIPTION_STATUS_CHANGED: return "UNSOL_UICC_SUBSCRIPTION_STATUS_CHANGED";
         case RIL_UNSOL_STK_SEND_SMS_RESULT: return "RIL_UNSOL_STK_SEND_SMS_RESULT";
         default: return "<unknown request>";
     }
