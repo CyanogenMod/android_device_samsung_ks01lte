@@ -1,4 +1,4 @@
-allow thermal-engine self:capability { net_admin chown };
+allow thermal-engine self:capability { net_admin chown sys_nice };
 allow thermal-engine self:netlink_kobject_uevent_socket { read bind setopt create };
 allow thermal-engine self:socket write;
 allow thermal-engine socket_device:dir { write add_name };
