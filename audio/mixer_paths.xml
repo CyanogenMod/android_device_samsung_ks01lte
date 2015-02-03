@@ -516,6 +516,16 @@
 		<ctl name="DEC4 MUX" value="ADC3" />
 	</path>
 
+	<path name="camcorder-sub-mic">
+		<ctl name="AIF1_CAP Mixer SLIM TX8" value="1" />
+		<ctl name="SLIM_0_TX Channels" value="Two" />
+		<ctl name="SLIM TX8 MUX" value="DEC6" />
+		<ctl name="DEC6 MUX" value="ADC1" />
+		<ctl name="AIF1_CAP Mixer SLIM TX7" value="1" />
+		<ctl name="SLIM TX7 MUX" value="DEC4" />
+		<ctl name="DEC4 MUX" value="ADC3" />
+	</path>
+
 	<path name="sub-3rd-mic">
 		<ctl name="AIF1_CAP Mixer SLIM TX7" value="1" />
 		<ctl name="SLIM_0_TX Channels" value="Two" />
@@ -624,7 +634,7 @@
 
 	<path name="rec-stereo-mic">
 		<ctl name="Main Mic Delay" value="4" />
-		<path name="main-sub-mic" />
+		<path name="camcorder-sub-mic" />
 		<ctl name="ADC1 Volume" value="15" />
 		<ctl name="DEC6 Volume" value="96" />
 		<ctl name="ADC3 Volume" value="15" />
