@@ -41,5 +41,5 @@ PRODUCT_GMS_CLIENTID_BASE := android-samsung
 PRODUCT_BUILD_PROP_OVERRIDES += TARGET_DEVICE=ks01lte \
         PRODUCT_NAME=ks01ltexx \
         BUILD_FINGERPRINT=samsung/ks01ltexx/ks01lte:4.4.2/KOT49H/I9506XXUCNJ1:user/release-keys \
-        PRIVATE_BUILD_DESC="samsung/ks01ltexx/ks01lte:4.4.2/KOT49H/I9506XXUCNJ1:user/release-keys"
+        PRIVATE_BUILD_DESC="ks01ltexx-user 4.4.2 KOT49H I9506XXUCNJ1 release-keys"
 
