@@ -41,11 +41,11 @@ LOCAL_COPY_HEADERS:= \
     UlpProxyBase.h \
     gps_extended_c.h \
     gps_extended.h \
-    loc_core_log.h
+    loc_core_log.h \
+    LocAdapterProxyBase.h
 
 LOCAL_PRELINK_MODULE := false
 
 include $(BUILD_SHARED_LIBRARY)
 
 endif # not BUILD_TINY_ANDROID
-
