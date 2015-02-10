@@ -21,7 +21,11 @@ ro.qc.sdk.izat.service_mask=0x0
 # Radio
 persist.data.netmgrd.qos.enable=true
 persist.radio.add_power_save=1
-persist.radio.apm_sim_not_pwdn=0
+persist.radio.apm_sim_not_pwdn=1
+persist.radio.no_wait_for_card=1
+persist.eons.enabled=false
+persist.radio.use_se_table_only=1
+
 rild.libargs=-d /dev/smd0
 rild.libpath=/system/lib/libsec-ril.so
 ro.telephony.call_ring.multiple=false

@@ -127,6 +127,7 @@ BOARD_SEPOLICY_UNION += \
     healthd.te \
     hostapd.te \
     init.te \
+    insthk.te \
     keystore.te \
     mediaserver.te \
     mm-pp-daemon.te \

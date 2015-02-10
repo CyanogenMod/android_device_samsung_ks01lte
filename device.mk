@@ -168,7 +168,7 @@ PRODUCT_PROPERTY_OVERRIDES += \
 
 # QC
 PRODUCT_PROPERTY_OVERRIDES += \
-   ro.vendor.extension_library=libqc-opt.so
+   ro.vendor.extension_library=libqti-perfd-client.so
 
 # ANT+
 PRODUCT_PACKAGES += \

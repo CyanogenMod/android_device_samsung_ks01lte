@@ -1,0 +1,6 @@
+type insthk, domain;
+type insthk_exec, exec_type, file_type;
+init_daemon_domain(insthk)
+
+allow insthk self:capability dac_override;
+allow insthk tee_device:chr_file { read write };

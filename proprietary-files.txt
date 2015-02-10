@@ -4,46 +4,51 @@ bin/mpdecision
 bin/ssr_diag
 
 # Thermal
-bin/thermald
 bin/thermal-engine
 vendor/lib/libthermalclient.so
+vendor/lib/libthermalioctl.so
 
 # CnE
 bin/cnd
+etc/permissions/com.quicinc.cne.xml
 vendor/lib/libcneapiclient.so
-vendor/lib/libcneutils.so
+vendor/lib/libcneconn.so
 vendor/lib/libcneqmiutils.so
+vendor/lib/libcneutils.so
 vendor/lib/libxml.so
 lib/libcnefeatureconfig.so
 
 # Bluetooth firmware
 vendor/firmware/bcm4335.hcd
-vendor/firmware/bcm4335_semco.hcd
-vendor/firmware/bcm4335_murata.hcd
 
 # GPS
-etc/permissions/com.qualcomm.location.xml
 lib/libloc_api_v02.so
-lib/hw/flp.default.so
+vendor/lib/hw/flp.default.so
 vendor/lib/libgeofence.so
-vendor/lib/liblocationservice.so
 vendor/lib/libizat_core.so
 vendor/lib/liblbs_core.so
+
+# HDCP
+bin/insthk
+etc/srm.bin
+lib/libhdcp2.so
+vendor/lib/libwfdhdcpcp.so
 
 # ADSP
 bin/adsprpcd
 vendor/lib/libadsprpc.so
 vendor/lib/libfastcvadsp_stub.so
 vendor/lib/libfastcvopt.so
-vendor/lib/rfsa/adsp/libfastcvadsp.so
-vendor/lib/rfsa/adsp/libfastcvadsp_skel.so
 vendor/lib/rfsa/adsp/libdspCV_skel.so
+vendor/lib/rfsa/adsp/libfastcvadsp_skel.so
+vendor/lib/rfsa/adsp/libfastcvadsp.so
+vendor/lib/rfsa/adsp/libscveT2T_skel.so
 
 # Audio
 vendor/lib/libacdbloader.so
-vendor/lib/libaudcal.so
-vendor/lib/libcsd-client.so
+vendor/lib/libacdbmapper.so
 vendor/lib/libacdbrtac.so
+vendor/lib/libaudcal.so
 vendor/lib/libadiertac.so
 etc/Bluetooth_cal.acdb
 etc/General_cal.acdb
@@ -55,6 +60,12 @@ etc/Speaker_cal.acdb
 vendor/lib/soundfx/libqcbassboost.so
 vendor/lib/soundfx/libqcreverb.so
 vendor/lib/soundfx/libqcvirt.so
+
+# Listen service
+vendor/lib/liblistenhardware.so
+vendor/lib/liblistenjni.so
+-vendor/lib/liblisten.so
+vendor/lib/liblistensoundmodel.so
 
 # Adreno GPU
 vendor/lib/egl/eglsubAndroid.so
@@ -78,7 +89,6 @@ etc/firmware/a330_pfp.fw
 etc/firmware/a330_pm4.fw
 
 #  Radio
-bin/ds_fmc_appd
 bin/efsks
 bin/ks
 bin/qcks
@@ -88,31 +98,31 @@ bin/rmt_storage
 lib/libsec-ril.so
 lib/libatparser.so
 lib/libcordon.so
+lib/libfactoryutil.so
+lib/libomission_avoidance.so
+vendor/lib/libconfigdb.so
 vendor/lib/libdiag.so
 vendor/lib/libdsutils.so
-vendor/lib/libdsnetutils.so
-vendor/lib/libdsucsd.so
-lib/libfactoryutil.so
 vendor/lib/libidl.so
-lib/libomission_avoidance.so
-vendor/lib/libqmi.so
-vendor/lib/libqmiservices.so
+vendor/lib/libqcci_legacy.so
 vendor/lib/libqmi_cci.so
+vendor/lib/libqmi_client_qmux.so
 vendor/lib/libqmi_common_so.so
 vendor/lib/libqmi_csi.so
 vendor/lib/libqmi_encdec.so
-vendor/lib/libqcci_legacy.so
-vendor/lib/libqmi_client_qmux.so
-vendor/lib/libqmi_csvt_srvc.so
+vendor/lib/libqmiservices.so
+vendor/lib/libqmi.so
 vendor/lib/libril-qcril-hook-oem.so
 
 # Time services
+-app/TimeService/TimeService.apk
 bin/time_daemon
 -vendor/lib/libtime_genoff.so
+vendor/lib/libTimeService.so
 
 # Sensors
 lib/hw/sensorhubs.msm8974.so
-lib/libsensirion_j1.so
+lib/libsensirion_ks01_eur.so
 lib/libsam.so
 lib/hw/sensors.msm8974.so
 bin/sensorhubservice
@@ -120,6 +130,8 @@ lib/libgnustl_shared.so
 lib/libsensorhub.so
 lib/libsensorhubcontext.so
 lib/libsensorhubservice.so
+vendor/lib/libqcgesture.so
+vendor/lib/libqcsyncgesture.so
 
 # Media
 vendor/lib/libDivxDrm.so
@@ -152,7 +164,6 @@ lib/libarcsoft_picaction.so
 lib/libarcsoft_picaction_manual.so
 lib/libarcsoft_sensorndk.so
 lib/libarcsoft_skin_soften.so
-lib/libarcsoft_vdoinvideo.so
 lib/libTsAe.so
 lib/libTsAf.so
 lib/libTs_J_Accm.so
@@ -231,16 +242,15 @@ lib/libchromatix_s5k6b2yx_smart_stay.so
 lib/libchromatix_s5k6b2yx_vt.so
 lib/libchromatix_s5k6b2yx_vt_hd.so
 lib/libchromatix_s5k6b2yx_zslshot.so
-lib/libmmcamera2_stats_algorithm.so
-lib/libmmcamera_cac2_lib.so
-lib/libmmcamera_fidelix_eeprom.so
+vendor/lib/libmmcamera2_stats_algorithm.so
+vendor/lib/libmmcamera_cac2_lib.so
+vendor/lib/libmmcamera_fidelix_eeprom.so
 lib/libmmqjpeg_codec.so
 lib/libmmjpeg.so
 lib/libmmjpeg_interface.so
 lib/libmmcamera_s5k6b2yx.so
 lib/libsecnativefeature.so
 lib/libvdis.so
-vendor/lib/libthermalclient.so
 vendor/lib/libmmcamera_imx135.so
 vendor/lib/libmmcamera_faceproc.so
 vendor/lib/libsensor1.so
@@ -272,13 +282,12 @@ etc/wifi/bcmdhd_apsta.bin
 etc/wifi/bcmdhd_mfg.bin
 etc/wifi/bcmdhd_sta.bin
 etc/wifi/bcmdhd_ibss.bin
-etc/wifi/cred.conf
 etc/wifi/nvram_mfg.txt
 etc/wifi/nvram_net.txt
 etc/wifi/wpa_supplicant.conf
 
 # Perf
-vendor/lib/libqc-opt.so
+vendor/lib/libqti-perfd-client.so
 
 # DRM
 bin/qseecomd

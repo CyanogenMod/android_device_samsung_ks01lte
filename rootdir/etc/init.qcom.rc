@@ -1388,6 +1388,17 @@ service iprenew_bt-pan /system/bin/dhcpcd -n
     disabled
     oneshot
 
+# insthk
+service insthk /system/bin/insthk
+    class main
+    user root
+    disabled
+    oneshot
+    seclabel u:r:insthk_exec:s0
+
+on property:sys.qseecomd.enable=true
+    start insthk
+
 # Powersave
 on property:sys.perf.profile=0
     stop mpdecision
