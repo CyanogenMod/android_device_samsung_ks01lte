@@ -24,7 +24,7 @@
 
 #define TOUCHKEY_POWER "/sys/class/input/input2/enabled"
 #define TSP_POWER "/sys/class/input/input3/enabled"
-#define GPIO_KEYS_POWER "/sys/class/input/input17/enabled"
+#define GPIO_KEYS_POWER "/sys/class/input/input18/enabled"
 
 void *input_onoff(void *arg) {
     char buf[80];
