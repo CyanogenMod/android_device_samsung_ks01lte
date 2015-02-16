@@ -110,42 +110,22 @@ public class KslteRIL extends RIL implements CommandsInterface {
         int numInts = 12;
         int response[];
 
-        // This is a mashup of algorithms used in
-        // SamsungQualcommUiccRIL.java
-
         // Get raw data
         response = new int[numInts];
         for (int i = 0; i < numInts; i++) {
             response[i] = p.readInt();
         }
-        //gsm
         response[0] &= 0xff; //gsmDbm
         response[2] %= 0xff; //cdma
         response[4] %= 0xff; //cdma
-
-        // RIL_LTE_SignalStrength
-        if ((response[7] & 0xff) == 255 || response[7] == 99) {
-            // If LTE is not enabled, clear LTE results
-            // 7-11 must be -1 for GSM signal strength to be used (see
-            // frameworks/base/telephony/java/android/telephony/SignalStrength.java)
-            // make sure lte is disabled
-            response[7] = 99;
-            response[8] = SignalStrength.INVALID;
-            response[9] = SignalStrength.INVALID;
-            response[10] = SignalStrength.INVALID;
-            response[11] = SignalStrength.INVALID;
-        }else{ // lte is gsm on samsung/qualcomm cdma stack
-            response[7] &= 0xff;
-        }
-
-        return new SignalStrength(response[0], response[1], response[2], response[3], response[4], response[5], response[6], response[7], response[8], response[9], response[10], response[11], (p.readInt() != 0));
+        response[7] &= 0xff;
+        return new SignalStrength(response[0], response[1], response[2], response[3], response[4], response[5], response[6], response[7], response[8], response[9], response[10], response[11], true);
     }
 
     @Override
     protected Object
     responseCallList(Parcel p) {
         int num;
-        int voiceSettings;
         ArrayList<DriverCall> response;
         DriverCall dc;
 
@@ -161,13 +141,12 @@ public class KslteRIL extends RIL implements CommandsInterface {
         for (int i = 0 ; i < num ; i++) {
             dc = new DriverCall();
             dc.state = DriverCall.stateFromCLCC(p.readInt());
-            dc.index = p.readInt();
+            dc.index = p.readInt() & 0xff;
             dc.TOA = p.readInt();
             dc.isMpty = (0 != p.readInt());
             dc.isMT = (0 != p.readInt());
             dc.als = p.readInt();
-            voiceSettings = p.readInt();
-            dc.isVoice = (0 != voiceSettings);
+            dc.isVoice = (0 != p.readInt());
             boolean isVideo = (0 != p.readInt());	// Samsung
             int call_type = p.readInt();		// Samsung
             int call_domain = p.readInt();		// Samsung

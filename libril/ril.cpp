@@ -2383,43 +2383,17 @@ static int responseRilSignalStrength(Parcel &p,
         RIL_SignalStrength_v10 *p_cur = ((RIL_SignalStrength_v10 *) response);
 
         /* gsmSignalStrength */
-        RLOGD("gsmSignalStrength (raw)=%d", p_cur->GW_SignalStrength.signalStrength);
-        gsmSignalStrength = p_cur->GW_SignalStrength.signalStrength & 0xFF;
-        if (gsmSignalStrength < 0) {
-            gsmSignalStrength = 99;
-        } else if (gsmSignalStrength > 31 && gsmSignalStrength != 99) {
-            gsmSignalStrength = 31;
-        }
-        RLOGD("gsmSignalStrength (corrected)=%d", gsmSignalStrength);
-        p.writeInt32(gsmSignalStrength);
+        p.writeInt32(p_cur->GW_SignalStrength.signalStrength);
 
         /* gsmBitErrorRate */
         p.writeInt32(p_cur->GW_SignalStrength.bitErrorRate);
 
-        /* cdmaDbm */
-        RLOGD("cdmaDbm (raw)=%d", p_cur->CDMA_SignalStrength.dbm);
-        cdmaDbm = p_cur->CDMA_SignalStrength.dbm & 0xFF;
-        if (cdmaDbm < 0) {
-            cdmaDbm = 99;
-        } else if (cdmaDbm > 31 && cdmaDbm != 99) {
-            cdmaDbm = 31;
-        }
-        //RLOGD("cdmaDbm (corrected)=%d", cdmaDbm);
-        p.writeInt32(cdmaDbm);
+        p.writeInt32(p_cur->CDMA_SignalStrength.dbm);
 
         /* cdmaEcio */
         p.writeInt32(p_cur->CDMA_SignalStrength.ecio);
 
-        /* evdoDbm */
-        RLOGD("evdoDbm (raw)=%d", p_cur->EVDO_SignalStrength.dbm);
-        evdoDbm = p_cur->EVDO_SignalStrength.dbm & 0xFF;
-        if (evdoDbm < 0) {
-            evdoDbm = 99;
-        } else if (evdoDbm > 31 && evdoDbm != 99) {
-            evdoDbm = 31;
-        }
-        //RLOGD("evdoDbm (corrected)=%d", evdoDbm);
-        p.writeInt32(evdoDbm);
+        p.writeInt32(p_cur->EVDO_SignalStrength.dbm);
 
         /* evdoEcio */
         p.writeInt32(p_cur->EVDO_SignalStrength.ecio);
