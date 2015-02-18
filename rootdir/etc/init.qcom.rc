@@ -726,8 +726,8 @@ on post-fs-data
     chown system system /sys/class/input/input3/enabled
 
     # permissions for gpio-keys
-    chmod 0660 /sys/class/input/input17/enabled
-    chown system system /sys/class/input/input17/enabled
+    chmod 0660 /sys/class/input/input18/enabled
+    chown system system /sys/class/input/input18/enabled
 
     # Color Calibration
     chown root system /sys/class/misc/gammacontrol/tuner
