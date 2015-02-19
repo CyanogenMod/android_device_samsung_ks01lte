@@ -22,6 +22,7 @@ LOCAL_SRC_FILES += \
     ../platform_lib_abstractions/elapsed_millis_since_boot.cpp \
     loc_misc_utils.cpp
 
+
 LOCAL_CFLAGS += \
      -fno-short-enums \
      -D_ANDROID_
@@ -46,6 +47,7 @@ LOCAL_COPY_HEADERS:= \
    ../platform_lib_abstractions/platform_lib_macros.h \
    loc_misc_utils.h
 
+
 LOCAL_MODULE := libgps.utils
 
 LOCAL_MODULE_TAGS := optional
@@ -55,3 +57,4 @@ LOCAL_PRELINK_MODULE := false
 LOCAL_MODULE_PATH := $(TARGET_OUT_SHARED_LIBRARIES)
 include $(BUILD_SHARED_LIBRARY)
 endif # not BUILD_TINY_ANDROID
+

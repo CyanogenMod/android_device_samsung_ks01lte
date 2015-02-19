@@ -1,4 +1,4 @@
-/* Copyright (c) 2011 The Linux Foundation. All rights reserved.
+/* Copyright (c) 2009,2011 The Linux Foundation. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are
@@ -27,46 +27,21 @@
  *
  */
 
-#include "hardware/gps.h"
+#ifndef LOC_ENG_XTRA_H
+#define LOC_ENG_XTRA_H
 
-#include <stdlib.h>
+#include <hardware/gps.h>
 
-extern const GpsInterface* get_gps_interface();
-
-const GpsInterface* gps__get_gps_interface(struct gps_device_t* dev)
+// Module data
+typedef struct
 {
-    return get_gps_interface();
-}
+   // loc_eng_ioctl_cb_data_s_type   ioctl_cb_data;
+   gps_xtra_download_request      download_request_cb;
+   report_xtra_server             report_xtra_server_cb;
 
-static int open_gps(const struct hw_module_t* module, char const* name,
-        struct hw_device_t** device)
-{
-    struct gps_device_t *dev = (struct gps_device_t *) malloc(sizeof(struct gps_device_t));
+   // XTRA data buffer
+   char                          *xtra_data_for_injection;  // NULL if no pending data
+   int                            xtra_data_len;
+} loc_eng_xtra_data_s_type;
 
-    if(dev == NULL)
-        return -1;
-
-    memset(dev, 0, sizeof(*dev));
-
-    dev->common.tag = HARDWARE_DEVICE_TAG;
-    dev->common.version = 0;
-    dev->common.module = (struct hw_module_t*)module;
-    dev->get_gps_interface = gps__get_gps_interface;
-
-    *device = (struct hw_device_t*)dev;
-    return 0;
-}
-
-static struct hw_module_methods_t gps_module_methods = {
-    .open = open_gps
-};
-
-struct hw_module_t HAL_MODULE_INFO_SYM = {
-    .tag = HARDWARE_MODULE_TAG,
-    .module_api_version = 1,
-    .hal_api_version = 0,
-    .id = GPS_HARDWARE_MODULE_ID,
-    .name = "loc_api GPS Module",
-    .author = "Qualcomm USA, Inc.",
-    .methods = &gps_module_methods,
-};
+#endif // LOC_ENG_XTRA_H
