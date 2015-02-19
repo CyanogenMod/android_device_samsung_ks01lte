@@ -176,5 +176,10 @@ PRODUCT_PACKAGES += \
    com.dsi.ant.antradio_library \
    libantradio
 
+# Filesystem
+PRODUCT_PACKAGES += \
+   mkfs.f2fs \
+   fsck.f2fs
+
 # Common msm8974
 $(call inherit-product, device/samsung/msm8974-common/msm8974.mk)
