@@ -17,6 +17,7 @@ vendor/lib/libcneqmiutils.so
 vendor/lib/libcneutils.so
 vendor/lib/libxml.so
 lib/libcnefeatureconfig.so
+framework/com.quicinc.cne.jar
 
 # Bluetooth firmware
 vendor/firmware/bcm4335.hcd
