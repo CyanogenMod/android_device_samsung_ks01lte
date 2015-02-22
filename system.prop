@@ -8,15 +8,13 @@ media.aac_51_output_enabled=true
 
 # Display
 ro.hdcp2.rx=tz
-ro.qualcomm.cabl=0
+ro.qualcomm.cabl=1
 ro.secwvk=144
 ro.sf.lcd_density=480
 
 # GPS
 persist.gps.qc_nlp_in_use=0
 ro.gps.agps_provider=1
-ro.qc.sdk.izat.premium_enabled=0
-ro.qc.sdk.izat.service_mask=0x0
 
 # Radio
 persist.data.netmgrd.qos.enable=true
