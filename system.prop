@@ -27,7 +27,7 @@ persist.radio.use_se_table_only=1
 rild.libargs=-d /dev/smd0
 rild.libpath=/system/lib/libsec-ril.so
 ro.telephony.call_ring.multiple=false
-telephony.lteOnCdmaDevice=0
+telephony.lteOnGsmDevice=1
 
 #Simulate sdcard on /data/media
 persist.fuse_sdcard=true
