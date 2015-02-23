@@ -22,7 +22,7 @@
 */
 
 #define LOG_NDEBUG 0
-#define LOG_PARAMETERS
+#undef LOG_PARAMETERS
 
 #define LOG_TAG "CameraWrapper"
 #include <cutils/log.h>
@@ -101,8 +101,7 @@ static int check_vendor_module()
     return rv;
 }
 
-const static char * iso_values[] = {"auto,ISO_HJR,ISO100,ISO200,ISO400,ISO800,ISO1600"
-,"auto"};
+const static char * iso_values[] = {"auto,ISO_HJR,ISO100,ISO200,ISO400,ISO800,ISO1600"};
 
 void setHfrParameters(struct camera_device * device) {
 
@@ -139,7 +138,6 @@ void setHfrParameters(struct camera_device * device) {
             break;
     }
 
-//    camera_send_command(device, 1508, 0, 0);
     params.set(android::CameraParameters::KEY_RECORDING_HINT, "true");
     free(fixed_set_params[id]);
     fixed_set_params[id] = strdup(params.flatten().string());
@@ -161,12 +159,22 @@ static char * camera_fixup_getparams(int id, const char * settings)
 
     // fix params here
     params.set(android::CameraParameters::KEY_SUPPORTED_ISO_MODES, iso_values[id]);
+    const char *videoSizesStr = params.get(android::CameraParameters::KEY_SUPPORTED_VIDEO_SIZES);
+    char tmpsz[strlen(videoSizesStr) + 10 + 1];
+    sprintf(tmpsz, "3840x2160,%s", videoSizesStr);
+    params.set(android::CameraParameters::KEY_SUPPORTED_VIDEO_SIZES, tmpsz);
 
     const char* hfrValues = params.get(android::CameraParameters::KEY_SUPPORTED_VIDEO_HIGH_FRAME_RATE_MODES);
     if (hfrValues && *hfrValues && ! strstr(hfrValues, android::CameraParameters::VIDEO_HFR_OFF)) {
-        char tmp[strlen(hfrValues) + strlen(android::CameraParameters::VIDEO_HFR_OFF) + 1];
-        sprintf(tmp, "%s,%s", hfrValues, android::CameraParameters::VIDEO_HFR_OFF);
+        char tmp[strlen(hfrValues) + 5];
+        sprintf(tmp, "%s,off", hfrValues);
         params.set(android::CameraParameters::KEY_SUPPORTED_VIDEO_HIGH_FRAME_RATE_MODES, tmp);
+    }
+    const char* sceneModes = params.get("scene-mode-values");
+    if (sceneModes && *sceneModes && ! strstr(sceneModes, "hdr")) {
+        char tmp[strlen(sceneModes) + 5];
+        sprintf(tmp, "%s,hdr", sceneModes);
+        params.set("scene-mode-values", tmp);
     }
     params.set(android::CameraParameters::KEY_SUPPORTED_HFR_SIZES, "1280x720,1280x720,1280x720,1280x720");
 
@@ -188,8 +196,6 @@ static char * camera_fixup_getparams(int id, const char * settings)
     }
     
     params.set(android::CameraParameters::KEY_VIDEO_SNAPSHOT_SUPPORTED, "true");
-
-    params.set("scene-mode-values","auto,asd,landscape,snow,beach,sunset,night,portrait,backlight,sports,steadyphoto,flowers,candlelight,fireworks,party,night-portrait,theatre,action,AR,hdr");
 
     android::String8 strParams = params.flatten();
     char *ret = strdup(strParams.string());
@@ -215,7 +221,7 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
 
     const char* recordingHint = params.get(android::CameraParameters::KEY_RECORDING_HINT);
     const bool isVideo = recordingHint && !strcmp(recordingHint, "true");
-   
+
     // fix params here
     // No need to fix-up ISO_HJR, it is the same for userspace and the camera lib
     if(params.get("iso")) {
@@ -236,55 +242,15 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
 
     if (id != 1) {
         params.set(android::CameraParameters::KEY_ZSL, isVideo ? "off" : "on");
-        camera_send_command(device, 1508, 0, 0);
-        camera_send_command(device, 1014, 0, 0); // Turn off HDR by default
-//	camera_send_command(device, 1264, 0, 0);
-//        params.set("picture-format","jpeg"); // Use jpeg by default
-/*        camera_send_command(device, 1334, 0, 0); //drama
-        camera_send_command(device, 1351, 0, 0); //autolls
-        camera_send_command(device, 1273, 0, 0); //unk
-        camera_send_command(device, 1631, 0, 0); //unk*/
-    }
-
-    params.set("preview-size", "1920x1080");   
-    const char* sceneMode = params.get("scene-mode");
-    if (sceneMode) {
-        if (!strcmp(sceneMode,"auto")) {
-            params.set("shot-mode","10");
-            params.set("scene-detect","on");
-//	    camera_send_command(device, 1264, 0, 0);
-//	    camera_send_command(device, 1014, 0, 0);
-//	    camera_send_command(device, 1351, 1, 0); //autolls
-	}
-        if (!strcmp(sceneMode,"night")) {
-            params.set("shot-mode","10");
-//	    camera_send_command(device, 1264, 1, 0); //low light
-	}
-        if (!strcmp(sceneMode,"sports"))
-            params.set("shot-mode","17");
-/*        if (!strcmp(sceneMode,"panorama"))
- *                    params.set("shot-mode","7");*/
-        if (!strcmp(sceneMode,"asd"))
-            params.set("shot-mode","6");
-        if (!strcmp(sceneMode,"hdr")) {
-	    camera_send_command(device, 1014, 1, 0); //hdr
-	    params.set("scene-mode","auto");
+        const char* sceneMode = params.get("scene-mode");
+        if (sceneMode && !strcmp(sceneMode,"hdr")) {
+            camera_send_command(device, 1014, 1, 0);
+            params.set("scene-mode","auto");
             params.set("shot-mode","9");
-            params.set("picture-format","yuv-raw8-yuyv");
-            params.set("ae-bracket-hdr","AE-Bracket");
-        }
-/*        if (!strcmp(sceneMode,"animation"))
- *                    params.set("shot-mode","15");*/
-        if (!strcmp(sceneMode,"action"))
-            params.set("shot-mode","4");
-/*        if (!strcmp(sceneMode,"withsound"))
- *                    params.set("shot-mode","11");*/
-        if (!strcmp(sceneMode,"asd2"))
-            params.set("shot-mode","5");
-        if (!strcmp(sceneMode,"asd3"))
-            params.set("shot-mode","3");
-        if (!strcmp(sceneMode,"portrait"))
-            params.set("shot-mode","2");
+        } else {
+            camera_send_command(device, 1014, 0, 0);
+            params.set("shot-mode","10");
+	}
     }
 
     if (isVideo) {
@@ -303,8 +269,6 @@ char * camera_fixup_setparams(struct camera_device * device, const char * settin
         }
     }
 
-    params.set("scene-mode-values","auto,asd,landscape,snow,beach,sunset,night,portrait,backlight,sports,steadyphoto,flowers,candlelight,fireworks,party,night-portrait,theatre,action,AR");
-    
     android::String8 strParams = params.flatten();
 
     if (fixed_set_params[id])
