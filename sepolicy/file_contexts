@@ -37,7 +37,7 @@
 
 # CMHW
 /sys/devices/virtual/timed_output/vibrator(/.*)?				u:object_r:sysfs_vibeamp:s0
-/sys/devices/virtual/sec/sec_touchkey/keypad_enable				u:object_r:sysfs_display:s0
+/sys/devices/virtual/sec/sec_touchkey/keypad_enable				u:object_r:sysfs_keypad:s0
 
 # RIL
 /efs/FactoryApp(/.*)?								u:object_r:efs_file:s0
