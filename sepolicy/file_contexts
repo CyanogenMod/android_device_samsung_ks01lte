@@ -32,8 +32,7 @@
 
 # Display
 /sys/devices/virtual/lcd/panel/power_reduce					u:object_r:sysfs_display:s0
-/sys/class/misc/gammacontrol/tuner						u:object_r:sysfs_display:s0
-/sys/devices/virtual/misc/gammacontrol/tuner					u:object_r:sysfs_display:s0
+/sys/devices/virtual/graphics/fb0/rgb						u:object_r:sysfs_display:s0
 
 # CMHW
 /sys/devices/virtual/timed_output/vibrator(/.*)?				u:object_r:sysfs_vibeamp:s0

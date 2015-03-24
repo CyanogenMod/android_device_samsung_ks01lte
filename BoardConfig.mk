@@ -143,7 +143,6 @@ BOARD_SEPOLICY_UNION += \
     sensorhubservice.te \
     service.te \
     service_contexts \
-    system_app.te \
     system_server.te \
     tee.te \
     thermal-engine.te \
