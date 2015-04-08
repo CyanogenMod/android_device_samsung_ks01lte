@@ -99,6 +99,7 @@ WIFI_DRIVER_FW_PATH_AP := "/system/etc/wifi/bcmdhd_apsta.bin"
 BOARD_VENDOR := samsung
 BOARD_MOBILEDATA_INTERFACE_NAME := "rmnet0"
 BOARD_PROVIDES_LIBRIL := true
+BOARD_MODEM_TYPE := xmm6360
 
 # CMHW
 BOARD_HARDWARE_CLASS += device/samsung/ks01lte/cmhw
