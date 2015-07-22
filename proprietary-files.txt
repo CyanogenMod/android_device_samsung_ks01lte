@@ -26,7 +26,6 @@ lib/libloc_api_v02.so
 vendor/lib/libgeofence.so
 vendor/lib/libizat_core.so
 vendor/lib/liblbs_core.so
-vendor/lib/liblocationservice.so
 
 # HDCP
 bin/insthk
