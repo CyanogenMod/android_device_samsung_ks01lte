@@ -1334,7 +1334,7 @@ service hcidump /system/bin/sh /system/etc/hcidump.sh
     disabled
     oneshot
 
-service charger /sbin/healthd -c
+service charger /charger
     class charger
     critical
     seclabel u:r:healthd:s0
