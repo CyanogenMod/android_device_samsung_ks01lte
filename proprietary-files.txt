@@ -22,7 +22,6 @@ framework/com.quicinc.cne.jar
 vendor/firmware/bcm4335.hcd
 
 # GPS
-lib/libgps.utils.so
 lib/libloc_api_v02.so
 vendor/lib/libgeofence.so
 vendor/lib/libizat_core.so
