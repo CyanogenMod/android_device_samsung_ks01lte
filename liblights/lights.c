@@ -217,7 +217,7 @@ static int set_light_leds(struct light_state_t const *state, int type)
     ALOGD("%s: type=%d, color=0x%010x, fM=%d, fOnMS=%d, fOffMs=%d.", __func__,
           type, state->color,state->flashMode, state->flashOnMS, state->flashOffMS);
 
-    if (type < 0 || type >= 2)
+    if (type < 0 || (unsigned int)type >= sizeof(g_leds)/sizeof(g_leds[0]))
         return -EINVAL;
 
     /* type is one of:
