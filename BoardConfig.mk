@@ -125,6 +125,7 @@ BOARD_SEPOLICY_DIRS += device/samsung/ks01lte/sepolicy
 
 BOARD_SEPOLICY_UNION += \
     bluetooth.te \
+    bootanim.te \
     file_contexts \
     file.te \
     genfs_contexts \
