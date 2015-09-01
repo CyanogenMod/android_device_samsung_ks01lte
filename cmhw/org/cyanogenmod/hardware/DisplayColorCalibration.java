@@ -16,28 +16,28 @@
 
 package org.cyanogenmod.hardware;
 
+import java.io.File;
+import java.util.Scanner;
 import org.cyanogenmod.hardware.util.FileUtils;
 
-import java.io.File;
-
 public class DisplayColorCalibration {
-    private static final String COLOR_FILE = "/sys/class/misc/gammacontrol/tuner";
+    private static final String COLOR_FILE = "/sys/class/graphics/fb0/rgb";
 
     public static boolean isSupported() {
         File f = new File(COLOR_FILE);
-	return f.exists();
+        return f.exists();
     }
 
     public static int getMaxValue()  {
-        return 120;
+        return 32768;
     }
 
     public static int getMinValue()  {
-        return 0;
+        return 255;
     }
 
     public static int getDefValue() {
-        return 60;
+        return getMaxValue();
     }
 
     public static String getCurColors()  {
@@ -48,4 +48,3 @@ public class DisplayColorCalibration {
         return FileUtils.writeLine(COLOR_FILE, colors);
     }
 }
-
