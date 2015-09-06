@@ -849,7 +849,7 @@ on property:service.bootanim.exit=1
     chmod 664 /sys/devices/system/cpu/cpu3/online
 
 on property:init.svc.bootanim=stopped
-    # Switch to ROW and balanced mode after boot for better UX
+    # Switch to BFQ and balanced mode after boot for better UX
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "interactive"
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "interactive"
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "interactive"
@@ -869,8 +869,8 @@ on property:init.svc.bootanim=stopped
     write /sys/module/cpu_boost/parameters/input_boost_ms 40
     write /sys/class/kgsl/kgsl-3d0/devfreq/governor msm-adreno-tz
 
-    write /sys/block/mmcblk0/queue/scheduler fiops
-    write /sys/block/mmcblk1/queue/scheduler fiops
+    write /sys/block/mmcblk0/queue/scheduler bfq
+    write /sys/block/mmcblk1/queue/scheduler bfq
     start mpdecision
 
 # Export GPIO56 for fusion targets to enable/disable hub
