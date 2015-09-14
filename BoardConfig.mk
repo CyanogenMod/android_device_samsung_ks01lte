@@ -51,9 +51,6 @@ TARGET_GPS_HAL_PATH := device/samsung/ks01lte/gps
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
 
-# Logging
-TARGET_USES_LOGD := false
-
 # NFC
 BOARD_NFC_HAL_SUFFIX := msm8974
 
