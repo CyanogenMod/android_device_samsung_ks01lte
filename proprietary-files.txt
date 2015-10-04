@@ -1,6 +1,7 @@
 # Bins
 bin/hvdcp
 bin/mpdecision
+bin/radish
 bin/ssr_diag
 
 # Thermal
