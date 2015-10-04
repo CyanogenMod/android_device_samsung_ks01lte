@@ -30,6 +30,7 @@ public class SunlightEnhancement {
     private static final String TAG = "SunlightEnhancement";
 
     private static final String FILE_SRE = "/sys/devices/virtual/lcd/panel/panel/auto_brightness";
+    private static final String FILE_OUT = "/sys/devices/virtual/mdnie/mdnie/outdoor";
 
     /**
      * Whether device supports SRE
@@ -69,7 +70,10 @@ public class SunlightEnhancement {
      * failed; true in any other case.
      */
     public static boolean setEnabled(boolean status) {
-        return FileUtils.writeLine(FILE_SRE, status ? "6" : "1");
+        boolean result;
+        result = FileUtils.writeLine(FILE_OUT, status ? "1" : "0");
+        result &= FileUtils.writeLine(FILE_SRE, status ? "6" : "1");
+        return result;
     }
 
     /**
@@ -78,6 +82,6 @@ public class SunlightEnhancement {
      * @return boolean False if adaptive backlight is not a dependency
      */
     public static boolean isAdaptiveBacklightRequired() {
-        return true;
+        return false;
     }
 }
