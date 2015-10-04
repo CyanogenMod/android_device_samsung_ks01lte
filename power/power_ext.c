@@ -26,11 +26,21 @@
 #define TSP_POWER "/sys/class/input/input3/enabled"
 #define GPIO_KEYS_POWER "/sys/class/input/input18/enabled"
 
+static pthread_once_t g_init = PTHREAD_ONCE_INIT;
+static pthread_mutex_t g_lock = PTHREAD_MUTEX_INITIALIZER;
+
+void init_g_lock(void)
+{
+    pthread_mutex_init(&g_lock, NULL);
+}
+
 void *input_onoff(void *arg) {
     char buf[80];
     int len;
     char *onoff=(char*) arg;
     char *path = TOUCHKEY_POWER;
+
+    pthread_mutex_lock(&g_lock);
 
     int fd = open(path, O_WRONLY);
 
@@ -79,12 +89,15 @@ void *input_onoff(void *arg) {
 
     close(fd);
 
+    pthread_mutex_unlock(&g_lock);
+
     return NULL;
 }
 
 void cm_power_set_interactive_ext(int on) {
     ALOGD("%s: %s input devices", __func__, on ? "enabling" : "disabling");
     pthread_t pth;
+    pthread_once(&g_init, init_g_lock);
     pthread_create(&pth,NULL,input_onoff, (void*) on ? "1" : "0");
 }
 
