@@ -7,3 +7,4 @@ type wifi_efs_file, file_type;
 type sensors_efs_file, file_type;
 type sensorhub_dev, dev_type;
 type rfkill_dev, dev_type;
+type bluetooth_dev, dev_type;

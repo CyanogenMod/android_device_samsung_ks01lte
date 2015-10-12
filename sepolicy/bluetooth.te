@@ -1,1 +1,4 @@
 allow bluetooth proc_bluetooth_writable:dir search;
+allow bluetooth proc_bluetooth_writable:file { open read write };
+allow bluetooth bluetooth_dev:chr_file { write open };
+allow bluetooth bluetooth_efs_file:file open;
