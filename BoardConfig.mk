@@ -110,9 +110,6 @@ TARGET_PROVIDES_CAMERA_HAL := true
 # ANT+
 BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
 
-# Recovery
-TARGET_RECOVERY_DEVICE_DIRS := device/samsung/ks01lte/recovery
-
 # SElinux
 include device/qcom/sepolicy/sepolicy.mk
 BOARD_SEPOLICY_DIRS += device/samsung/ks01lte/sepolicy
