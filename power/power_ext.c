@@ -97,8 +97,12 @@ void *input_onoff(void *arg) {
 void cm_power_set_interactive_ext(int on) {
     ALOGD("%s: %s input devices", __func__, on ? "enabling" : "disabling");
     pthread_t pth;
+    pthread_attr_t threadAttr;
+    pthread_attr_init(&threadAttr); 
+    pthread_attr_setdetachstate(&threadAttr, PTHREAD_CREATE_DETACHED); 
     pthread_once(&g_init, init_g_lock);
-    pthread_create(&pth,NULL,input_onoff, (void*) on ? "1" : "0");
+    pthread_create(&pth,&threadAttr,input_onoff, (void*) on ? "1" : "0");
+    pthread_attr_destroy(&threadAttr);
 }
 
 
