@@ -76,6 +76,7 @@ on init
 
     # Enable mass storage mounting
     write /sys/devices/msm_dwc3/f9200000.dwc3/gadget/lun0/cdrom 0
+    write /proc/sys/kernel/printk 8
 
 on early-boot
     # set RLIMIT_MEMLOCK to 64MB
@@ -232,14 +233,6 @@ on boot
     mkdir /dev/validity 0775 system system
 
 # SEC DVFS sysfs node
-    chown radio system /sys/power/cpufreq_max_limit
-    chown radio system /sys/power/cpufreq_min_limit
-    chown radio system /sys/power/cpufreq_table
-    chmod 664 /sys/power/cpufreq_max_limit
-    write 300000 /sys/power/cpufreq_min_limit
-    chmod 664 /sys/power/cpufreq_min_limit
-    chmod 664 /sys/power/cpufreq_table
-
     chown radio system /sys/devices/system/cpu/kernel_max
     chmod 664 /sys/devices/system/cpu/kernel_max
 
@@ -276,42 +269,9 @@ on boot
     chown radio system /sys/class/lcd/panel/temperature
     chown radio system /sys/class/lcd/panel/tuning
 
-    chown radio system /sys/class/lcd/panel/partial_disp
-    chmod 0660 /sys/class/lcd/panel/partial_disp
-
-
-    # LCD HMT
-    chown radio system /sys/class/lcd/panel/hmt_on
-    chown radio system /sys/class/lcd/panel/hmt_bright
-    chown radio system /sys/class/lcd/panel/hmt_dual_scan
-    chown radio system /sys/class/lcd/panel/hmt_aid
-    chown radio system /sys/class/lcd/panel/hmt_change_fps
-    chown radio system /sys/class/lcd/panel/hmt_hbm
-    chown radio system /sys/class/lcd/panel/hmt
-    chown radio system /sys/class/lcd/panel/force_500cd
-
-    chmod 0660 /sys/class/lcd/panel/hmt_on
-    chmod 0660 /sys/class/lcd/panel/hmt_bright
-    chmod 0660 /sys/class/lcd/panel/hmt_dual_scan
-    chmod 0660 /sys/class/lcd/panel/hmt_aid
-    chmod 0660 /sys/class/lcd/panel/hmt_change_fps
-    chmod 0660 /sys/class/lcd/panel/hmt_hbm
-    chmod 0660 /sys/class/lcd/panel/hmt
-
-    # LCD ALPM Mode
-    chown system system /sys/class/lcd/panel/alpm
-    chmod 0660 /sys/class/lcd/panel/alpm
-
     # Auto Brightness
     chown system system  /sys/class/backlight/panel/auto_brightness
     chmod 0660 /sys/class/backlight/panel/auto_brightness
-
-    # Permissions for TCON
-    chown system system /sys/class/tcon/tcon/lux
-    chown system system /sys/class/tcon/tcon/auto_br
-    chown system media_rw /sys/class/tcon/tcon/mode
-    chown system radio /sys/class/tcon/tcon/black_test
-    chown system radio /sys/class/tcon/tcon/tcon_test
 
 # Adjust YUV to RGB Conversion(CSC_Conversion)
     chown system media_rw /sys/class/graphics/fb0/csc_cfg
@@ -483,7 +443,6 @@ on boot
     chown nfc nfc /data/nfc
     chown nfc nfc /data/nfc/param
 
-
 # IR_LED
     chown system radio /sys/class/sec/sec_ir/ir_send
     chown system radio /sys/class/sec/sec_ir/ir_send_result
@@ -533,20 +492,8 @@ on boot
     # Vibetonz
     chmod 0660 /dev/tspdrv
     chown root shell /dev/tspdrv
-        chown system system /sys/class/timed_output/vibrator/pwm_value
-        chmod 0660 /sys/class/timed_output/vibrator/pwm_value
-    chown system system /sys/class/timed_output/vibrator/pwm_max
-        chmod 0660 /sys/class/timed_output/vibrator/pwm_max
-        chown system system /sys/class/timed_output/vibrator/pwm_min
-        chmod 0660 /sys/class/timed_output/vibrator/pwm_min
-        chown system system /sys/class/timed_output/vibrator/pwm_default
-        chmod 0660 /sys/class/timed_output/vibrator/pwm_default
-        chown system system /sys/class/timed_output/vibrator/pwm_threshold
-        chmod 0660 /sys/class/timed_output/vibrator/pwm_threshold
-
-    # Panel color temperature
-    chmod 0660 /sys/class/lcd/panel/panel_colors
-    chown system system /sys/class/lcd/panel/panel_colors
+    chown system system /sys/class/timed_output/vibrator/pwm_value
+    chmod 0660 /sys/class/timed_output/vibrator/pwm_value
 
 on fs
     # Support Preload install apks
