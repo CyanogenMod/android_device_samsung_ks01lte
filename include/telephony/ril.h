@@ -34,13 +34,10 @@ extern "C" {
 
 #define SIM_COUNT 1
 
-#define RIL_VERSION 10     /* Current version */
-#ifdef LEGACY_RIL
-#define RIL_VERSION_MIN 6 /* Minimum RIL_VERSION supported */
-#else
-#define RIL_VERSION_MIN 6 /* Minimum RIL_VERSION supported */
-#endif
 #define RIL_QCOM_VERSION 3 /* Qualcomm internal RIL version */
+
+#define RIL_VERSION 11     /* Current version */
+#define RIL_VERSION_MIN 6 /* Minimum RIL_VERSION supported */
 
 #define CDMA_ALPHA_INFO_BUFFER_LENGTH 64
 #define CDMA_NUMBER_INFO_BUFFER_LENGTH 81
@@ -92,20 +89,22 @@ typedef enum {
     RIL_E_FDN_CHECK_FAILURE = 14,               /* command failed because recipient is not on FDN list */
     RIL_E_ILLEGAL_SIM_OR_ME = 15,               /* network selection failed due to
                                                    illegal SIM or ME */
-    RIL_E_UNUSED = 16,
-    RIL_E_DIAL_MODIFIED_TO_USSD = 17,           /* DIAL request modified to USSD */
-    RIL_E_DIAL_MODIFIED_TO_SS = 18,             /* DIAL request modified to SS */
-    RIL_E_DIAL_MODIFIED_TO_DIAL = 19,           /* DIAL request modified to DIAL with different data */
-    RIL_E_USSD_MODIFIED_TO_DIAL = 20,           /* USSD request modified to DIAL */
-    RIL_E_USSD_MODIFIED_TO_SS = 21,             /* USSD request modified to SS */
-    RIL_E_USSD_MODIFIED_TO_USSD = 22,           /* USSD request modified to different USSD request */
-    RIL_E_SS_MODIFIED_TO_DIAL = 23,             /* SS request modified to DIAL */
-    RIL_E_SS_MODIFIED_TO_USSD = 24,             /* SS request modified to USSD */
-    RIL_E_SS_MODIFIED_TO_SS = 25,               /* SS request modified to different SS request */
+    RIL_E_MISSING_RESOURCE = 16,                /* no logical channel available */
+    RIL_E_NO_SUCH_ELEMENT = 17,                  /* application not found on SIM */
+    RIL_E_DIAL_MODIFIED_TO_USSD = 18,           /* DIAL request modified to USSD */
+    RIL_E_DIAL_MODIFIED_TO_SS = 19,             /* DIAL request modified to SS */
+    RIL_E_DIAL_MODIFIED_TO_DIAL = 20,           /* DIAL request modified to DIAL with different
+                                                   data */
+    RIL_E_USSD_MODIFIED_TO_DIAL = 21,           /* USSD request modified to DIAL */
+    RIL_E_USSD_MODIFIED_TO_SS = 22,             /* USSD request modified to SS */
+    RIL_E_USSD_MODIFIED_TO_USSD = 23,           /* USSD request modified to different USSD
+                                                   request */
+    RIL_E_SS_MODIFIED_TO_DIAL = 24,             /* SS request modified to DIAL */
+    RIL_E_SS_MODIFIED_TO_USSD = 25,             /* SS request modified to USSD */
     RIL_E_SUBSCRIPTION_NOT_SUPPORTED = 26,      /* Subscription not supported by RIL */
-    RIL_E_MISSING_RESOURCE = 27, /* No logical channel available */
-    RIL_E_NO_SUCH_ELEMENT = 28, /* Application not found on sim */
-    RIL_E_INVALID_PARAMETER = 29 /* To Do: add description*/
+    RIL_E_SS_MODIFIED_TO_SS = 27                /* SS request modified to different SS request */
+
+
 } RIL_Errno;
 
 typedef enum {
@@ -153,8 +152,7 @@ typedef enum {
     RADIO_TECH_HSPAP = 15, // HSPA+
     RADIO_TECH_GSM = 16, // Only supports voice
     RADIO_TECH_TD_SCDMA = 17,
-    RADIO_TECH_IWLAN = 18,
-    RADIO_TECH_DCHSPAP = 30
+    RADIO_TECH_IWLAN = 18
 } RIL_RadioTechnology;
 
 typedef enum {
@@ -228,17 +226,7 @@ typedef enum {
     PREF_NET_TYPE_LTE_GSM_WCDMA            = 9, /* LTE, GSM/WCDMA */
     PREF_NET_TYPE_LTE_CMDA_EVDO_GSM_WCDMA  = 10, /* LTE, CDMA, EvDo, GSM/WCDMA */
     PREF_NET_TYPE_LTE_ONLY                 = 11, /* LTE only */
-    PREF_NET_TYPE_LTE_WCDMA                = 12, /* LTE/WCDMA */
-    PREF_NET_TYPE_TD_SCDMA_ONLY            = 13, /* TD-SCDMA only */
-    PREF_NET_TYPE_TD_SCDMA_WCDMA           = 14, /* TD-SCDMA and WCDMA */
-    PREF_NET_TYPE_TD_SCDMA_LTE             = 15, /* TD-SCDMA and LTE */
-    PREF_NET_TYPE_TD_SCDMA_GSM             = 16, /* TD-SCDMA and GSM */
-    PREF_NET_TYPE_TD_SCDMA_GSM_LTE         = 17, /* TD-SCDMA,GSM and LTE */
-    PREF_NET_TYPE_TD_SCDMA_GSM_WCDMA       = 18, /* TD-SCDMA, GSM/WCDMA */
-    PREF_NET_TYPE_TD_SCDMA_WCDMA_LTE       = 19, /* TD-SCDMA, WCDMA and LTE */
-    PREF_NET_TYPE_TD_SCDMA_GSM_WCDMA_LTE   = 20, /* TD-SCDMA, GSM/WCDMA and LTE */
-    PREF_NET_TYPE_TD_SCDMA_GSM_WCDMA_CDMA_EVDO_AUTO  = 21, /* TD-SCDMA, GSM/WCDMA, CDMA and EvDo */
-    PREF_NET_TYPE_TD_SCDMA_LTE_CDMA_EVDO_GSM_WCDMA   = 22  /* TD-SCDMA, LTE, CDMA, EvDo GSM/WCDMA */
+    PREF_NET_TYPE_LTE_WCDMA                = 12  /* LTE/WCDMA */
 } RIL_PreferredNetworkType;
 
 /* Source for cdma subscription */
@@ -328,7 +316,6 @@ typedef struct {
  */
 typedef struct {
     int             status;     /* A RIL_DataCallFailCause, 0 which is PDP_FAIL_NONE if no error */
-#ifndef HCRADIO
     int             suggestedRetryTime; /* If status != 0, this fields indicates the suggested retry
                                            back-off timer value RIL wants to override the one
                                            pre-configured in FW.
@@ -336,7 +323,6 @@ typedef struct {
                                            The value < 0 means no value is suggested.
                                            The value 0 means retry should be done ASAP.
                                            The value of INT_MAX(0x7fffffff) means no retry. */
-#endif
     int             cid;        /* Context ID, uniquely identifies this call */
     int             active;     /* 0=inactive, 1=active/physical link down, 2=active/physical link up */
     char *          type;       /* One of the PDP_type values in TS 27.007 section 10.1.1.
@@ -390,8 +376,9 @@ typedef struct {
                                    to point connections. */
     char *          pcscf;    /* the Proxy Call State Control Function address
                                  via PCO(Protocol Configuration Option) for IMS client. */
-} RIL_Data_Call_Response_v9; // FIXME: Change to v10
+} RIL_Data_Call_Response_v9;
 
+#if (RIL_VERSION == 11)
 typedef struct {
     int             status;     /* A RIL_DataCallFailCause, 0 which is PDP_FAIL_NONE if no error */
     int             suggestedRetryTime; /* If status != 0, this fields indicates the suggested retry
@@ -427,6 +414,7 @@ typedef struct {
                                    Value <= 0 means network has either not sent a value or
                                    sent an invalid value */
 } RIL_Data_Call_Response_v11;
+#endif
 
 typedef enum {
     RADIO_TECH_3GPP = 1, /* 3GPP Technologies - GSM, WCDMA */
@@ -512,7 +500,6 @@ typedef struct {
     char *data;     /* May be NULL*/
     char *pin2;     /* May be NULL*/
     char *aidPtr;   /* AID value, See ETSI 102.221 8.1 and 101.220 4, NULL if no value. */
-    int cla;	    /* Class of the APDU command */
 } RIL_SIM_IO_v6;
 
 /* Used by RIL_REQUEST_SIM_TRANSMIT_APDU_CHANNEL and
@@ -696,7 +683,11 @@ typedef enum {
 typedef enum {
     RIL_DATA_PROFILE_DEFAULT    = 0,
     RIL_DATA_PROFILE_TETHERED   = 1,
-    RIL_DATA_PROFILE_OEM_BASE   = 1000    /* Start of OEM-specific profiles */
+    RIL_DATA_PROFILE_IMS        = 2,
+    RIL_DATA_PROFILE_FOTA       = 3,
+    RIL_DATA_PROFILE_CBS        = 4,
+    RIL_DATA_PROFILE_OEM_BASE   = 1000,    /* Start of OEM-specific profiles */
+    RIL_DATA_PROFILE_INVALID    = 0xFFFFFFFF
 } RIL_DataProfile;
 
 /* Used by RIL_UNSOL_SUPP_SVC_NOTIFICATION */
@@ -1003,16 +994,9 @@ typedef struct {
 typedef struct {
     int rscp;    /* The Received Signal Code Power in dBm multipled by -1.
                   * Range : 25 to 120
-                  *                   * INT_MAX: 0x7FFFFFFF denotes invalid value.
-                  *                                     * Reference: 3GPP TS 25.123, section 9.1.1.1 */
-} RIL_TD_SCDMA_SignalStrength;
-
-typedef struct {
-    int rscp;    /* The Received Signal Code Power in dBm multipled by -1.
-                  * Range : 25 to 120
                   * INT_MAX: 0x7FFFFFFF denotes invalid value.
                   * Reference: 3GPP TS 25.123, section 9.1.1.1 */
-} RIL_TD_SCDMA_SignalStrength_CAF;
+} RIL_TD_SCDMA_SignalStrength;
 
 /* Deprecated, use RIL_SignalStrength_v6 */
 typedef struct {
@@ -1036,11 +1020,11 @@ typedef struct {
 } RIL_SignalStrength_v8;
 
 typedef struct {
-    RIL_GW_SignalStrength           GW_SignalStrength;
-    RIL_CDMA_SignalStrength         CDMA_SignalStrength;
-    RIL_EVDO_SignalStrength         EVDO_SignalStrength;
-    RIL_LTE_SignalStrength_v8       LTE_SignalStrength;
-    RIL_TD_SCDMA_SignalStrength_CAF TD_SCDMA_SignalStrength;
+    RIL_GW_SignalStrength       GW_SignalStrength;
+    RIL_CDMA_SignalStrength     CDMA_SignalStrength;
+    RIL_EVDO_SignalStrength     EVDO_SignalStrength;
+    RIL_LTE_SignalStrength_v8   LTE_SignalStrength;
+    RIL_TD_SCDMA_SignalStrength TD_SCDMA_SignalStrength;
 } RIL_SignalStrength_v10;
 
 /** RIL_CellIdentityGsm */
@@ -2207,7 +2191,7 @@ typedef struct {
  *                          For example, "IP", "IPV6", "IPV4V6", or "PPP".
  * ((const char **)data)[7] Optional connection property parameters, format to be defined.
  *
- * "response" is a RIL_Data_Call_Response_v6
+ * "response" is a RIL_Data_Call_Response_v11
  *
  * FIXME may need way to configure QoS settings
  *
@@ -4091,7 +4075,7 @@ typedef struct {
 #define RIL_REQUEST_IMS_SEND_SMS 113
 
 /**
- * RIL_REQUEST_SIM_TRANSMIT_BASIC
+ * RIL_REQUEST_SIM_TRANSMIT_APDU_BASIC
  *
  * Request APDU exchange on the basic channel. This command reflects TS 27.007
  * "generic SIM access" operation (+CSIM). The modem must ensure proper function
@@ -4351,6 +4335,7 @@ typedef struct {
  * RIL_REQUEST_SET_DATA_PROFILE
  *
  * Set data profile in modem
+ * Modem should erase existed profiles from framework, and apply new profiles
  * "data" is an const RIL_DataProfileInfo **
  * "datalen" is count * sizeof(const RIL_DataProfileInfo *)
  * "response" is NULL
@@ -4380,6 +4365,41 @@ typedef struct {
 #define RIL_REQUEST_SHUTDOWN 129
 
 /**
+ * RIL_REQUEST_GET_RADIO_CAPABILITY
+ *
+ * Used to get phone radio capablility.
+ *
+ * "data" is int *
+ * ((int *)data)[0] is the phone radio access family defined in
+ * RadioAccessFamily. It's a bit mask value to represent the support type.
+ *
+ * Valid errors:
+ *  SUCCESS
+ *  RADIO_NOT_AVAILABLE
+ *  GENERIC_FAILURE
+ */
+#define RIL_REQUEST_GET_RADIO_CAPABILITY 130
+
+/**
+ * RIL_REQUEST_SET_RADIO_CAPABILITY
+ *
+ * Used to set the phones radio capability. Be VERY careful
+ * using this request as it may cause some vendor modems to reset. Because
+ * of the possible modem reset any RIL commands after this one may not be
+ * processed.
+ *
+ * "data" is the RIL_RadioCapability structure
+ *
+ * "response" is the RIL_RadioCapability structure, used to feedback return status
+ *
+ * Valid errors:
+ *  SUCCESS means a RIL_UNSOL_RADIO_CAPABILITY will be sent within 30 seconds.
+ *  RADIO_NOT_AVAILABLE
+ *  GENERIC_FAILURE
+ */
+#define RIL_REQUEST_SET_RADIO_CAPABILITY 131
+
+/**
  * RIL_REQUEST_GET_DATA_CALL_PROFILE
  *
  * Get the Data Call Profile for a particular app type
@@ -4400,7 +4420,7 @@ typedef struct {
  *  RIL_E_DATA_CALL_PROFILE_NOT_AVAILABLE
  *
  */
-#define RIL_REQUEST_GET_DATA_CALL_PROFILE 130
+#define RIL_REQUEST_GET_DATA_CALL_PROFILE 132
 
 /**
  * RIL_REQUEST_SIM_GET_ATR
@@ -4420,42 +4440,7 @@ typedef struct {
  * RADIO_NOT_AVAILABLE (radio resetting)
  * GENERIC_FAILURE
  */
-#define RIL_REQUEST_SIM_GET_ATR 131
-
-/**
- * RIL_REQUEST_GET_RADIO_CAPABILITY
- *
- * Used to get phone radio capablility.
- *
- * "data" is int *
- * ((int *)data)[0] is the phone radio access family defined in
- * RadioAccessFamily. It's a bit mask value to represent the support type.
- *
- * Valid errors:
- *  SUCCESS
- *  RADIO_NOT_AVAILABLE
- *  GENERIC_FAILURE
- */
-#define RIL_REQUEST_GET_RADIO_CAPABILITY 132
-
-/**
- * RIL_REQUEST_SET_RADIO_CAPABILITY
- *
- * Used to set the phones radio capability. Be VERY careful
- * using this request as it may cause some vendor modems to reset. Because
- * of the possible modem reset any RIL commands after this one may not be
- * processed.
- *
- * "data" is the RIL_RadioCapability structure
- *
- * "response" is the RIL_RadioCapability structure, used to feedback return status
- *
- * Valid errors:
- *  SUCCESS means a RIL_UNSOL_RADIO_CAPABILITY will be sent within 30 seconds.
- *  RADIO_NOT_AVAILABLE
- *  GENERIC_FAILURE
- */
-#define RIL_REQUEST_SET_RADIO_CAPABILITY 133
+#define RIL_REQUEST_SIM_GET_ATR 133
 
 /* SAMSUNG REQUESTS */
 #define RIL_REQUEST_GET_CELL_BROADCAST_CONFIG 10002
@@ -5131,8 +5116,6 @@ typedef struct {
 #define RIL_UNSOL_UTS_GETSMSMSG 11030
 #define RIL_UNSOL_UTS_GET_UNREAD_SMS_STATUS 11031
 #define RIL_UNSOL_MIP_CONNECT_STATUS 11032
-
-#define RIL_REQUEST_ENTER_NETWORK_DEPERSONALIZATION RIL_REQUEST_ENTER_DEPERSONALIZATION_CODE
 
 /**
  * RIL_Request Function pointer
