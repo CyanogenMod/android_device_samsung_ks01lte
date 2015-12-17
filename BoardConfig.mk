@@ -29,7 +29,11 @@ BOARD_KERNEL_CMDLINE := console=null androidboot.hardware=qcom user_debug=31 msm
 BOARD_KERNEL_BASE := 0x00000000
 BOARD_KERNEL_PAGESIZE := 2048
 BOARD_KERNEL_SEPARATED_DT := true
-BOARD_CUSTOM_BOOTIMG_MK := device/samsung/ks01lte/mkbootimg.mk
+BOARD_DTBTOOL_ARGS := -2
+TARGET_KERNEL_CROSS_COMPILE_PREFIX := arm-linux-androideabi-
+
+# Build with Clang by default
+USE_CLANG_PLATFORM_BUILD := true
 
 # Audio
 AUDIO_FEATURE_DISABLED_ANC_HEADSET := true
@@ -37,6 +41,7 @@ AUDIO_FEATURE_DISABLED_MULTI_VOICE_SESSIONS := true
 AUDIO_FEATURE_DISABLED_FM := true
 AUDIO_FEATURE_ENABLED_LOW_LATENCY_CAPTURE := true
 AUDIO_FEATURE_ENABLED_NEW_SAMPLE_RATE := true
+USE_CUSTOM_AUDIO_POLICY := 1
 
 # Bluetooth
 BOARD_HAVE_BLUETOOTH_BCM := true
@@ -47,6 +52,9 @@ BOARD_BLUEDROID_VENDOR_CONF := device/samsung/ks01lte/bluetooth/vnd_ks01lte.txt
 # GPS
 TARGET_NO_RPC := true
 TARGET_GPS_HAL_PATH := device/samsung/ks01lte/gps
+
+# Keymaster
+TARGET_KEYMASTER_WAIT_FOR_QSEE := true
 
 # Lights
 TARGET_PROVIDES_LIBLIGHT := true
@@ -99,6 +107,9 @@ BOARD_MOBILEDATA_INTERFACE_NAME := "rmnet0"
 BOARD_PROVIDES_LIBRIL := true
 TARGET_RIL_VARIANT := caf
 
+# Protobuf-c
+PROTOBUF_SUPPORTED := true
+
 # CMHW
 BOARD_HARDWARE_CLASS += device/samsung/ks01lte/cmhw
 
@@ -107,6 +118,7 @@ BOARD_RIL_CLASS := ../../../device/samsung/ks01lte/ril
 
 # Camera
 TARGET_PROVIDES_CAMERA_HAL := true
+COMMON_GLOBAL_CFLAGS += -DCAMERA_VENDOR_L_COMPAT
 
 # ANT+
 BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
@@ -114,33 +126,3 @@ BOARD_ANT_WIRELESS_DEVICE := "vfs-prerelease"
 # SElinux
 include device/qcom/sepolicy/sepolicy.mk
 BOARD_SEPOLICY_DIRS += device/samsung/ks01lte/sepolicy
-
-BOARD_SEPOLICY_UNION += \
-    bluetooth.te \
-    bootanim.te \
-    file_contexts \
-    file.te \
-    genfs_contexts \
-    healthd.te \
-    hostapd.te \
-    init.te \
-    insthk.te \
-    keystore.te \
-    mediaserver.te \
-    mm-pp-daemon.te \
-    mm-qcamerad.te \
-    mpdecision.te \
-    property_contexts \
-    property.te \
-    rild.te \
-    rmt_storage.te \
-    sensorhubservice.te \
-    service.te \
-    service_contexts \
-    system_server.te \
-    tee.te \
-    thermal-engine.te \
-    time_daemon.te \
-    ueventd.te \
-    vold.te \
-    wpa.te

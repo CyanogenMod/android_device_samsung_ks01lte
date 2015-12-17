@@ -49,12 +49,14 @@
 #include <assert.h>
 #include <netinet/in.h>
 #include <cutils/properties.h>
+#include <RilSapSocket.h>
 
-#include <ril_event.h>
-
+extern "C" void
+RIL_onRequestComplete(RIL_Token t, RIL_Errno e, void *response, size_t responselen);
 namespace android {
 
 #define PHONE_PROCESS "radio"
+#define BLUETOOTH_PROCESS "bluetooth"
 
 #define SOCKET_NAME_RIL "rild"
 #define SOCKET2_NAME_RIL "rild2"
@@ -65,6 +67,8 @@ namespace android {
 
 #define ANDROID_WAKE_LOCK_NAME "radio-interface"
 
+#define ANDROID_WAKE_LOCK_SECS 0
+#define ANDROID_WAKE_LOCK_USECS 200000
 
 #define PROPERTY_RIL_IMPL "gsm.version.ril-impl"
 
@@ -105,7 +109,7 @@ namespace android {
 
     #define clearPrintBuf           printBuf[0] = 0
     #define removeLastChar          printBuf[strlen(printBuf)-1] = 0
-    #define appendPrintBuf(x...)    sprintf(printBuf, x)
+    #define appendPrintBuf(x...)    snprintf(printBuf, PRINTBUF_SIZE, x)
 #else
     #define startRequest
     #define closeRequest
@@ -147,17 +151,6 @@ typedef struct UserCallbackInfo {
     struct ril_event event;
     struct UserCallbackInfo *p_next;
 } UserCallbackInfo;
-
-typedef struct SocketListenParam {
-    RIL_SOCKET_ID socket_id;
-    int fdListen;
-    int fdCommand;
-    char* processName;
-    struct ril_event* commands_event;
-    struct ril_event* listen_event;
-    void (*processCommandsCallback)(int fd, short flags, void *param);
-    RecordStream *p_rs;
-} SocketListenParam;
 
 extern "C" const char * requestToString(int request);
 extern "C" const char * failCauseToString(RIL_Errno);
@@ -228,7 +221,7 @@ static struct ril_event s_wake_timeout_event;
 static struct ril_event s_debug_event;
 
 
-static const struct timeval TIMEVAL_WAKE_TIMEOUT = {1,0};
+static const struct timeval TIMEVAL_WAKE_TIMEOUT = {ANDROID_WAKE_LOCK_SECS,ANDROID_WAKE_LOCK_USECS};
 
 
 static pthread_mutex_t s_startupMutex = PTHREAD_MUTEX_INITIALIZER;
@@ -284,6 +277,7 @@ static void dispatchDataProfile(Parcel &p, RequestInfo *pRI);
 static void dispatchRadioCapability(Parcel &p, RequestInfo *pRI);
 static int responseInts(Parcel &p, void *response, size_t responselen);
 static int responseIntsGetPreferredNetworkType(Parcel &p, void *response, size_t responselen);
+static int responseFailCause(Parcel &p, void *response, size_t responselen);
 static int responseStrings(Parcel &p, void *response, size_t responselen);
 static int responseStringsNetworks(Parcel &p, void *response, size_t responselen);
 static int responseStrings(Parcel &p, void *response, size_t responselen, bool network_search);
@@ -311,9 +305,11 @@ static int responseSimRefresh(Parcel &p, void *response, size_t responselen);
 static int responseCellInfoList(Parcel &p, void *response, size_t responselen);
 static int responseHardwareConfig(Parcel &p, void *response, size_t responselen);
 static int responseDcRtInfo(Parcel &p, void *response, size_t responselen);
-static int responseGetDataCallProfile(Parcel &p, void *response, size_t responselen);
 static int responseRadioCapability(Parcel &p, void *response, size_t responselen);
 static int responseSSData(Parcel &p, void *response, size_t responselen);
+static int responseLceStatus(Parcel &p, void *response, size_t responselen);
+static int responseLceData(Parcel &p, void *response, size_t responselen);
+static int responseActivityData(Parcel &p, void *response, size_t responselen);
 
 static int decodeVoiceRadioTechnology (RIL_RadioState radioState);
 static int decodeCdmaSubscriptionSource (RIL_RadioState radioState);
@@ -387,7 +383,7 @@ static char * RIL_getRilSocketName() {
 }
 
 extern "C"
-void RIL_setRilSocketName(char * s) {
+void RIL_setRilSocketName(const char * s) {
     strncpy(rild, s, MAX_SOCKET_NAME_LENGTH);
 }
 
@@ -2273,6 +2269,40 @@ responseIntsGetPreferredNetworkType(Parcel &p, void *response, size_t responsele
     return 0;
 }
 
+// Response is an int or RIL_LastCallFailCauseInfo.
+// Currently, only Shamu plans to use RIL_LastCallFailCauseInfo.
+// TODO(yjl): Let all implementations use RIL_LastCallFailCauseInfo.
+static int responseFailCause(Parcel &p, void *response, size_t responselen) {
+    if (response == NULL && responselen != 0) {
+        RLOGE("invalid response: NULL");
+        return RIL_ERRNO_INVALID_RESPONSE;
+    }
+
+    if (responselen == sizeof(int)) {
+      startResponse;
+      int *p_int = (int *) response;
+      appendPrintBuf("%s%d,", printBuf, p_int[0]);
+      p.writeInt32(p_int[0]);
+      removeLastChar;
+      closeResponse;
+    } else if (responselen == sizeof(RIL_LastCallFailCauseInfo)) {
+      startResponse;
+      RIL_LastCallFailCauseInfo *p_fail_cause_info = (RIL_LastCallFailCauseInfo *) response;
+      appendPrintBuf("%s[cause_code=%d,vendor_cause=%s]", printBuf, p_fail_cause_info->cause_code,
+                     p_fail_cause_info->vendor_cause);
+      p.writeInt32(p_fail_cause_info->cause_code);
+      writeStringToParcel(p, p_fail_cause_info->vendor_cause);
+      removeLastChar;
+      closeResponse;
+    } else {
+      RLOGE("responseFailCause: invalid response length %d expected an int or "
+            "RIL_LastCallFailCauseInfo", (int)responselen);
+      return RIL_ERRNO_INVALID_RESPONSE;
+    }
+
+    return 0;
+}
+
 /** response is a char **, pointing to an array of char *'s
     The parcel will begin with the version */
 static int responseStringsWithVersion(int version, Parcel &p, void *response, size_t responselen) {
@@ -3762,40 +3792,88 @@ static int responseDcRtInfo(Parcel &p, void *response, size_t responselen)
     return 0;
 }
 
-/* response is the count and the list of RIL_DataCallProfileInfo */
-static int responseGetDataCallProfile(Parcel &p, void *response, size_t responselen) {
-    int num = 0;
-
-    RLOGD("[OMH>]> %d", responselen);
-
-    if (response == NULL && responselen != 0) {
-        RLOGE("invalid response: NULL");
-        return RIL_ERRNO_INVALID_RESPONSE;
+static int responseLceStatus(Parcel &p, void *response, size_t responselen) {
+  if (response == NULL || responselen != sizeof(RIL_LceStatusInfo)) {
+    if (response == NULL) {
+      RLOGE("invalid response: NULL");
     }
-
-    RLOGD("[OMH>]> processing response");
-
-    /* number of profile info's */
-    num = *((int *) response);
-    if (num > (responselen / sizeof(RIL_DataCallProfileInfo))) {
-        num = responselen / sizeof(RIL_DataCallProfileInfo);
+    else {
+      RLOGE("responseLceStatus: invalid response length %d expecting len: d%",
+            sizeof(RIL_LceStatusInfo), responselen);
     }
-    p.writeInt32(num);
+    return RIL_ERRNO_INVALID_RESPONSE;
+  }
 
-    RIL_DataCallProfileInfo *p_cur = ((RIL_DataCallProfileInfo *) ((int *)response + 1));
+  RIL_LceStatusInfo *p_cur = (RIL_LceStatusInfo *)response;
+  p.write((void *)p_cur, 1);  // p_cur->lce_status takes one byte.
+  p.writeInt32(p_cur->actual_interval_ms);
 
-    startResponse;
-    for (int i = 0 ; i < num ; i++) {
-        p.writeInt32(p_cur->profileId);
-        p.writeInt32(p_cur->priority);
-        appendPrintBuf("%s[profileId=%d,priority=%d],", printBuf,
-                p_cur->profileId, p_cur->priority);
-        p_cur++;
+  startResponse;
+  appendPrintBuf("LCE Status: %d, actual_interval_ms: %d",
+                 p_cur->lce_status, p_cur->actual_interval_ms);
+  closeResponse;
+
+  return 0;
+}
+
+static int responseLceData(Parcel &p, void *response, size_t responselen) {
+  if (response == NULL || responselen != sizeof(RIL_LceDataInfo)) {
+    if (response == NULL) {
+      RLOGE("invalid response: NULL");
     }
-    removeLastChar;
-    closeResponse;
+    else {
+      RLOGE("responseLceData: invalid response length %d expecting len: d%",
+            sizeof(RIL_LceDataInfo), responselen);
+    }
+    return RIL_ERRNO_INVALID_RESPONSE;
+  }
 
-    return 0;
+  RIL_LceDataInfo *p_cur = (RIL_LceDataInfo *)response;
+  p.writeInt32(p_cur->last_hop_capacity_kbps);
+
+  /* p_cur->confidence_level and p_cur->lce_suspended take 1 byte each.*/
+  p.write((void *)&(p_cur->confidence_level), 1);
+  p.write((void *)&(p_cur->lce_suspended), 1);
+
+  startResponse;
+  appendPrintBuf("LCE info received: capacity %d confidence level %d \
+                  and suspended %d",
+                  p_cur->last_hop_capacity_kbps, p_cur->confidence_level,
+                  p_cur->lce_suspended);
+  closeResponse;
+
+  return 0;
+}
+
+static int responseActivityData(Parcel &p, void *response, size_t responselen) {
+  if (response == NULL || responselen != sizeof(RIL_ActivityStatsInfo)) {
+    if (response == NULL) {
+      RLOGE("invalid response: NULL");
+    }
+    else {
+      RLOGE("responseActivityData: invalid response length %d expecting len: d%",
+            sizeof(RIL_ActivityStatsInfo), responselen);
+    }
+    return RIL_ERRNO_INVALID_RESPONSE;
+  }
+
+  RIL_ActivityStatsInfo *p_cur = (RIL_ActivityStatsInfo *)response;
+  p.writeInt32(p_cur->sleep_mode_time_ms);
+  p.writeInt32(p_cur->idle_mode_time_ms);
+  for(int i = 0; i < RIL_NUM_TX_POWER_LEVELS; i++) {
+    p.writeInt32(p_cur->tx_mode_time_ms[i]);
+  }
+  p.writeInt32(p_cur->rx_mode_time_ms);
+
+  startResponse;
+  appendPrintBuf("Modem activity info received: sleep_mode_time_ms %d idle_mode_time_ms %d \
+                  tx_mode_time_ms %d %d %d %d %d and rx_mode_time_ms %d",
+                  p_cur->sleep_mode_time_ms, p_cur->idle_mode_time_ms, p_cur->tx_mode_time_ms[0],
+                  p_cur->tx_mode_time_ms[1], p_cur->tx_mode_time_ms[2], p_cur->tx_mode_time_ms[3],
+                  p_cur->tx_mode_time_ms[4], p_cur->rx_mode_time_ms);
+   closeResponse;
+
+  return 0;
 }
 
 /**
@@ -3944,8 +4022,18 @@ static void listenCallback (int fd, short flags, void *param) {
     int err;
     int is_phone_socket;
     int fdCommand = -1;
+    char* processName;
     RecordStream *p_rs;
+    MySocketListenParam* listenParam;
+    RilSocket *sapSocket = NULL;
+    socketClient *sClient = NULL;
+
     SocketListenParam *p_info = (SocketListenParam *)param;
+
+    if(RIL_SAP_SOCKET == p_info->type) {
+        listenParam = (MySocketListenParam *)param;
+        sapSocket = listenParam->socket;
+    }
 
     struct sockaddr_un peeraddr;
     socklen_t socklen = sizeof (peeraddr);
@@ -3955,15 +4043,27 @@ static void listenCallback (int fd, short flags, void *param) {
 
     struct passwd *pwd = NULL;
 
-    assert (*p_info->fdCommand < 0);
-    assert (fd == *p_info->fdListen);
+    if(NULL == sapSocket) {
+        assert (*p_info->fdCommand < 0);
+        assert (fd == *p_info->fdListen);
+        processName = PHONE_PROCESS;
+    } else {
+        assert (sapSocket->commandFd < 0);
+        assert (fd == sapSocket->listenFd);
+        processName = BLUETOOTH_PROCESS;
+    }
+
 
     fdCommand = accept(fd, (sockaddr *) &peeraddr, &socklen);
 
     if (fdCommand < 0 ) {
         RLOGE("Error on accept() errno:%d", errno);
         /* start listening for new connections again */
-        rilEventAddWakeup(p_info->listen_event);
+        if(NULL == sapSocket) {
+            rilEventAddWakeup(p_info->listen_event);
+        } else {
+            rilEventAddWakeup(sapSocket->getListenEvent());
+        }
         return;
     }
 
@@ -3979,7 +4079,7 @@ static void listenCallback (int fd, short flags, void *param) {
         errno = 0;
         pwd = getpwuid(creds.uid);
         if (pwd != NULL) {
-            if (strcmp(pwd->pw_name, p_info->processName) == 0) {
+            if (strcmp(pwd->pw_name, processName) == 0) {
                 is_phone_socket = 1;
             } else {
                 RLOGE("RILD can't accept socket from process %s", pwd->pw_name);
@@ -3992,17 +4092,24 @@ static void listenCallback (int fd, short flags, void *param) {
     }
 
     if (!is_phone_socket) {
-      RLOGE("RILD must accept socket from %s", p_info->processName);
+        RLOGE("RILD must accept socket from %s", processName);
 
-      close(fdCommand);
-      fdCommand = -1;
+        close(fdCommand);
+        fdCommand = -1;
 
-      onCommandsSocketClosed(p_info->socket_id);
+        if(NULL == sapSocket) {
+            onCommandsSocketClosed(p_info->socket_id);
 
-      /* start listening for new connections again */
-      rilEventAddWakeup(p_info->listen_event);
+            /* start listening for new connections again */
+            rilEventAddWakeup(p_info->listen_event);
+        } else {
+            sapSocket->onCommandsSocketClosed();
 
-      return;
+            /* start listening for new connections again */
+            rilEventAddWakeup(sapSocket->getListenEvent());
+        }
+
+        return;
     }
 
     ret = fcntl(fdCommand, F_SETFL, O_NONBLOCK);
@@ -4011,20 +4118,30 @@ static void listenCallback (int fd, short flags, void *param) {
         RLOGE ("Error setting O_NONBLOCK errno:%d", errno);
     }
 
-    RLOGI("libril: new connection to %s", rilSocketIdToString(p_info->socket_id));
+    if(NULL == sapSocket) {
+        RLOGI("libril: new connection to %s", rilSocketIdToString(p_info->socket_id));
 
-    p_info->fdCommand = fdCommand;
+        p_info->fdCommand = fdCommand;
+        p_rs = record_stream_new(p_info->fdCommand, MAX_COMMAND_BYTES);
+        p_info->p_rs = p_rs;
 
-    p_rs = record_stream_new(p_info->fdCommand, MAX_COMMAND_BYTES);
-
-    p_info->p_rs = p_rs;
-
-    ril_event_set (p_info->commands_event, p_info->fdCommand, 1,
+        ril_event_set (p_info->commands_event, p_info->fdCommand, 1,
         p_info->processCommandsCallback, p_info);
+        rilEventAddWakeup (p_info->commands_event);
 
-    rilEventAddWakeup (p_info->commands_event);
+        onNewCommandConnect(p_info->socket_id);
+    } else {
+        RLOGI("libril: new connection");
 
-    onNewCommandConnect(p_info->socket_id);
+        sapSocket->setCommandFd(fdCommand);
+        p_rs = record_stream_new(sapSocket->getCommandFd(), MAX_COMMAND_BYTES);
+        sClient = new socketClient(sapSocket,p_rs);
+        ril_event_set (sapSocket->getCallbackEvent(), sapSocket->getCommandFd(), 1,
+        sapSocket->getCommandCb(), sClient);
+
+        rilEventAddWakeup(sapSocket->getCallbackEvent());
+        sapSocket->onNewCommandConnect();
+    }
 }
 
 static void freeDebugCallbackArgs(int number, char **args) {
@@ -4485,7 +4602,7 @@ RIL_register (const RIL_RadioFunctions *callbacks) {
 
     char rildebug[MAX_DEBUG_SOCKET_NAME_LENGTH] = SOCKET_NAME_RIL_DEBUG;
     if (inst != NULL) {
-        snprintf(rildebug, sizeof(rildebug), "%s%s", SOCKET_NAME_RIL_DEBUG, inst);
+        strlcat(rildebug, inst, MAX_DEBUG_SOCKET_NAME_LENGTH);
     }
 
     s_fdDebug = android_get_control_socket(rildebug);
@@ -4508,6 +4625,21 @@ RIL_register (const RIL_RadioFunctions *callbacks) {
     rilEventAddWakeup (&s_debug_event);
 #endif
 
+}
+
+extern "C" void
+RIL_register_socket (RIL_RadioFunctions *(*Init)(const struct RIL_Env *, int, char **),RIL_SOCKET_TYPE socketType, int argc, char **argv) {
+
+    RIL_RadioFunctions* UimFuncs = NULL;
+
+    if(Init) {
+        UimFuncs = Init(&RilSapSocket::uimRilEnv, argc, argv);
+
+        switch(socketType) {
+            case RIL_SAP_SOCKET:
+                RilSapSocket::initSapSocket("sap_uim_socket1", UimFuncs);
+        }
+    }
 }
 
 static int
@@ -5163,7 +5295,6 @@ requestToString(int request) {
         case RIL_REQUEST_GET_DC_RT_INFO: return "GET_DC_RT_INFO";
         case RIL_REQUEST_SET_DC_RT_INFO_RATE: return "SET_DC_RT_INFO_RATE";
         case RIL_REQUEST_SET_DATA_PROFILE: return "SET_DATA_PROFILE";
-        case RIL_REQUEST_GET_DATA_CALL_PROFILE: return "GET_DATA_CALL_PROFILE";
         case RIL_UNSOL_RESPONSE_RADIO_STATE_CHANGED: return "UNSOL_RESPONSE_RADIO_STATE_CHANGED";
         case RIL_UNSOL_RESPONSE_CALL_STATE_CHANGED: return "UNSOL_RESPONSE_CALL_STATE_CHANGED";
         case RIL_UNSOL_RESPONSE_VOICE_NETWORK_STATE_CHANGED: return "UNSOL_RESPONSE_VOICE_NETWORK_STATE_CHANGED";
@@ -5238,3 +5369,15 @@ rilSocketIdToString(RIL_SOCKET_ID socket_id)
 }
 
 } /* namespace android */
+
+void rilEventAddWakeup_helper(struct ril_event *ev) {
+    android::rilEventAddWakeup(ev);
+}
+
+void listenCallback_helper(int fd, short flags, void *param) {
+    android::listenCallback(fd, flags, param);
+}
+
+int blockingWrite_helper(int fd, void *buffer, size_t len) {
+    return android::blockingWrite(fd, buffer, len);
+}

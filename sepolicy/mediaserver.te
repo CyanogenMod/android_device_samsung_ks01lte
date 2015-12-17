@@ -6,3 +6,5 @@ allow mediaserver socket_device:sock_file write;
 allow mediaserver shell_data_file:dir search;
 allow mediaserver sysfs_camera:dir search;
 allow mediaserver sysfs_camera:file rw_file_perms;
+# This sucks but needed for libmmjpeg
+allow mediaserver system_file:file execmod;

@@ -39,6 +39,7 @@ $(call inherit-product, frameworks/native/build/phone-xxhdpi-2048-hwui-memory.mk
 PRODUCT_COPY_FILES += \
     external/ant-wireless/antradio-library/com.dsi.ant.antradio_library.xml:system/etc/permissions/com.dsi.ant.antradio_library.xml \
     frameworks/native/data/etc/android.hardware.sensor.barometer.xml:system/etc/permissions/android.hardware.sensor.barometer.xml \
+    frameworks/native/data/etc/android.software.midi.xml:system/etc/permissions/android.software.midi.xml \
     frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml \
     frameworks/native/data/etc/android.hardware.nfc.hce.xml:system/etc/permissions/android.hardware.nfc.hce.xml \
     frameworks/native/data/etc/android.hardware.telephony.cdma.xml:system/etc/permissions/android.hardware.telephony.cdma.xml \
@@ -55,9 +56,10 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/audio/mixer_paths.xml:system/etc/mixer_paths.xml
 
 # Camera
-    PRODUCT_PACKAGES += \
-        camera.msm8974 \
-        libxml2
+PRODUCT_PACKAGES += \
+    camera.msm8974 \
+    libxml2 \
+    libstlport
 
 # Bluetooth
 PRODUCT_COPY_FILES += \
@@ -164,8 +166,9 @@ PRODUCT_PROPERTY_OVERRIDES += \
    av.offload.enable=true \
    av.streaming.offload.enable=true \
    audio.offload.pcm.16bit.enable=false \
-   audio.offload.pcm.24bit.enable=false \
+   audio.offload.pcm.24bit.enable=true \
    audio.offload.gapless.enabled=true \
+   audio.deep_buffer.media=true \
    tunnel.audio.encode=true \
    media.aac_51_output_enabled=true \
    media.aaccodectype=1

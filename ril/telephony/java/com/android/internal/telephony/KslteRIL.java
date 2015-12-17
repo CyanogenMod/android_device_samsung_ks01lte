@@ -36,8 +36,6 @@ import java.util.Collections;
 
 import com.android.internal.telephony.uicc.IccCardApplicationStatus;
 import com.android.internal.telephony.uicc.IccCardStatus;
-import com.android.internal.telephony.dataconnection.ApnProfileOmh;
-import com.android.internal.telephony.dataconnection.ApnSetting;
 
 /**
  * RIL customization for Galaxy S4 LTE-A devices.

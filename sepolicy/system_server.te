@@ -1,5 +1,6 @@
 allow system_server efs_file:dir search;
 allow system_server efs_file:file rw_file_perms;
+allow system_server wifi_efs_file:file r_file_perms;
 allow system_server sensors_efs_file:file { open read write };
 allow system_server self:process execmem;
 allow system_server sysfs_thermal:dir search;
@@ -11,3 +12,4 @@ allow system_server sysfs_keypad:file rw_file_perms;
 allow system_server sysfs_vibeamp:dir search;
 allow system_server sysfs_vibeamp:file rw_file_perms;
 allow system_server sysfs_display:file rw_file_perms;
+#allow system_server sensorlib_file:file execmod; //neverallowed, but we need it.
