@@ -42,7 +42,7 @@
         <device name="SND_DEVICE_IN_SPEAKER_STEREO_DMIC" acdb_id="54" />
         <device name="SND_DEVICE_IN_BT_SCO_MIC" acdb_id="35" />
         <device name="SND_DEVICE_IN_BT_SCO_MIC_WB" acdb_id="51" />
-        <device name="SND_DEVICE_IN_CAMCORDER_MIC" acdb_id="56" />
+        <device name="SND_DEVICE_IN_CAMCORDER_MIC" acdb_id="58" />
         <device name="SND_DEVICE_IN_VOICE_DMIC" acdb_id="4" />
         <device name="SND_DEVICE_IN_VOICE_SPEAKER_DMIC" acdb_id="11" />
         <device name="SND_DEVICE_IN_VOICE_REC_MIC" acdb_id="53" />

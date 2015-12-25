@@ -488,6 +488,7 @@
         <ctl name="RX1 MIX1 INP1" value="RX1" />
         <ctl name="RX2 MIX1 INP1" value="RX2" />
         <ctl name="RX7 MIX1 INP1" value="RX1" />
+        <ctl name="RX7 MIX1 INP2" value="RX2" />
         <ctl name="CLASS_H_DSM MUX" value="DSM_HPHL_RX1" />
         <ctl name="HPHL DAC Switch" value="1" />
         <ctl name="DAC1 Switch" value="1" />
@@ -585,8 +586,8 @@
 
     <path name="speaker-and-headphones">
         <path name="spk-ear" />
-        <ctl name="HPHL Volume" value="12" />
-        <ctl name="HPHR Volume" value="12" />
+        <ctl name="HPHL Volume" value="0" />
+        <ctl name="HPHR Volume" value="0" />
         <ctl name="RX1 Digital Volume" value="84" />
         <ctl name="RX2 Digital Volume" value="84" />
         <ctl name="RX7 Digital Volume" value="79" />
@@ -639,10 +640,10 @@
 
     <path name="rec-stereo-mic">
         <path name="main-sub-mic" />
-        <ctl name="ADC1 Volume" value="14" />
-        <ctl name="DEC6 Volume" value="96" />
-        <ctl name="ADC3 Volume" value="14" />
-        <ctl name="DEC4 Volume" value="96" />
+        <ctl name="ADC1 Volume" value="17" />
+        <ctl name="DEC6 Volume" value="100" />
+        <ctl name="ADC3 Volume" value="17" />
+        <ctl name="DEC4 Volume" value="100" />
     </path>
 
     <path name="rec-high-gain-main-mic">
@@ -665,8 +666,8 @@
 
     <path name="rec-high-gain-stereo-mic">
         <path name="sub-3rd-mic" />
-        <ctl name="ADC1 Volume" value="12" />
-        <ctl name="DEC6 Volume" value="84" />
+        <ctl name="ADC4 Volume" value="12" />
+        <ctl name="DEC3 Volume" value="84" />
         <ctl name="ADC3 Volume" value="12" />
         <ctl name="DEC4 Volume" value="84" />
     </path>
@@ -867,7 +868,7 @@
         <ctl name="TX4 HPF cut off" value="MIN_3DB_150Hz" />
         <ctl name="TX5 HPF cut off" value="MIN_3DB_150Hz" />
         <ctl name="ES325-AP Tx Channels" value="One" />
-        <ctl name="Internal Route Config" value="2" />
+        <ctl name="Internal Route Config" value="4" />
         <ctl name="ES325 TX1 Enable" value="1" /> 
     </path>
 
@@ -1815,8 +1816,8 @@
 
     <path name="voip-sub-mic-comm">
         <path name="sub-mic" />
-        <ctl name="ADC3 Volume" value="12" />
-        <ctl name="DEC4 Volume" value="92" />
+        <ctl name="ADC3 Volume" value="16" />
+        <ctl name="DEC4 Volume" value="84" />
     </path>
 
     <path name="voip-headphone-mic-comm">
@@ -2058,7 +2059,7 @@
     <path name="loopback-headphone-mic">
         <path name="main-mic" />
         <ctl name="ADC1 Volume" value="19" />
-        <ctl name="DEC6 Volume" value="79" />
+        <ctl name="DEC6 Volume" value="74" />
     </path>
 
     <path name="loopback-headset-mic">
