@@ -31,10 +31,6 @@
          via multi media message. -->
     <bool name="enableMultipartSMS">true</bool>
 
-    <!-- If true, the text message will be split every 160 characters.
-         If false, the text will never be split before being sent. -->
-    <bool name="enableSplitSMS">false</bool>
-
     <!-- User-Agent parameter used in MMS http request -->
     <string name="userAgent">SAMSUNG-GT-I9506-Mms</string>
 
