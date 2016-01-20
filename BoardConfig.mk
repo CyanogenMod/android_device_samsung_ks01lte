@@ -122,6 +122,7 @@ BOARD_HARDWARE_CLASS += device/samsung/ks01lte/cmhw
 BOARD_RIL_CLASS := ../../../device/samsung/ks01lte/ril
 
 # Camera
+TARGET_USE_COMPAT_GRALLOC_ALIGN := true
 TARGET_PROVIDES_CAMERA_HAL := true
 COMMON_GLOBAL_CFLAGS += -DCAMERA_VENDOR_L_COMPAT
 
