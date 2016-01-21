@@ -8,6 +8,5 @@ type sensors_efs_file, file_type;
 type sensorhub_dev, dev_type;
 type rfkill_dev, dev_type;
 type bluetooth_dev, dev_type;
-type sensorlib_file, file_type;
 type efs_block_device, dev_type;
 type persdata_block_device, dev_type;

@@ -480,6 +480,7 @@ on fs
 
     restorecon_recursive /persist
     restorecon_recursive /efs
+    restorecon /system/lib/libsensirion_ks01_eur.so
 
     mkdir /dev/usb-ffs 0770 shell shell
     mkdir /dev/usb-ffs/adb 0770 shell shell

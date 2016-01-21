@@ -12,4 +12,4 @@ allow system_server sysfs_keypad:file rw_file_perms;
 allow system_server sysfs_vibeamp:dir search;
 allow system_server sysfs_vibeamp:file rw_file_perms;
 allow system_server sysfs_display:file rw_file_perms;
-#allow system_server sensorlib_file:file execmod; //neverallowed, but we need it.
+allow system_server system_file:file { rx_file_perms execmod };

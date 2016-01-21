@@ -41,7 +41,6 @@
 
 # Sensorhubservice
 /system/bin/sensorhubservice							u:object_r:sensorhubservice_exec:s0
-/system/lib/libsensirion_ks01_eur.so						u:object_r:sensorlib_file:s0
 
 /system/bin/thermal-engine							u:object_r:thermal-engine_exec:s0
 
