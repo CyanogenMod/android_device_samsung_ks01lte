@@ -844,9 +844,10 @@ service sensorhubservice /system/bin/sensorhubservice
     group input
 
 service mpdecision /system/bin/mpdecision --avg_comp
-   class late_start
+   class main
    user root
    group system
+   disabled
 
 service thermal-engine /system/bin/thermal-engine
    class main
